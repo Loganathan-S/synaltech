@@ -9,7 +9,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Icon } from "@iconify/react";
 import "./Login.css";
 
-const Login = () => {
+function Login() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -19,8 +20,6 @@ const Login = () => {
   });
 
   const [passwordType, setpasswordType] = useState("password");
-
-  let navigateDashboard = useNavigate();
 
   //let navigateRegister = useNavigate();
 
@@ -32,7 +31,7 @@ const Login = () => {
     console.log(data);
     // userService.userLogin(data.email, data.password).then((res) => {
     //   console.log(res);
-    navigateDashboard("/dashboard");
+    navigate(`/dashboard`);
     // });
   };
 
@@ -140,6 +139,6 @@ const Login = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Login;

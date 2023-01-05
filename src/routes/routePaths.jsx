@@ -11,9 +11,10 @@ export default function routePaths() {
   return (
     <Routes>
       <Route
+        exact
         path={routeNames.home}
         element={
-          <Suspense>
+          <Suspense fallback={null}>
             <Login />
           </Suspense>
         }
@@ -21,7 +22,7 @@ export default function routePaths() {
       <Route
         path={routeNames.auth.login}
         element={
-          <Suspense>
+          <Suspense fallback={null}>
             <Login />
           </Suspense>
         }
@@ -29,7 +30,7 @@ export default function routePaths() {
       <Route
         path={routeNames.auth.register}
         element={
-          <Suspense>
+          <Suspense fallback={null}>
             <Register />
           </Suspense>
         }
@@ -37,7 +38,7 @@ export default function routePaths() {
       <Route
         path={routeNames.dashboard}
         element={
-          <Suspense>
+          <Suspense fallback={null}>
             <Dashboard />
           </Suspense>
         }
