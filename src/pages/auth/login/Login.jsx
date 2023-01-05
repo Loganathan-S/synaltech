@@ -8,6 +8,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Icon } from "@iconify/react";
 import "./Login.css";
 import { routeNames } from "../../../routes/routeNames";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,6 +32,14 @@ const Login = () => {
     //console.log(data);
     // userService.userLogin(data.email, data.password).then((res) => {
     //   console.log(res);
+    axios
+      .get("http://localhost:3000/posts")
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     navigate(routeNames.dashboard);
     // });
   };
