@@ -1,48 +1,15 @@
-import React, { lazy, Suspense } from "react";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
+import Login from "../pages/auth/login/Login";
+import Dashboard from "../pages/dashboard/Dashboard";
 import { routeNames } from "./routeNames";
-
-const Login = lazy(() => import("../pages/auth/login"));
-const Register = lazy(() => import("../pages/auth/register"));
-const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
 
 export default function routePaths() {
   return (
     <Routes>
-      <Route
-        exact
-        path={routeNames.home}
-        element={
-          <Suspense fallback={null}>
-            <Login />
-          </Suspense>
-        }
-      ></Route>
-      <Route
-        path={routeNames.auth.login}
-        element={
-          <Suspense fallback={null}>
-            <Login />
-          </Suspense>
-        }
-      ></Route>
-      <Route
-        path={routeNames.auth.register}
-        element={
-          <Suspense fallback={null}>
-            <Register />
-          </Suspense>
-        }
-      ></Route>
-      <Route
-        path={routeNames.dashboard}
-        element={
-          <Suspense fallback={null}>
-            <Dashboard />
-          </Suspense>
-        }
-      ></Route>
+      <Route exact path={routeNames.home} element={<Login />} />
+      <Route exact path={routeNames.auth.login} element={<Login />} />
+      <Route exact path={routeNames.dashboard} element={<Dashboard />} />
     </Routes>
   );
 }

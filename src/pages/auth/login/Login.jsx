@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../validations/validationSchema";
 // import { userService } from "../../../service/userService";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-// import { routePath } from "../../../constants/routePath";
 import { Icon } from "@iconify/react";
 import "./Login.css";
+import { routeNames } from "../../../routes/routeNames";
 
-function Login() {
+const Login = () => {
   const navigate = useNavigate();
+  const navigateRegister = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -21,17 +23,15 @@ function Login() {
 
   const [passwordType, setpasswordType] = useState("password");
 
-  //let navigateRegister = useNavigate();
-
   // const registerForm = () => {
-  //   navigateRegister(routePath.auth.register);
+  //   navigateRegister();
   // };
 
   const formSubmitHandler = (data) => {
-    console.log(data);
+    //console.log(data);
     // userService.userLogin(data.email, data.password).then((res) => {
     //   console.log(res);
-    navigate(`/dashboard`);
+    navigate(routeNames.dashboard);
     // });
   };
 
@@ -139,6 +139,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;
