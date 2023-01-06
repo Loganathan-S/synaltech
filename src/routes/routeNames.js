@@ -1,11 +1,10 @@
 const base = "/";
+export const baseUrl = "http://localhost:3004/";
 
 export const routeNames = {
-  home: base,
   auth: {
-    login: base + "login",
+    login: base,
     register: base + "register",
-    logout: base,
   },
   dashboard: base + "dashboard",
   synaltech: base + "synaltech",

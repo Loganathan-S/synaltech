@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../validations/validationSchema";
@@ -29,7 +29,7 @@ const Login = () => {
   };
 
   const formSubmitHandler = (data) => {
-    //console.log(data);
+    // console.log(data);
     // userService.userLogin(data.email, data.password).then((res) => {
     //   console.log(res);
     navigateDashboard(routeNames.dashboard);

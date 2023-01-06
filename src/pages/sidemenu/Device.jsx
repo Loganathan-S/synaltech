@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-import useModal from "antd/es/modal/useModal";
-import { Apiservice } from "../../services/api-services/apiServices";
+//import useModal from "antd/es/modal/useModal";
+import { Apiservice } from "../../services/apiServices";
 import { apiNames } from "../../routes/routeNames";
 import { Modal } from "antd";
 
@@ -67,7 +67,9 @@ function Device() {
             ))}
           </div>
         ) : (
-          <h3>Loading Devices...</h3>
+          <div className="text-center">
+            <h5>Loading devices...</h5>
+          </div>
         )}
 
         <Modal
@@ -79,10 +81,10 @@ function Device() {
           width={600}
           footer={null}
         >
-          <div className="row col-12 mt-2">
+          <div className="row col-12 mt-3">
             <form>
               <div className="form-group">
-                <label>Device ID</label>
+                <label>Device name</label>
                 <input
                   type="email"
                   className="form-control"
@@ -90,8 +92,8 @@ function Device() {
                   placeholder="Enter Device ID"
                 />
               </div>
-              <div className="form-group">
-                <label>Device Name</label>
+              <div className="form-group mt-3">
+                <label>Device type</label>
                 <input
                   type="password"
                   className="form-control"
@@ -99,8 +101,8 @@ function Device() {
                   placeholder="Device Name"
                 />
               </div>
-              <div className="form-group">
-                <label>Device ID</label>
+              <div className="form-group mt-3">
+                <label>Zone</label>
                 <input
                   type="email"
                   className="form-control"
@@ -108,8 +110,8 @@ function Device() {
                   placeholder="Enter Device ID"
                 />
               </div>
-              <div className="form-group">
-                <label>Description</label>
+              <div className="form-group mt-3">
+                <label>Location</label>
                 <input
                   type="email"
                   className="form-control"
