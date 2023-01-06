@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../pages/auth/login/Login";
+import Register from "../pages/auth/register/register";
 import Dashboard from "../pages/dashboard/Dashboard";
 import { routeNames } from "./routeNames";
 
@@ -10,6 +11,7 @@ export default function routePaths() {
       <Route exact path={routeNames.home} element={<Login />} />
       <Route exact path={routeNames.auth.login} element={<Login />} />
       <Route exact path={routeNames.dashboard} element={<Dashboard />} />
+      <Route exact path={routeNames.auth.register} element={<Register />} />
     </Routes>
   );
 }

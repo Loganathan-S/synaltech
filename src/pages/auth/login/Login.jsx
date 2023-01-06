@@ -11,7 +11,7 @@ import { routeNames } from "../../../routes/routeNames";
 import axios from "axios";
 
 const Login = () => {
-  const navigate = useNavigate();
+  const navigateDashboard = useNavigate();
   const navigateRegister = useNavigate();
 
   const {
@@ -24,9 +24,9 @@ const Login = () => {
 
   const [passwordType, setpasswordType] = useState("password");
 
-  // const registerForm = () => {
-  //   navigateRegister();
-  // };
+  const registerForm = () => {
+    navigateRegister(routeNames.auth.register);
+  };
 
   const formSubmitHandler = (data) => {
     //console.log(data);
@@ -40,7 +40,7 @@ const Login = () => {
       .catch(function (error) {
         console.log(error);
       });
-    navigate(routeNames.dashboard);
+    navigateDashboard(routeNames.dashboard);
     // });
   };
 
@@ -134,7 +134,7 @@ const Login = () => {
                 <div className="text-center mt-4">
                   <span>Don't have an account</span>&nbsp;
                   <a
-                    //   onClick={() => registerForm()}
+                    onClick={() => registerForm()}
                     className=""
                     style={{ cursor: "pointer" }}
                   >
