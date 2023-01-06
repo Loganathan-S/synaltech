@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-//import useModal from "antd/es/modal/useModal";
 import { Apiservice } from "../../services/apiServices";
 import { apiNames } from "../../routes/routeNames";
 import { Modal } from "antd";

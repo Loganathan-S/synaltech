@@ -1,15 +1,15 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../../validations/validationSchema";
-import { useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-//import { userService } from "../../../service/userService";
-//import { routePath } from "../../../constants/routePath";
-import { Icon } from "@iconify/react";
 import "../register/register.css";
+import { useNavigate } from "react-router-dom";
+import { routeNames } from "../../../routes/routeNames";
+
 const Register = () => {
   const [passwordType, setpasswordType] = useState("password");
+  const navigateLogin = useNavigate();
 
   const {
     register,
@@ -19,32 +19,8 @@ const Register = () => {
     resolver: yupResolver(registerSchema),
   });
 
-  //   const navigateLogin = useNavigate();
-
-  //   const loginForm = () => {
-  //     navigateLogin(routePath.auth.login);
-  //   };
-
-  const formRegisterHandler = (data) => {
-    // console.log(data);
-    // console.log(data.firstname);
-    // console.log(data.email);
-    // console.log(data.industry);
-    // console.log(data.mobilenumber);
-    // console.log(data.password);
-    // userService
-    //   .userRegister(
-    //     data.firstname,
-    //     data.lastname,
-    //     data.email,
-    //     data.password,
-    //     data.mobilenumber,
-    //     data.industry
-    //   )
-    //   .then((res) => {
-    //     console.log(res);
-    //     //   navigateDashboard("/dashboard");
-    //   });
+  const loginForm = (data) => {
+    navigateLogin(routeNames.auth.login);
   };
 
   const togglePassword = (e) => {
@@ -63,10 +39,7 @@ const Register = () => {
           <div className="col-5">
             <div className="card shadow p-3">
               <div className="card-body">
-                <form
-                  className="w-full"
-                  onSubmit={handleSubmit(formRegisterHandler)}
-                >
+                <form className="w-full" onSubmit={handleSubmit(loginForm)}>
                   <h3 className="">Register</h3>
                   <div className="row">
                     <div className="col-12">
@@ -138,13 +111,7 @@ const Register = () => {
                     <div
                       onClick={() => togglePassword()}
                       className="position-absolute top-50 end-0 translate-middle-y mx-2"
-                    >
-                      {/* {passwordType === "password" ? (
-                        <FaEye className="fa_eye3" />
-                      ) : (
-                        <FaEyeSlash className="fa_eye" />
-                      )} */}
-                    </div>
+                    ></div>
                     <div className="position-absolute top-50 start-0 translate-middle-y ">
                       <Icon icon="ri:lock-password-fill" />
                     </div>
@@ -165,68 +132,6 @@ const Register = () => {
                   ) : (
                     <></>
                   )}
-
-                  {/* <div className="form-outline mb-2 position-relative">
-                    <div className="position-absolute top-50 start-0 translate-middle-y ">
-                      <Icon icon="ri:lock-password-fill" />
-                    </div>
-                    <input
-                      {...register("fieldfive")}
-                      type="password"
-                      name="fieldfive"
-                      id="fieldfive"
-                      placeholder="Field five"
-                      className="form-control formControl"
-                    />
-                  </div>
-                  {errors.fieldfive ? (
-                    <span className="text-danger fw-bold ">
-                      {errors.fieldfive.message}
-                    </span>
-                  ) : (
-                    <></>
-                  )}
-                  <div className="mb-2 position-relative">
-                    <div className="position-absolute top-50 start-0 translate-middle-y ">
-                      <Icon icon="bx:mobile" />
-                    </div>
-                    <input
-                      {...register("fieldsix")}
-                      type="number"
-                      name="fieldsix"
-                      id="fieldsix"
-                      className="form-control formControl"
-                      min="0"
-                      placeholder="Field six "
-                    />
-                  </div>
-                  {errors.fieldsix ? (
-                    <span className="text-danger fw-bold ">
-                      {errors.fieldsix.message}
-                    </span>
-                  ) : (
-                    <></>
-                  )} */}
-
-                  {/* <div className="mb-3">
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 fw-bold">
-                      Country
-                    </label>
-                    <input
-                      {...register("country")}
-                      type="text"
-                      name="country"
-                      id="country"
-                      className="form-control"
-                    />
-                    {errors.country ? (
-                      <span className="text-danger fw-bold">
-                        {errors.country.message}
-                      </span>
-                    ) : (
-                      <></>
-                    )}
-                  </div> */}
                   <div className="mt-5 text-center ">
                     <div className="d-grid gap-2">
                       <button type="submit" className="btn btn-primary btn-sm">
@@ -236,15 +141,14 @@ const Register = () => {
                   </div>
 
                   <div className="text-center mt-4">
-                    {/* { showResults ? <Register /> : null } */}
                     <span>Already have an account</span>&nbsp;
-                    {/* <a
-                      onClick={() => loginForm()}
+                    <a
+                      onClick={loginForm}
                       className=""
                       style={{ cursor: "pointer" }}
                     >
                       login
-                    </a> */}
+                    </a>
                   </div>
                 </form>
               </div>
