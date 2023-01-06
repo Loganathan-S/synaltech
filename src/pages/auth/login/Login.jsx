@@ -32,14 +32,6 @@ const Login = () => {
     //console.log(data);
     // userService.userLogin(data.email, data.password).then((res) => {
     //   console.log(res);
-    axios
-      .get("http://localhost:3000/posts")
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
     navigateDashboard(routeNames.dashboard);
     // });
   };
