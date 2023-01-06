@@ -10,7 +10,6 @@ import Settings from "../pages/sidemenu/Settings";
 import Synaltech from "../pages/sidemenu/Synaltech";
 import { routeNames } from "./routeNames";
 
-const enable = false;
 export default function routePaths() {
   return (
     <Routes>

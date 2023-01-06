@@ -1,14 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../validations/validationSchema";
-// import { userService } from "../../../service/userService";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Icon } from "@iconify/react";
-import "./Login.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { routeNames } from "../../../routes/routeNames";
-import axios from "axios";
+import "./Login.css";
 
 const Login = () => {
   const navigateDashboard = useNavigate();
@@ -29,11 +27,7 @@ const Login = () => {
   };
 
   const formSubmitHandler = (data) => {
-    // console.log(data);
-    // userService.userLogin(data.email, data.password).then((res) => {
-    //   console.log(res);
     navigateDashboard(routeNames.dashboard);
-    // });
   };
 
   const togglePassword = (e) => {
@@ -112,7 +106,6 @@ const Login = () => {
                   </a>
                 </div>
                 <div className="mt-3 mb-3 text-center">
-                  {/* <div className="d-grid gap-2"> */}
                   <button
                     type="submit"
                     className="btn btn-primary btn-sm"
@@ -120,7 +113,6 @@ const Login = () => {
                   >
                     Login
                   </button>
-                  {/* </div> */}
                 </div>
 
                 <div className="text-center mt-4">
