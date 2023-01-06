@@ -14,3 +14,9 @@ export const routeNames = {
   mapping: base + "mapping",
   switchbox: base + "switchbox",
 };
+
+export const apiNames = {
+  mapping: "mapping",
+  switchbox: "switchbox",
+  device: "devices",
+};

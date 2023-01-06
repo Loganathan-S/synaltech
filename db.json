@@ -1,19 +1,128 @@
-{
-  "posts": [
+{  
+  "mapping":[
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "name": "Mapping-1",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"     
+    },
+    {
+      "id": 2,
+      "name": "Mapping-2",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"
+      
+    },
+    {
+      "id": 3,
+      "name": "Mapping-3",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"     
+    },
+    {
+      "id": 4,
+      "name": "Mapping-4",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"
+    },
+    {
+      "id": 5,
+      "name": "Mapping-5",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"
+    },
+    {
+      "id": 6,
+      "name": "Mapping-6",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"
     }
   ],
-  "comments": [
+  "switchbox":[
     {
       "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "name": "switchbox-1",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"
+    },
+    {
+      "id": 2,
+      "name": "switchbox-2",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"
+    },
+    {
+      "id": 3,
+      "name": "switchbox-3",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"
+    },
+    {
+      "id": 4,
+      "name": "switchbox-4",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"
+    },
+    {
+      "id": 5,
+      "name": "switchbox-5",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"
+    },
+    {
+      "id": 6,
+      "name": "switchbox-6",
+      "content1":"content-1",
+      "content2":"content-2",
+      "content3":"content-3"
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "devices": [
+    {
+      "device_ID": 1,
+      "devicename": "Resistors",
+      "devicetype":"Linear Resistors",      
+      "zone":"bedroom",
+      "location":"leftside"
+    },
+    {
+      "device_ID": 2,
+      "devicename": "capacitors",
+      "devicetype":"Electrolytic capacitors",      
+      "zone":"Hall",
+      "location":"rightside"
+    },
+    {
+      "device_ID": 3,
+      "devicename": "transformers",
+      "devicetype":"electromagnetic",      
+      "zone":"kitchen",
+      "location":"rightside"
+    },
+    {
+      "device_ID": 4,
+      "devicename": "diodes",
+      "devicetype":"Forward-biased diode",     
+      "zone":"frontoffice",
+      "location":"rightside"
+    },
+    {
+      "device_ID": 5,
+      "devicename": "Resistors",
+      "devicetype":"Linear Resistors",      
+      "zone":"mainhall",
+      "location":"rightside"
+    }    
+  ]
 }
