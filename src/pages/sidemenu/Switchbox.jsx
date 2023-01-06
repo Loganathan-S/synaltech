@@ -3,20 +3,30 @@ import React, { useEffect, useState } from "react";
 import { Apiservice } from "../../services/apiServices";
 import { apiNames } from "../../routes/routeNames";
 import { Modal } from "antd";
+import axios from "axios";
 
 function Switchbox() {
   const [switchBox, setSwitchBox] = useState([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    Apiservice.getLists(apiNames.switchbox)
+    axios
+      .post("http://115.160.243.131:64937/Api/getdetailsswitchbox")
       .then((res) => {
-        //console.log(res);
-        setSwitchBox(res.splice(0, 9));
+        console.log(res);
+        setSwitchBox(res.data.splice(0, 9));
       })
       .catch((err) => {
         console.log(err);
       });
+    // Apiservice.getLists(apiNames.switchbox)
+    //   .then((res) => {
+    //     //console.log(res);
+    //     setSwitchBox(res.splice(0, 9));
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }, []);
   return (
     <>
@@ -39,7 +49,7 @@ function Switchbox() {
         </div>
 
         {switchBox.length > 0 ? (
-          <div className="row pb-4 justify-content-center color">
+          <div className="row pb-4 color">
             {switchBox.map((item, index) => (
               <div
                 key={`${item.id}${index}`}
@@ -49,14 +59,14 @@ function Switchbox() {
                   <div className="card-body">
                     <div className="mt-2 text-center p-2">
                       <p className="FormContent">Id: {item.id}</p>
+                      <p className="FormPlaceholder">Zone: {item.zone}</p>
                       <p className="FormPlaceholder">
-                        switch box-1: {item.switchbox1}
+                        Category: {item.category}
                       </p>
+                      <p className="FormPlaceholder">Section: {item.section}</p>
+
                       <p className="FormPlaceholder">
-                        switch box-2: {item.switchbox2}
-                      </p>
-                      <p className="FormPlaceholder">
-                        switch box-3: {item.switchbox2}
+                        Location: {item.location}
                       </p>
                     </div>
                   </div>
@@ -71,38 +81,39 @@ function Switchbox() {
         )}
 
         <Modal
-          title="Device (Properties)"
+          title="Switch Box"
           centered
           open={open}
           onOk={() => setOpen(false)}
           onCancel={() => setOpen(false)}
           width={600}
           footer={null}
+          maskClosable={false}
         >
           <div className="row col-12 mt-3">
             <form>
               <div className="form-group">
-                <label>Switch box-1</label>
+                <label>Zone</label>
                 <input
-                  type="email"
+                  type="text"
                   className="form-control"
                   aria-describedby="emailHelp"
                   // placeholder="Enter Device ID"
                 />
               </div>
               <div className="form-group mt-3">
-                <label>Switch box-2</label>
+                <label>Category</label>
                 <input
-                  type="password"
+                  type="text"
                   className="form-control"
                   id="exampleInputPassword1"
                   //placeholder="Device Name"
                 />
               </div>
               <div className="form-group mt-3">
-                <label>Switch box-3</label>
+                <label>Location</label>
                 <input
-                  type="email"
+                  type="text"
                   className="form-control"
                   aria-describedby="emailHelp"
                   //placeholder="Enter Device ID"
@@ -111,7 +122,7 @@ function Switchbox() {
 
               <div className="text-center">
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btn-primary mt-3 text-center"
                 >
                   Submit

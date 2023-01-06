@@ -72,6 +72,21 @@ const Dashboard = () => {
               label: "Settings",
             },
             {
+              key: `${routeNames.dashboard}${routeNames.zone}`,
+              icon: <SettingOutlined />,
+              label: "Zone",
+            },
+            {
+              key: `${routeNames.dashboard}${routeNames.section}`,
+              icon: <SettingOutlined />,
+              label: "Section",
+            },
+            {
+              key: `${routeNames.dashboard}${routeNames.location}`,
+              icon: <SettingOutlined />,
+              label: "Location",
+            },
+            {
               key: "logout",
               icon: <LogoutOutlined />,
               label: "Logout",

@@ -12,6 +12,9 @@ export const routeNames = {
   settings: base + "settings",
   mapping: base + "mapping",
   switchbox: base + "switchbox",
+  zone: base + "zone",
+  section: base + "section",
+  location: base + "location",
 };
 
 export const apiNames = {
