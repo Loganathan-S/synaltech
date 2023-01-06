@@ -75,7 +75,7 @@ const Dashboard = () => {
                 label: "Settings",
               },
               {
-                key: `${routeNames.auth.logout}`,
+                key: "logout",
                 icon: <LogoutOutlined />,
                 label: "Logout",
               },
