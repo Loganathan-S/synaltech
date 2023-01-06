@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../pages/auth/login/Login";
+import Register from "../pages/auth/register/register";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Mapping from "../pages/sidemenu/Mapping";
 import Switchbox from "../pages/sidemenu/Switchbox";
@@ -23,6 +24,8 @@ export default function routePaths() {
         <Route path={`${routeNames.dashboard}${routeNames.mapping}`} element={<Mapping />} />
         <Route path={`${routeNames.dashboard}${routeNames.settings}`} element={<Settings />} />
       </Route>
+      <Route exact path={routeNames.dashboard} element={<Dashboard />} />
+      <Route exact path={routeNames.auth.register} element={<Register />} />
     </Routes>
   );
 }

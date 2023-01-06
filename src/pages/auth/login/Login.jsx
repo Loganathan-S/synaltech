@@ -8,9 +8,10 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Icon } from "@iconify/react";
 import "./Login.css";
 import { routeNames } from "../../../routes/routeNames";
+import axios from "axios";
 
 const Login = () => {
-  const navigate = useNavigate();
+  const navigateDashboard = useNavigate();
   const navigateRegister = useNavigate();
 
   const {
@@ -23,15 +24,23 @@ const Login = () => {
 
   const [passwordType, setpasswordType] = useState("password");
 
-  // const registerForm = () => {
-  //   navigateRegister();
-  // };
+  const registerForm = () => {
+    navigateRegister(routeNames.auth.register);
+  };
 
   const formSubmitHandler = (data) => {
     //console.log(data);
     // userService.userLogin(data.email, data.password).then((res) => {
     //   console.log(res);
-    navigate(routeNames.dashboard);
+    axios
+      .get("http://localhost:3000/posts")
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    navigateDashboard(routeNames.dashboard);
     // });
   };
 
@@ -125,7 +134,7 @@ const Login = () => {
                 <div className="text-center mt-4">
                   <span>Don't have an account</span>&nbsp;
                   <a
-                    //   onClick={() => registerForm()}
+                    onClick={() => registerForm()}
                     className=""
                     style={{ cursor: "pointer" }}
                   >
