@@ -38,7 +38,7 @@ function Mapping() {
         </div>
 
         {mapLists.length > 0 ? (
-          <div className="row pb-4 justify-content-center color">
+          <div className="row pb-4 color">
             {mapLists.map((item, index) => (
               <div
                 key={`${item.id}${index}`}
@@ -76,13 +76,14 @@ function Mapping() {
           onCancel={() => setOpen(false)}
           width={600}
           footer={null}
+          maskClosable={false}
         >
           <div className="row col-12 mt-3">
             <form>
               <div className="form-group">
                 <label>Mapping-1</label>
                 <input
-                  type="email"
+                  type="text"
                   className="form-control"
                   aria-describedby="emailHelp"
                   //placeholder="Enter Device ID"
@@ -91,7 +92,7 @@ function Mapping() {
               <div className="form-group mt-3">
                 <label>Mapping-2</label>
                 <input
-                  type="password"
+                  type="text"
                   className="form-control"
                   id="exampleInputPassword1"
                   //placeholder="Device Name"
@@ -100,7 +101,7 @@ function Mapping() {
               <div className="form-group mt-3">
                 <label>Mapping-3</label>
                 <input
-                  type="email"
+                  type="text"
                   className="form-control"
                   aria-describedby="emailHelp"
                   //placeholder="Enter Device ID"
@@ -109,7 +110,7 @@ function Mapping() {
 
               <div className="text-center">
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btn-primary mt-3 text-center"
                 >
                   Submit
