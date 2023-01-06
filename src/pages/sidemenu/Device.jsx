@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import useModal from "antd/es/modal/useModal";
-import Modal from "../Modal";
+import { Apiservice } from "../../services/api-services/apiServices";
+import { apiNames } from "../../routes/routeNames";
+import { Modal } from "antd";
 
 function Device() {
-  const [posts, setPosts] = useState([]);
-  const {isShowing, toggle} = useModal();
+  const [deviceLists, setDeviceLists] = useState([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
-      .then((data) => {
-        setPosts(data.splice(0, 10)); // new
+    Apiservice.getLists(apiNames.device)
+      .then((res) => {
+        //console.log(res);
+        setDeviceLists(res.splice(0, 9));
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
   return (
@@ -28,37 +33,102 @@ function Device() {
               color="#2596be"
               width="35"
               height="35"
+              onClick={() => setOpen(true)}
+              className="pointer"
             />
           </div>
         </div>
-       
-          {posts.length > 0 ? (
-            <div className="row pb-4 justify-content-center color">
-              {posts.map((item, index) => (
-                <div
-                  key={`${item.userId}${index}`}
-                  className="col-sm-12 col-md-6 col-lg-3 col-xl-4 col-xxl-3 mt-2"
-                 
-                >
-                  <div  onClick={toggle}  className="card card_hover h-100 shadow">
-                    <div className="card-body">
-                      <div className="mt-2 text-center p-2">
-                        <p className="FormContent"onClick={toggle} >Id: {item.id}</p>
 
-                        <p className="FormPlaceholder" onClick={toggle}>Title: {item.title}</p>
-                      </div>
+        {deviceLists.length > 0 ? (
+          <div className="row pb-4 justify-content-center color">
+            {deviceLists.map((item, index) => (
+              <div
+                key={`${item.device_ID}${index}`}
+                className="col-sm-12 col-md-6 col-lg-3 col-xl-4 col-xxl-3 mt-2"
+              >
+                <div className="card card_hover h-100 shadow">
+                  <div className="card-body">
+                    <div className="mt-2 text-center p-2">
+                      <p className="FormContent">Device Id: {item.device_ID}</p>
+                      <p className="FormPlaceholder">
+                        Device name: {item.devicename}
+                      </p>
+                      <p className="FormPlaceholder">
+                        Device type: {item.devicetype}
+                      </p>
+                      <p className="FormPlaceholder">Zone: {item.zone}</p>
+                      <p className="FormPlaceholder">
+                        Location: {item.location}
+                      </p>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <h3>Loading Devices...</h3>
-          )}
-         <Modal
-        isShowing={isShowing}
-        hide={toggle}
-      />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <h3>Loading Devices...</h3>
+        )}
+
+        <Modal
+          title="Device (Properties)"
+          centered
+          open={open}
+          onOk={() => setOpen(false)}
+          onCancel={() => setOpen(false)}
+          width={600}
+          footer={null}
+        >
+          <div className="row col-12 mt-2">
+            <form>
+              <div className="form-group">
+                <label>Device ID</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter Device ID"
+                />
+              </div>
+              <div className="form-group">
+                <label>Device Name</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="exampleInputPassword1"
+                  placeholder="Device Name"
+                />
+              </div>
+              <div className="form-group">
+                <label>Device ID</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter Device ID"
+                />
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter Description"
+                />
+              </div>
+
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className="btn btn-primary mt-3 text-center"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </Modal>
       </div>
     </>
   );
