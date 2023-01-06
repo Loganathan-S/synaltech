@@ -1,5 +1,5 @@
-import {  Outlet, useNavigate } from "react-router";
-import React, { useState } from "react";
+import { Outlet, useNavigate } from "react-router";
+import React, { useState, useEffect } from "react";
 import {
   DatabaseOutlined,
   DeploymentUnitOutlined,
@@ -12,7 +12,6 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 
-
 import { routeNames } from "../../routes/routeNames";
 
 const { Header, Sider, Content } = Layout;
@@ -22,32 +21,37 @@ const Dashboard = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-const navigate =useNavigate();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(`${routeNames.dashboard}${routeNames.synaltech}`);
+  }, []);
 
   return (
     <>
       {/* <p className="bg-dark text-white p-3">Snail Tech</p>  */}
 
-      <Layout className="min-vh-100" >
-        <Sider trigger={null} collapsible collapsed={collapsed} >
+      <Layout className="min-vh-100">
+        <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="logo" />
           <Menu
-            style = {{fontSize:"16px"}}
-            onClick ={({key})=>{
+            style={{ fontSize: "16px" }}
+            onClick={({ key }) => {
               if (key === "logout") {
-                navigate(routeNames.auth.logout)
+                navigate(routeNames.auth.login);
               } else {
-                navigate(key)
+                navigate(key);
               }
-            }
-          }
+            }}
             theme="dark"
-            mode="inline" 
-            defaultSelectedKeys={[`${routeNames.dashboard}${routeNames.synaltech}`]}
+            mode="inline"
+            defaultSelectedKeys={[
+              `${routeNames.dashboard}${routeNames.synaltech}`,
+            ]}
             items={[
               {
-                key:`${routeNames.dashboard}${routeNames.synaltech}`,
-                icon:<DeploymentUnitOutlined />,
+                key: `${routeNames.dashboard}${routeNames.synaltech}`,
+                icon: <DeploymentUnitOutlined />,
                 label: "Synal Tech",
               },
               {
@@ -67,7 +71,7 @@ const navigate =useNavigate();
               },
               {
                 key: `${routeNames.dashboard}${routeNames.settings}`,
-                icon: <SettingOutlined/>,
+                icon: <SettingOutlined />,
                 label: "Settings",
               },
               {
@@ -81,9 +85,9 @@ const navigate =useNavigate();
         <Layout className="site-layout">
           <Header
             style={{
-              margin:0,
-              paddingLeft:3,
-              fontSize:25,
+              margin: 0,
+              paddingLeft: 3,
+              fontSize: 25,
               background: colorBgContainer,
             }}
           >
@@ -94,7 +98,6 @@ const navigate =useNavigate();
                 onClick: () => setCollapsed(!collapsed),
               }
             )}
-            
           </Header>
           <Content
             style={{
@@ -108,7 +111,7 @@ const navigate =useNavigate();
           </Content>
         </Layout>
       </Layout>
-    {/* <p className="bg-dark text-white p-3">Footer</p>  */}
+      {/* <p className="bg-dark text-white p-3">Footer</p>  */}
     </>
   );
 };

@@ -3,89 +3,89 @@
     {
       "id": 1,
       "name": "Mapping-1",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"     
+      "Mapping1":"content-1",
+      "Mapping2":"content-2",
+      "Mapping3":"content-3"     
     },
     {
       "id": 2,
       "name": "Mapping-2",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"
+      "Mapping1":"content-1",
+      "Mapping2":"content-2",
+      "Mapping3":"content-3"    
       
     },
     {
       "id": 3,
       "name": "Mapping-3",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"     
+      "Mapping1":"content-1",
+      "Mapping2":"content-2",
+      "Mapping3":"content-3"      
     },
     {
       "id": 4,
       "name": "Mapping-4",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"
+      "Mapping1":"content-1",
+      "Mapping2":"content-2",
+      "Mapping3":"content-3"    
     },
     {
       "id": 5,
       "name": "Mapping-5",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"
+      "Mapping1":"content-1",
+      "Mapping2":"content-2",
+      "Mapping3":"content-3"    
     },
     {
       "id": 6,
       "name": "Mapping-6",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"
+      "Mapping1":"content-1",
+      "Mapping2":"content-2",
+      "Mapping3":"content-3"    
     }
   ],
   "switchbox":[
     {
       "id": 1,
       "name": "switchbox-1",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"
+      "switchbox1":"content-1",
+      "switchbox2":"content-2",
+      "switchbox3":"content-3"
     },
     {
       "id": 2,
       "name": "switchbox-2",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"
+      "switchbox1":"content-1",
+      "switchbox2":"content-2",
+      "switchbox3":"content-3"
     },
     {
       "id": 3,
       "name": "switchbox-3",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"
+      "switchbox1":"content-1",
+      "switchbox2":"content-2",
+      "switchbox3":"content-3"
     },
     {
       "id": 4,
       "name": "switchbox-4",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"
+      "switchbox1":"content-1",
+      "switchbox2":"content-2",
+      "switchbox3":"content-3"
     },
     {
       "id": 5,
       "name": "switchbox-5",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"
+      "switchbox1":"content-1",
+      "switchbox2":"content-2",
+      "switchbox3":"content-3"
     },
     {
       "id": 6,
       "name": "switchbox-6",
-      "content1":"content-1",
-      "content2":"content-2",
-      "content3":"content-3"
+      "switchbox1":"content-1",
+      "switchbox2":"content-2",
+      "switchbox3":"content-3"
     }
   ],
   "devices": [

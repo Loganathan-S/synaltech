@@ -1,11 +1,9 @@
 const base = "/";
 
 export const routeNames = {
-  home: base,
   auth: {
-    login: base + "login",
+    login: base,
     register: base + "register",
-    logout: base,
   },
   dashboard: base + "dashboard",
   synaltech: base + "synaltech",
