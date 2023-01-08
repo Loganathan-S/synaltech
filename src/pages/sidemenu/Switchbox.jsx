@@ -13,7 +13,7 @@ function Switchbox() {
     axios
       .post("http://115.160.243.131:64937/Api/getdetailsswitchbox")
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setSwitchBox(res.data.splice(0, 9));
       })
       .catch((err) => {
