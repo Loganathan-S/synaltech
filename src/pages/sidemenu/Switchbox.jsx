@@ -8,6 +8,9 @@ import axios from "axios";
 function Switchbox() {
   const [switchBox, setSwitchBox] = useState([]);
   const [open, setOpen] = useState(false);
+  const [noofswitches, setNoofswitches] = useState();
+  
+  
 
   useEffect(() => {
     axios
@@ -28,6 +31,14 @@ function Switchbox() {
     //     console.log(err);
     //   });
   }, []);
+
+  const switches = (e) => {
+    setNoofswitches(e.target.value);
+  };
+
+
+
+
   return (
     <>
       <div className="row">
@@ -93,37 +104,29 @@ function Switchbox() {
           <div className="row col-12 mt-3">
             <form>
               <div className="form-group">
-                <label>Zone</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  aria-describedby="emailHelp"
-                  // placeholder="Enter Device ID"
-                />
+                <label>Number of switches</label>
+                <select
+                  value={noofswitches}
+                  onChange={switches}
+                  className="form-select mt-1"
+                >
+                  <option>Select</option>
+                  <option value={1}>one</option>
+                  <option value={2}>Two</option>
+                  <option value={3}>Three</option>
+                  <option value={4}>Four</option>
+                  <option value={5}>Five</option>
+                  <option value={6}>Six</option>
+                  <option value={7}>Seven</option>
+                  <option value={8}>Eight</option>
+                  <option value={9}>Nine</option>
+                  <option value={10}>Ten</option>
+                </select>
               </div>
-              <div className="form-group mt-3">
-                <label>Category</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  //placeholder="Device Name"
-                />
-              </div>
-              <div className="form-group mt-3">
-                <label>Location</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  aria-describedby="emailHelp"
-                  //placeholder="Enter Device ID"
-                />
-              </div>
-
               <div className="text-center">
                 <button
                   type="button"
-                  className="btn btn-primary mt-3 text-center"
+                  className="btn btn-sm btn-primary mt-3 text-center"
                 >
                   Submit
                 </button>
