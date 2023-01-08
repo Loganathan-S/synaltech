@@ -9,9 +9,24 @@ function Zone() {
   const [open, setOpen] = useState(false);
   const [addZone, setAddZone] = useState("");
 
+  const [data, setData] = useState([]);
+
   useEffect(() => {
+    //     (async () => {
+    //       const data1 = await axios.get("http://192.168.1.46:4000/zoneList");
+    //       const data2 = await axios.get("http://192.168.1.46:4000/sectionList");
+    //       const data3 = await axios.get("http://192.168.1.46:4000/deviceList");
+
+    //       setData({ data1, data2, data3 });
+
+    //      // console.log(data3.data);
+    //     })();
+    //   }, []);
+
+    //   return JSON.stringify(data);
+
     axios
-      .get("http://192.168.1.46:3000/zoneList")
+      .get("http://192.168.1.46:4000/zoneList")
       .then((res) => {
         setZoneList(res.data);
         console.log(res.data);
@@ -23,6 +38,27 @@ function Zone() {
 
   const zoneListChange = (e) => {
     setZoneName(e.target.value);
+  };
+
+  const sumbitZone = () => {
+    zoneRegisterHandler();
+  };
+
+  const zoneRegisterHandler = () => {
+    console.log(addZone);
+    //  const zone = { addZone };
+
+    // console.log(zone);
+
+    axios
+      .post("http://192.168.1.46:3000/newZone", { zoneName: addZone })
+      .then((res) => {
+        setZoneList(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -57,7 +93,7 @@ function Zone() {
           maskClosable={false}
         >
           <div className="row col-12 mt-3">
-            <form>
+            <form onSubmit={zoneRegisterHandler}>
               <div className="form-group">
                 <label>Add Zone</label>
                 <input
@@ -69,29 +105,11 @@ function Zone() {
                   // placeholder="Enter Device ID"
                 />
               </div>
-              {/* <div className="form-group mt-3">
-                <label></label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  //placeholder="Device Name"
-                />
-              </div>
-              <div className="form-group mt-3">
-                <label>Location</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  aria-describedby="emailHelp"
-                  //placeholder="Enter Device ID"
-                />
-              </div> */}
-
               <div className="text-center">
                 <button
                   type="button"
                   className="btn btn-primary mt-3 text-center"
+                  onClick={sumbitZone}
                 >
                   Submit
                 </button>
@@ -103,9 +121,9 @@ function Zone() {
         <div className="row">
           <div className="col-md-5">
             <form>
-              <div class="mb-3">
+              <div className="mb-3">
                 <select
-                  class="form-select"
+                  className="form-select"
                   aria-label="Default select example"
                   name="zoneList"
                   value={zoneName}
