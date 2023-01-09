@@ -11,7 +11,6 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
-
 import { routeNames } from "../../routes/routeNames";
 
 const { Header, Sider, Content } = Layout;
@@ -67,24 +66,23 @@ const Dashboard = () => {
               label: "Mapping",
             },
             {
-              key: `${routeNames.dashboard}${routeNames.settings}`,
+              // key: `${routeNames.dashboard}${routeNames.settings}`,
               icon: <SettingOutlined />,
               label: "Settings",
-            },
-            {
-              key: `${routeNames.dashboard}${routeNames.zone}`,
-              icon: <SettingOutlined />,
-              label: "Zone",
-            },
-            {
-              key: `${routeNames.dashboard}${routeNames.section}`,
-              icon: <SettingOutlined />,
-              label: "Section",
-            },
-            {
-              key: `${routeNames.dashboard}${routeNames.location}`,
-              icon: <SettingOutlined />,
-              label: "Location",
+              children: [
+                {
+                  key: `${routeNames.dashboard}${routeNames.zone}`,
+                  label: "Zone",
+                },
+                {
+                  key: `${routeNames.dashboard}${routeNames.section}`,
+                  label: "Section",
+                },
+                {
+                  key: `${routeNames.dashboard}${routeNames.location}`,
+                  label: "Location",
+                },
+              ],
             },
             {
               key: "logout",
