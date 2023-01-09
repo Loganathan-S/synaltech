@@ -49,16 +49,12 @@ function Device() {
       });
   }, []);
 
-  const zoneListChange = (e, key) => {
-    console.log(e.target.value);
-    console.log(key);
-
+  const zoneListChange = (e) => {
     setZoneName(e.target.value);
   };
 
   const sectionListChange = (e) => {
-    console.log(e.target.value);
-
+    //console.log(e.target.value);
     setLocationname(e.target.value);
   };
 
@@ -155,8 +151,8 @@ function Device() {
           <div className="row col-12 mt-3">
             <form>
               <div className="form-group">
-                {deviceList.map((list, index) => (
-                  <div key={index} className="card mt-1">
+                {deviceList.map((list, inde) => (
+                  <div key={inde} className="card mt-1">
                     <div className="card-body">
                       <div className="row ">
                         <div className="col-12 ">
@@ -170,12 +166,12 @@ function Device() {
                             name="zoneList"
                             value={zoneName}
                             style={{ width: "50%" }}
-                            onChange={(e, key) => zoneListChange(e, key)}
+                            onChange={(e) => zoneListChange(e)}
                           >
-                            <option value="">select</option>
+                            <option>Select</option>
                             {zoneList.map((list, index) => (
                               <option
-                                value={list.id}
+                                value={`${inde}${list.id}${index}`}
                                 key={`${list.id}${index}`}
                               >
                                 {list.zoneName}
@@ -192,9 +188,10 @@ function Device() {
                             onChange={sectionListChange}
                             style={{ width: "50%" }}
                           >
+                            <option>Select</option>
                             {loactionList.map((list, index) => (
                               <option
-                                value={list.id}
+                                value={`${inde}${list.id}${index}`}
                                 key={`${list.id}${index}`}
                               >
                                 {list.section}
@@ -204,7 +201,10 @@ function Device() {
                         </div>
 
                         <div className="col-12  mx-5 mt-2">
-                          <button className="btn btn-sm btn btn-primary">
+                          <button
+                            type="button"
+                            className="btn btn-sm btn btn-primary"
+                          >
                             update
                           </button>
                         </div>
