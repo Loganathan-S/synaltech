@@ -1,5 +1,6 @@
 const base = "/";
-export const baseUrl = "http://localhost:3004/";
+//export const baseUrl = "http://localhost:3004/";
+export const baseUrl = "http://192.168.1.46:4000/";
 
 export const routeNames = {
   auth: {
@@ -21,4 +22,7 @@ export const apiNames = {
   mapping: "mapping",
   switchbox: "switchbox",
   device: "devices",
+  zoneLists: "zoneList",
+  sectionLists: "sectionList",
+  locationLists: "locationList",
 };

@@ -4,7 +4,7 @@ function Settings() {
   return (
     <>
       <h4>Settings</h4>
-      <p>Preview settings.</p>
+      <p>This is not needed.</p>
     </>
   );
 }
