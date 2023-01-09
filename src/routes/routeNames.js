@@ -20,9 +20,13 @@ export const routeNames = {
 
 export const apiNames = {
   mapping: "mapping",
-  switchbox: "switchbox",
-  device: "devices",
+  switchBoxLists: "switchBoxList",
+  newSwitchBox: "newSwitchBox",
+  deviceLists: "newDeviceList",
   zoneLists: "zoneList",
+  newZone: "newZone",
   sectionLists: "sectionList",
+  newSection: "newSection",
   locationLists: "locationList",
+  newLocation: "newLocation",
 };
