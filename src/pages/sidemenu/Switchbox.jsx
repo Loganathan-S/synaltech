@@ -1,16 +1,12 @@
 import { Icon } from "@iconify/react";
-import React, { useEffect, useState } from "react";
-import { Apiservice } from "../../services/apiServices";
-import { apiNames } from "../../routes/routeNames";
 import { Modal } from "antd";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 function Switchbox() {
   const [switchBox, setSwitchBox] = useState([]);
   const [open, setOpen] = useState(false);
   const [noofswitches, setNoofswitches] = useState();
-  
-  
 
   useEffect(() => {
     axios
@@ -22,22 +18,11 @@ function Switchbox() {
       .catch((err) => {
         console.log(err);
       });
-    // Apiservice.getLists(apiNames.switchbox)
-    //   .then((res) => {
-    //     //console.log(res);
-    //     setSwitchBox(res.splice(0, 9));
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   }, []);
 
   const switches = (e) => {
     setNoofswitches(e.target.value);
   };
-
-
-
 
   return (
     <>
@@ -71,9 +56,9 @@ function Switchbox() {
                     <div className="mt-2 text-center p-2">
                       <p className="FormContent">Id: {item.id}</p>
                       <p className="FormPlaceholder">Zone: {item.zone}</p>
-                      <p className="FormPlaceholder">
+                      {/* <p className="FormPlaceholder">
                         Category: {item.category}
-                      </p>
+                      </p> */}
                       <p className="FormPlaceholder">Section: {item.section}</p>
 
                       <p className="FormPlaceholder">
@@ -104,6 +89,39 @@ function Switchbox() {
           <div className="row col-12 mt-3">
             <form>
               <div className="form-group">
+                <label>Zone</label>
+                <select
+                  value={noofswitches}
+                  onChange={switches}
+                  className="form-select mt-1"
+                >
+                  <option>Select</option>
+                  <option value={1}>one</option>
+                </select>
+              </div>
+              <div className="form-group mt-3">
+                <label>Section</label>
+                <select
+                  value={noofswitches}
+                  onChange={switches}
+                  className="form-select mt-1"
+                >
+                  <option>Select</option>
+                  <option value={1}>one</option>
+                </select>
+              </div>
+              <div className="form-group mt-3">
+                <label>Location</label>
+                <select
+                  value={noofswitches}
+                  onChange={switches}
+                  className="form-select mt-1"
+                >
+                  <option>Select</option>
+                  <option value={1}>one</option>
+                </select>
+              </div>
+              <div className="form-group mt-3">
                 <label>Number of switches</label>
                 <select
                   value={noofswitches}
@@ -119,8 +137,6 @@ function Switchbox() {
                   <option value={6}>Six</option>
                   <option value={7}>Seven</option>
                   <option value={8}>Eight</option>
-                  <option value={9}>Nine</option>
-                  <option value={10}>Ten</option>
                 </select>
               </div>
               <div className="text-center">
