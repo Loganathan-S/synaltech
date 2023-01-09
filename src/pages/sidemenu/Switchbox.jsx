@@ -7,7 +7,7 @@ import { Apiservice } from "../../services/apiServices";
 function Switchbox() {
   const [switchBox, setSwitchBox] = useState([]);
   const [open, setOpen] = useState(false);
-  const [noofswitches, setNoofswitches] = useState();
+  const [noofswitches, setNoofswitches] = useState("");
   const [createSwitches, setCreateSwitches] = useState([]);
   const [zoneList, setZoneList] = useState([]);
   const [zoneId, setZoneId] = useState("");
@@ -19,6 +19,7 @@ function Switchbox() {
   const [noOfLights, setNoOfLights] = useState(0);
   const [noOfUsbs, setNoOfUsbs] = useState(0);
   const [noOfSockets, setNoOfSockets] = useState(0);
+  const [id, setId] = useState(1);
 
   useEffect(() => {
     Apiservice.getLists(apiNames.switchBoxLists)
@@ -54,7 +55,7 @@ function Switchbox() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [id]);
 
   const sectionListChange = (e) => {
     setSectionId(e.target.value);
@@ -108,12 +109,8 @@ function Switchbox() {
   };
 
   const addData = () => {
-    console.log("Fans: " + noOfFans);
-    console.log("Lights: " + noOfLights);
-    console.log("USB: " + noOfUsbs);
-    console.log("Sockets: " + noOfSockets);
-
     Apiservice.addSwitchBox(
+      apiNames.newSwitchBox,
       zoneId,
       sectionId,
       locationId,
@@ -123,7 +120,18 @@ function Switchbox() {
       noOfUsbs
     )
       .then((res) => {
-        console.log(res);
+        //console.log(res);
+        setId(res.id);
+        setZoneId("");
+        setSectionId("");
+        setLocationId("");
+        setNoofswitches("");
+        setCreateSwitches([]);
+        setNoOfLights(0);
+        setNoOfFans(0);
+        setNoOfSockets(0);
+        setNoOfUsbs(0);
+        setOpen(false);
       })
       .catch((err) => {
         console.log(err);
@@ -161,14 +169,16 @@ function Switchbox() {
                   <div className="card-body">
                     <div className="mt-2 text-center p-2">
                       <p className="FormContent">Id: {item.id}</p>
-                      <p className="FormPlaceholder">Zone: {item.zone}</p>
+                      <p className="FormPlaceholder">Zone: {item.zoneId}</p>
                       {/* <p className="FormPlaceholder">
                         Category: {item.category}
                       </p> */}
-                      <p className="FormPlaceholder">Section: {item.section}</p>
+                      <p className="FormPlaceholder">
+                        Section: {item.sectionId}
+                      </p>
 
                       <p className="FormPlaceholder">
-                        Location: {item.location}
+                        Location: {item.locationId}
                       </p>
                     </div>
                   </div>
