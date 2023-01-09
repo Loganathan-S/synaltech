@@ -20,9 +20,6 @@ function Zone() {
       .catch((err) => {
         console.log(err);
       });
-    // const data1 = await axios.get("http://192.168.1.46:4000/zoneList");
-    // const data2 = await axios.get("http://192.168.1.46:4000/sectionList");
-    // const data3 = await axios.get("http://192.168.1.46:4000/deviceList");
   }, [id]);
 
   const zoneListChange = (e) => {
@@ -30,10 +27,9 @@ function Zone() {
   };
 
   const sumbitZone = () => {
-    axios
-      .post("http://192.168.1.46:4000/newZone", { zoneName: addZone })
+    Apiservice.addZone(apiNames.newZone, addZone)
       .then((res) => {
-        setId(res.data.id);
+        setId(res.id);
         setAddZone("");
         setOpen(false);
       })

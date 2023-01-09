@@ -7,7 +7,6 @@ import axios from "axios";
 import "../../assests/css/global.css";
 
 function Device() {
-  const [deviceLists, setDeviceLists] = useState([]);
   const [open, setOpen] = useState(false);
 
   const [zoneList, setZoneList] = useState([]);
@@ -19,30 +18,37 @@ function Device() {
   const [loactionList, setLocationList] = useState([]);
   const [loactionname, setLocationname] = useState("");
 
+  const [sectionList, setSectionList] = useState([]);
+
   useEffect(() => {
-    axios
-      .get("http://192.168.1.46:4000/zoneList")
+    Apiservice.getLists(apiNames.zoneLists)
       .then((res) => {
-        setZoneList(res.data);
-        //console.log(res.data);
+        setZoneList(res);
       })
       .catch((err) => {
         console.log(err);
       });
-    axios
-      .get("http://192.168.1.46:4000/sectionList")
+
+    Apiservice.getLists(apiNames.sectionLists)
       .then((res) => {
-        setLocationList(res.data);
-        //console.log(res.data);
+        setSectionList(res);
+        //console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
-    axios
-      .get("http://192.168.1.46:4000/newDeviceList")
+
+    Apiservice.getLists(apiNames.locationLists)
       .then((res) => {
-        setDeviceList(res.data);
-        //console.log(res.data);
+        setLocationList(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    Apiservice.getLists(apiNames.deviceLists)
+      .then((res) => {
+        setDeviceList(res);
       })
       .catch((err) => {
         console.log(err);
@@ -67,9 +73,6 @@ function Device() {
   };
 
   const zoneRegisterHandler = () => {
-    console.log(deviceName);
-    console.log(loactionname);
-    console.log(zoneName);
     axios
       .post("http://192.168.1.46:4000/newDeviceList", {
         deviceName: deviceName,
@@ -105,9 +108,9 @@ function Device() {
           </div>
         </div>
 
-        {deviceLists.length > 0 ? (
+        {deviceList.length > 0 ? (
           <div className="row pb-4 color">
-            {deviceLists.map((item, index) => (
+            {deviceList.map((item, index) => (
               <div
                 key={`${item.device_ID}${index}`}
                 className="col-sm-12 col-md-6 col-lg-3 col-xl-4 col-xxl-3 mt-2"
@@ -115,16 +118,16 @@ function Device() {
                 <div className="card card_hover h-100 shadow">
                   <div className="card-body">
                     <div className="mt-2 text-center p-2">
-                      <p className="FormContent">Device Id: {item.device_ID}</p>
+                      <p className="FormContent">Id: {item.id}</p>
                       <p className="FormPlaceholder">
-                        Device name: {item.devicename}
+                        Device id: {item.deviceId}
                       </p>
                       <p className="FormPlaceholder">
-                        Section: {item.devicetype}
+                        Device name: {item.deviceName}
                       </p>
-                      <p className="FormPlaceholder">Zone: {item.zone}</p>
+                      <p className="FormPlaceholder">Zone id: {item.zoneId}</p>
                       <p className="FormPlaceholder">
-                        Location: {item.location}
+                        Section id: {item.sectionId}
                       </p>
                     </div>
                   </div>
@@ -189,7 +192,7 @@ function Device() {
                             style={{ width: "50%" }}
                           >
                             <option>Select</option>
-                            {loactionList.map((list, index) => (
+                            {sectionList.map((list, index) => (
                               <option
                                 value={`${inde}${list.id}${index}`}
                                 key={`${list.id}${index}`}

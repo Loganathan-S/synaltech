@@ -1,6 +1,5 @@
 import { Icon } from "@iconify/react";
 import { Modal } from "antd";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { apiNames } from "../../routes/routeNames";
 import { Apiservice } from "../../services/apiServices";
@@ -11,13 +10,26 @@ function Switchbox() {
   const [noofswitches, setNoofswitches] = useState();
   const [createSwitches, setCreateSwitches] = useState([]);
   const [zoneList, setZoneList] = useState([]);
-  const [zoneName, setZoneName] = useState("");
+  const [zoneId, setZoneId] = useState("");
   const [sectionList, setSectionList] = useState([]);
-  const [sectionName, setSectionName] = useState("");
+  const [sectionId, setSectionId] = useState("");
   const [locationList, setLocationList] = useState([]);
-  const [locationName, setLocationName] = useState("");
+  const [locationId, setLocationId] = useState("");
+  const [noOfFans, setNoOfFans] = useState(0);
+  const [noOfLights, setNoOfLights] = useState(0);
+  const [noOfUsbs, setNoOfUsbs] = useState(0);
+  const [noOfSockets, setNoOfSockets] = useState(0);
 
   useEffect(() => {
+    Apiservice.getLists(apiNames.switchBoxLists)
+      .then((res) => {
+        // console.log(res);
+        setSwitchBox(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     Apiservice.getLists(apiNames.zoneLists)
       .then((res) => {
         setZoneList(res);
@@ -42,28 +54,30 @@ function Switchbox() {
       .catch((err) => {
         console.log(err);
       });
-
-    // axios
-    //   .post("http://115.160.243.131:64937/Api/getdetailsswitchbox")
-    //   .then((res) => {
-    //     //console.log(res);
-    //     setSwitchBox(res.data.splice(0, 9));
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   }, []);
 
   const sectionListChange = (e) => {
-    setSectionName(e.target.value);
+    setSectionId(e.target.value);
   };
 
   const zoneListChange = (e) => {
-    setZoneName(e.target.value);
+    setZoneId(e.target.value);
   };
 
   const locationListChange = (e) => {
-    setLocationName(e.target.value);
+    setLocationId(e.target.value);
+  };
+
+  const numerOfSwitches = (event) => {
+    if (event.target.value === "fan") {
+      setNoOfFans((prevState) => prevState + 1);
+    } else if (event.target.value === "light") {
+      setNoOfLights((prevState) => prevState + 1);
+    } else if (event.target.value === "usb") {
+      setNoOfUsbs((prevState) => prevState + 1);
+    } else if (event.target.value === "socket") {
+      setNoOfSockets((prevState) => prevState + 1);
+    }
   };
 
   const switches = (e) => {
@@ -72,24 +86,48 @@ function Switchbox() {
     let genDivs = [];
     for (let i = 0; i < selectedValue; i++) {
       genDivs.push(
-        <>
-          <div className="border mt-3">
-            <div className="p-2">
-              <select name="" id="" className="form-select">
-                <option>Select</option>
-                <option value="fan">Fan</option>
-                <option value="light">Light</option>
-                <option value="usb">Usb</option>
-                <option value="socket">Socket</option>
-              </select>
-            </div>
+        <div className="border">
+          <div className="p-2">
+            <select
+              className="form-select form-select-sm"
+              onChange={numerOfSwitches}
+            >
+              <option>Select</option>
+              <option value="fan">Fan</option>
+              <option value="light">Light</option>
+              <option value="usb">Usb</option>
+              <option value="socket">Socket</option>
+            </select>
           </div>
-        </>
+        </div>
       );
     }
     setTimeout(() => {
       setCreateSwitches(genDivs);
     }, 1);
+  };
+
+  const addData = () => {
+    console.log("Fans: " + noOfFans);
+    console.log("Lights: " + noOfLights);
+    console.log("USB: " + noOfUsbs);
+    console.log("Sockets: " + noOfSockets);
+
+    Apiservice.addSwitchBox(
+      zoneId,
+      sectionId,
+      locationId,
+      noOfLights,
+      noOfFans,
+      noOfSockets,
+      noOfUsbs
+    )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -159,55 +197,55 @@ function Switchbox() {
               <div className="form-group">
                 <label>Zone</label>
                 <select
-                  className="form-select"
+                  className="form-select mt-1"
                   aria-label="Default select example"
                   name="zoneList"
-                  value={zoneName}
+                  value={zoneId}
                   onChange={zoneListChange}
                 >
                   <option>Select</option>
                   {zoneList.map((list, index) => (
-                    <option key={`${list.id}${index}`} value={list.zoneName}>
+                    <option key={`${list.id}${index}`} value={list.id}>
                       {list.zoneName}
                     </option>
                   ))}
                 </select>
               </div>
-              <div className="form-group mt-3">
+              <div className="form-group pt-3">
                 <label>Section</label>
                 <select
-                  className="form-select"
+                  className="form-select mt-1"
                   aria-label="Default select example"
                   name="sectionList"
-                  value={sectionName}
+                  value={sectionId}
                   onChange={sectionListChange}
                 >
                   <option>Select</option>
                   {sectionList.map((list, index) => (
-                    <option key={`${list.id}${index}`} value={list.section}>
+                    <option key={`${list.id}${index}`} value={list.id}>
                       {list.section}
                     </option>
                   ))}
                 </select>
               </div>
-              <div className="form-group mt-3">
+              <div className="form-group pt-3">
                 <label>Location</label>
                 <select
-                  className="form-select"
+                  className="form-select mt-1"
                   aria-label="Default select example"
                   name="sectionList"
-                  value={locationName}
+                  value={locationId}
                   onChange={locationListChange}
                 >
                   <option>Select</option>
                   {locationList.map((list, index) => (
-                    <option key={`${list.id}${index}`} value={list.location}>
+                    <option key={`${list.id}${index}`} value={list.id}>
                       {list.location}
                     </option>
                   ))}
                 </select>
               </div>
-              <div className="form-group mt-3">
+              <div className="form-group pt-3 pb-3">
                 <label>Number of switches</label>
                 <select
                   value={noofswitches}
@@ -226,26 +264,19 @@ function Switchbox() {
                 </select>
               </div>
 
-              {createSwitches.length > 4 ? (
-                <div className=" row d-flex justify-content-center">
-                  {createSwitches.map((createSwitch, index) => (
-                    <div key={index} className="col-4">
-                      {createSwitch}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="d-flex justify-content-center">
-                  {createSwitches.map((createSwitch, index) => (
-                    <div key={index}>{createSwitch}</div>
-                  ))}
-                </div>
-              )}
+              <div className="row row-cols-auto justify-content-center">
+                {createSwitches.map((createSwitch, index) => (
+                  <div key={index} className="col p-0">
+                    {createSwitch}
+                  </div>
+                ))}
+              </div>
 
-              <div className="text-center">
+              <div className="text-center pt-3">
                 <button
                   type="button"
-                  className="btn btn-sm btn-primary mt-3 text-center"
+                  className="btn btn-sm btn-primary text-center"
+                  onClick={addData}
                 >
                   Submit
                 </button>

@@ -28,10 +28,9 @@ function Section() {
   };
 
   const zoneRegisterHandler = () => {
-    axios
-      .post(" http://192.168.1.46:4000/newSection", { section: addSection })
+    Apiservice.addSection(apiNames.newSection, addSection)
       .then((res) => {
-        setId(res.data.id);
+        setId(res.id);
         setAddSection("");
         setOpen(false);
       })

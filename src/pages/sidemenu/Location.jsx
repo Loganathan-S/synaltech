@@ -28,10 +28,9 @@ function Location() {
   };
 
   const locationRegisterHandler = () => {
-    axios
-      .post(" http://192.168.1.46:4000/newLocation", { location: addLocation })
+    Apiservice.addLocation(apiNames.newLocation, addLocation)
       .then((res) => {
-        setId(res.data.id);
+        setId(res.id);
         setAddLocation("");
         setOpen(false);
       })
