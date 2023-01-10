@@ -62,8 +62,7 @@ function Device() {
       .then((res) => {
         setDeviceList(res.data);
         setPost(res.data);
-        //console.log(res.data);
-
+        console.log(res.data);
         setDeviceCount(res.data.length);
       })
       .catch((err) => {
@@ -75,7 +74,7 @@ function Device() {
     const fetchapi = async () => {
       const data = await fetch("http://192.168.1.46:4000/deviceList");
       const dataj = await data.json();
-      //console.log(dataj);
+      console.log(dataj);
       setDeviceLists(dataj);
     };
     fetchapi();
@@ -252,7 +251,7 @@ function Device() {
 
         <Modal
           title={
-            currentPost.length === deviceCount
+            currentPost.length > deviceCount
               ? `${deviceCount}  "Device found"`
               : "Device not found"
           }
@@ -262,6 +261,7 @@ function Device() {
           width={600}
           footer={null}
           maskClosable={false}
+          bodyStyle={{ overflowY: "auto", maxHeight: "calc(100vh - 180px)" }}
         >
           <div className="row col-12 mt-3">
             <form>
