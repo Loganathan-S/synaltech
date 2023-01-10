@@ -1,3 +1,4 @@
+/* Received from Elumalai */
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { Apiservice } from "../../services/apiServices";
@@ -8,17 +9,14 @@ import "../../assests/css/global.css";
 
 function Device() {
   const [open, setOpen] = useState(false);
-
   const [zoneList, setZoneList] = useState([]);
   const [zoneName, setZoneName] = useState("");
-
   const [deviceList, setDeviceList] = useState([]);
   const [deviceName, setDeviceName] = useState("");
-
   const [loactionList, setLocationList] = useState([]);
   const [loactionname, setLocationname] = useState("");
-
   const [sectionList, setSectionList] = useState([]);
+  const [deviceLists, setDeviceLists] = useState([]);
 
   useEffect(() => {
     Apiservice.getLists(apiNames.zoneLists)
@@ -49,18 +47,37 @@ function Device() {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
         setDeviceList(res);
+        //console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
+  useEffect(() => {
+    const fetchapi = async () => {
+      const data = await fetch("http://192.168.1.46:4000/deviceList");
+      const dataj = await data.json();
+      //console.log(dataj);
+      setDeviceLists(dataj);
+    };
+    fetchapi();
+  }, []);
+
   const zoneListChange = (e) => {
+    var index = e.target.selectedIndex;
+    var optionElement = e.target.childNodes[index];
+    console.log(index);
+    console.log(optionElement.value);
+    console.log(e.target.value);
     setZoneName(e.target.value);
+    setTimeout(() => {
+      console.log(zoneName);
+    }, 1);
   };
 
   const sectionListChange = (e) => {
-    //console.log(e.target.value);
+    console.log(e.target.value);
     setLocationname(e.target.value);
   };
 
@@ -69,10 +86,6 @@ function Device() {
   };
 
   const sumbitform = () => {
-    zoneRegisterHandler();
-  };
-
-  const zoneRegisterHandler = () => {
     axios
       .post("http://192.168.1.46:4000/newDeviceList", {
         deviceName: deviceName,
@@ -92,7 +105,6 @@ function Device() {
     <>
       <div className="row">
         <div className="col-6">
-          {" "}
           <h4>Device</h4>
         </div>
         <div className="col-6 text-end">
@@ -108,27 +120,35 @@ function Device() {
           </div>
         </div>
 
-        {deviceList.length > 0 ? (
+        {deviceLists.length > 0 ? (
           <div className="row pb-4 color">
-            {deviceList.map((item, index) => (
+            {deviceLists.map((item, index) => (
               <div
                 key={`${item.device_ID}${index}`}
-                className="col-sm-12 col-md-6 col-lg-3 col-xl-4 col-xxl-3 mt-2"
+                className="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3"
               >
-                <div className="card card_hover h-100 shadow">
+                <div className="card h-100">
                   <div className="card-body">
-                    <div className="mt-2 text-center p-2">
-                      <p className="FormContent">Id: {item.id}</p>
-                      <p className="FormPlaceholder">
-                        Device id: {item.deviceId}
-                      </p>
-                      <p className="FormPlaceholder">
+                    <div className="text-center p-2">
+                      <label className="FormContent">
+                        Device Id: {item.id}
+                      </label>
+                      <br />
+
+                      <label className="FormPlaceholder">
                         Device name: {item.deviceName}
-                      </p>
-                      <p className="FormPlaceholder">Zone id: {item.zoneId}</p>
-                      <p className="FormPlaceholder">
-                        Section id: {item.sectionId}
-                      </p>
+                      </label>
+                      <br />
+
+                      <label className="FormPlaceholder">
+                        Zone: {item.zoneId}
+                      </label>
+                      <br />
+
+                      <label className="FormPlaceholder">
+                        Section: {item.sectionId}
+                      </label>
+                      <br />
                     </div>
                   </div>
                 </div>
@@ -142,7 +162,11 @@ function Device() {
         )}
 
         <Modal
-          title="3 Device found"
+          title={
+            deviceLists.length === 0
+              ? "Device not found"
+              : `${deviceLists.length} Device found`
+          }
           centered
           open={open}
           onOk={() => setOpen(false)}
@@ -154,47 +178,50 @@ function Device() {
           <div className="row col-12 mt-3">
             <form>
               <div className="form-group">
-                {deviceList.map((list, inde) => (
-                  <div key={inde} className="card mt-1">
+                {deviceLists.map((list, indexm) => (
+                  <div key={indexm} className="card mt-1">
                     <div className="card-body">
                       <div className="row ">
                         <div className="col-12 ">
-                          <p className="FormPlaceholder"> {list.deviceName}</p>
+                          <label className="FormPlaceholder">
+                            {list.deviceName}
+                          </label>
                         </div>
-
-                        <div className="col-12 mt-1">
+                        <div className="col-12 mt-3">
+                          <label>Zone</label>
                           <select
-                            className="form-select"
+                            className="form-select mt-1"
                             aria-label="Default select example"
                             name="zoneList"
                             value={zoneName}
                             style={{ width: "50%" }}
-                            onChange={(e) => zoneListChange(e)}
+                            onChange={(e, index) => zoneListChange(e, index)}
                           >
-                            <option>Select</option>
+                            <option value="">select</option>
                             {zoneList.map((list, index) => (
                               <option
-                                value={`${inde}${list.id}${index}`}
+                                value={`${list.id}`}
                                 key={`${list.id}${index}`}
+                                selected={index}
                               >
                                 {list.zoneName}
                               </option>
                             ))}
                           </select>
                         </div>
-                        <div className="col-12 mt-2">
+                        <div className="col-12 mt-3">
+                          <label>Section</label>
                           <select
-                            className="form-select"
+                            className="form-select mt-1"
                             aria-label="Default select example"
                             name="loactionList"
                             value={loactionname}
                             onChange={sectionListChange}
                             style={{ width: "50%" }}
                           >
-                            <option>Select</option>
-                            {sectionList.map((list, index) => (
+                            {loactionList.map((list, index) => (
                               <option
-                                value={`${inde}${list.id}${index}`}
+                                value={list.id}
                                 key={`${list.id}${index}`}
                               >
                                 {list.section}
@@ -206,6 +233,7 @@ function Device() {
                         <div className="col-12  mx-5 mt-2">
                           <button
                             type="button"
+                            onClick={() => sumbitform(list.id)}
                             className="btn btn-sm btn btn-primary"
                           >
                             update

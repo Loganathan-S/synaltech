@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Apiservice } from "../../services/apiServices";
 import { apiNames } from "../../routes/routeNames";
 import { Modal } from "antd";
+import "../../assests/css/global.css";
 
 function Mapping() {
   const [mapLists, setMapLists] = useState([]);
@@ -42,21 +43,24 @@ function Mapping() {
             {mapLists.map((item, index) => (
               <div
                 key={`${item.id}${index}`}
-                className="col-sm-12 col-md-6 col-lg-3 col-xl-4 col-xxl-3 mt-2"
+                className="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-2"
               >
-                <div className="card card_hover h-100 shadow">
+                <div className="card h-100">
                   <div className="card-body">
                     <div className="mt-2 text-center p-2">
-                      <p className="FormContent">Id: {item.id}</p>
-                      <p className="FormPlaceholder">
+                      <label className="FormContent">Id: {item.id}</label>
+                      <br />
+                      <label className="FormPlaceholder">
                         Mapping-1: {item.Mapping1}
-                      </p>
-                      <p className="FormPlaceholder">
+                      </label>
+                      <br />
+                      <label className="FormPlaceholder">
                         Mapping-2: {item.Mapping2}
-                      </p>
-                      <p className="FormPlaceholder">
+                      </label>
+                      <br />
+                      <label className="FormPlaceholder">
                         Mapping-3: {item.Mapping3}
-                      </p>
+                      </label>
                     </div>
                   </div>
                 </div>
