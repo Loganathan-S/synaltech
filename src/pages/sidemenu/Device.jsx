@@ -1,53 +1,70 @@
-/* Received from Elumalai */
+/* Elumalai did this */
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-import { Apiservice } from "../../services/apiServices";
-import { apiNames } from "../../routes/routeNames";
 import { Modal } from "antd";
 import axios from "axios";
 import "../../assests/css/global.css";
+import "./Device.css";
 
 function Device() {
+  const [deviceLists, setDeviceLists] = useState([]);
   const [open, setOpen] = useState(false);
+
   const [zoneList, setZoneList] = useState([]);
   const [zoneName, setZoneName] = useState("");
-  const [deviceList, setDeviceList] = useState([]);
+
+  const [newDeviceList, setDeviceList] = useState([]);
   const [deviceName, setDeviceName] = useState("");
   const [loactionList, setLocationList] = useState([]);
   const [loactionname, setLocationname] = useState("");
-  const [sectionList, setSectionList] = useState([]);
-  const [deviceLists, setDeviceLists] = useState([]);
+
+  const [deviceCount, setDeviceCount] = useState("");
+
+  const [post, setPost] = useState([]);
+  const [number, setNumber] = useState(1);
+  const postPerPage = 1;
+
+  const lastPost = number * postPerPage;
+  const firstPost = lastPost - postPerPage;
+
+  const currentPost = post.slice(firstPost, lastPost);
+  //console.log(currentPost);
+
+  const pageNumber = [];
+
+  for (let i = 1; i <= Math.ceil(post.length / postPerPage); i++) {
+    pageNumber.push(i);
+  }
+
+  const ChangePage = (pageNumber) => {
+    setNumber(pageNumber);
+  };
 
   useEffect(() => {
-    Apiservice.getLists(apiNames.zoneLists)
+    axios
+      .get("http://192.168.1.46:4000/zoneList")
       .then((res) => {
-        setZoneList(res);
+        setZoneList(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    Apiservice.getLists(apiNames.sectionLists)
+    axios
+      .get("http://192.168.1.46:4000/sectionList")
       .then((res) => {
-        setSectionList(res);
-        //console.log(res);
+        setLocationList(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    Apiservice.getLists(apiNames.locationLists)
+    axios
+      .get("http://192.168.1.46:4000/newDeviceList")
       .then((res) => {
-        setLocationList(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        setDeviceList(res.data);
+        setPost(res.data);
+        //console.log(res.data);
 
-    Apiservice.getLists(apiNames.deviceLists)
-      .then((res) => {
-        setDeviceList(res);
-        //console.log(res);
+        setDeviceCount(res.data.length);
       })
       .catch((err) => {
         console.log(err);
@@ -66,11 +83,15 @@ function Device() {
 
   const zoneListChange = (e) => {
     var index = e.target.selectedIndex;
+
     var optionElement = e.target.childNodes[index];
     console.log(index);
     console.log(optionElement.value);
+
     console.log(e.target.value);
+
     setZoneName(e.target.value);
+
     setTimeout(() => {
       console.log(zoneName);
     }, 1);
@@ -78,33 +99,111 @@ function Device() {
 
   const sectionListChange = (e) => {
     console.log(e.target.value);
+
     setLocationname(e.target.value);
   };
 
   const deviceListChange = (e) => {
     setDeviceName(e.target.value);
+
+    console.log(e.target.value);
   };
 
-  const sumbitform = () => {
+  const sumbitform = (id) => {
     axios
-      .post("http://192.168.1.46:4000/newDeviceList", {
+      .post(`http://192.168.1.46:4000/updateDevice/${id}`, {
         deviceName: deviceName,
         zoneId: zoneName,
         sectionId: loactionname,
       })
       .then((res) => {
-        setZoneList(res.data);
+        // setZoneList(res.data);
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
+
+    setOpen(false);
+  };
+
+  const indexvaluechange = () => {
+    setTimeout(() => {
+      setZoneList([]);
+      setZoneName("");
+      setLocationList([]);
+      setLocationname("");
+      setDeviceName("");
+
+      axios
+        .get("http://192.168.1.46:4000/zoneList")
+        .then((res) => {
+          setTimeout(() => {
+            setZoneList(res.data);
+          }, 1);
+
+          console.log(zoneList);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      axios
+        .get("http://192.168.1.46:4000/sectionList")
+        .then((res) => {
+          setTimeout(() => {
+            setLocationList(res.data);
+          }, 2);
+          console.log(loactionList);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, 3);
+
+    setTimeout(() => {
+      setNumber(number - 1);
+    }, 4);
+  };
+
+  const indexvaluechangezone = () => {
+    setTimeout(() => {
+      setZoneList([]);
+      setZoneName("");
+      setLocationList([]);
+      setLocationname("");
+      setDeviceName("");
+
+      axios
+        .get("http://192.168.1.46:4000/zoneList")
+        .then((res) => {
+          setTimeout(() => {
+            setZoneList(res.data);
+          }, 1);
+
+          console.log(zoneList);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      axios
+        .get("http://192.168.1.46:4000/sectionList")
+        .then((res) => {
+          setLocationList(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, 1);
+    setTimeout(() => {
+      setNumber(number + 1);
+    }, 2);
   };
 
   return (
     <>
       <div className="row">
         <div className="col-6">
+          {" "}
           <h4>Device</h4>
         </div>
         <div className="col-6 text-end">
@@ -125,49 +224,38 @@ function Device() {
             {deviceLists.map((item, index) => (
               <div
                 key={`${item.device_ID}${index}`}
-                className="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3"
+                className="col-sm-12 col-md-6 col-lg-3 col-xl-4 col-xxl-3 mt-2"
               >
-                <div className="card h-100">
+                <div className="card card_hover h-100 shadow">
                   <div className="card-body">
-                    <div className="text-center p-2">
-                      <label className="FormContent">
-                        Device Id: {item.id}
-                      </label>
-                      <br />
-
-                      <label className="FormPlaceholder">
+                    <div className="mt-2 text-center p-2">
+                      {/* <p className="FormContent">Device Id: {item.device_ID}</p> */}
+                      <p className="FormPlaceholder">
                         Device name: {item.deviceName}
-                      </label>
-                      <br />
+                      </p>
+                      <p className="FormPlaceholder">Zone: {item.zoneId}</p>
 
-                      <label className="FormPlaceholder">
-                        Zone: {item.zoneId}
-                      </label>
-                      <br />
-
-                      <label className="FormPlaceholder">
+                      <p className="FormPlaceholder">
                         Section: {item.sectionId}
-                      </label>
-                      <br />
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+        ) : deviceLists.length > 0 ? (
+          <div>Loading devices</div>
         ) : (
-          <div className="text-center">
-            <h5>Loading devices...</h5>
-          </div>
+          <h5>Device Not found</h5>
         )}
 
         <Modal
           title={
-            deviceLists.length === 0
-              ? "Device not found"
-              : `${deviceLists.length} Device found`
+            currentPost.length === deviceCount
+              ? `${deviceCount}  "Device found"`
+              : "Device not found"
           }
-          centered
           open={open}
           onOk={() => setOpen(false)}
           onCancel={() => setOpen(false)}
@@ -178,19 +266,50 @@ function Device() {
           <div className="row col-12 mt-3">
             <form>
               <div className="form-group">
-                {deviceLists.map((list, indexm) => (
+                {currentPost.length > 0 ? (
+                  <>
+                    <div class="pagination">
+                      <div className="row col-12">
+                        <div className="col-6">
+                          <a href="#" onClick={indexvaluechange}>
+                            ❮
+                          </a>
+                        </div>
+                        <div className="col-6"></div>
+                      </div>
+
+                      <a
+                        href="#"
+                        className="text-end"
+                        onClick={indexvaluechangezone}
+                      >
+                        ❯
+                      </a>
+                    </div>
+                  </>
+                ) : null}
+
+                {currentPost.map((list, indexm) => (
                   <div key={indexm} className="card mt-1">
                     <div className="card-body">
                       <div className="row ">
                         <div className="col-12 ">
-                          <label className="FormPlaceholder">
-                            {list.deviceName}
-                          </label>
+                          <label>DeviceName</label>
+                          <p className="FormPlaceholder"> {list.deviceName}</p>
+
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={deviceListChange}
+                            value={deviceName}
+                            style={{ width: "50%" }}
+                          />
                         </div>
-                        <div className="col-12 mt-3">
+
+                        <div className="col-12 mt-1">
                           <label>Zone</label>
                           <select
-                            className="form-select mt-1"
+                            className="form-select"
                             aria-label="Default select example"
                             name="zoneList"
                             value={zoneName}
@@ -209,16 +328,17 @@ function Device() {
                             ))}
                           </select>
                         </div>
-                        <div className="col-12 mt-3">
+                        <div className="col-12 mt-2">
                           <label>Section</label>
                           <select
-                            className="form-select mt-1"
+                            className="form-select"
                             aria-label="Default select example"
                             name="loactionList"
                             value={loactionname}
                             onChange={sectionListChange}
                             style={{ width: "50%" }}
                           >
+                            <option value="">select</option>
                             {loactionList.map((list, index) => (
                               <option
                                 value={list.id}

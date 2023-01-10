@@ -22,7 +22,6 @@ function Switchbox() {
   const [noOfUsbs, setNoOfUsbs] = useState(0);
   const [noOfSockets, setNoOfSockets] = useState(0);
   const [id, setId] = useState(1);
-  //const [editModalPopup, setEditModalPopup] = useState(false);
   const [editSwitchBoxLists, setEditSwitchBoxLists] = useState([]);
 
   useEffect(() => {
@@ -172,7 +171,7 @@ function Switchbox() {
     axios
       .get(`http://192.168.1.46:4000/switchBox/${id}`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setEditSwitchBoxLists(res.data);
         setZoneId(res.data.zoneId);
         setSectionId(res.data.sectionId);
