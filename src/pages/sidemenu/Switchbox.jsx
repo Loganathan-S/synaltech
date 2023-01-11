@@ -23,6 +23,7 @@ function Switchbox() {
   const [noOfSockets, setNoOfSockets] = useState(0);
   const [id, setId] = useState(1);
   const [editSwitchBoxLists, setEditSwitchBoxLists] = useState([]);
+  const [idForUpdate, setIdForUpdate] = useState("");
 
   useEffect(() => {
     Apiservice.getLists(apiNames.switchBoxLists)
@@ -149,6 +150,11 @@ function Switchbox() {
     setLocationId("");
     setNoofswitches("");
     setCreateSwitches([]);
+    setNoOfFans("");
+    setNoOfLights("");
+    setNoOfSockets("");
+    setNoOfUsbs("");
+    setOpen(false);
   };
 
   const changeNoofFans = (e) => {
@@ -168,6 +174,8 @@ function Switchbox() {
   };
 
   const editModal = (id) => {
+    //console.log(id);
+    setIdForUpdate(id);
     axios
       .get(`http://192.168.1.46:4000/switchBox/${id}`)
       .then((res) => {
@@ -187,6 +195,38 @@ function Switchbox() {
     setTimeout(() => {
       setOpen(true);
     }, 5);
+  };
+
+  const updateSwitchBoxDetails = () => {
+    axios
+      .post(`http://192.168.1.46:4000/updateSwitchBox/${idForUpdate}`, {
+        zoneId: zoneId,
+        sectionId: sectionId,
+        locationId: locationId,
+        noOfLights: noOfLights,
+        noOfFans: noOfFans,
+        noOfSockets: noOfSockets,
+        noOfUSBS: noOfUsbs,
+      })
+      .then((res) => {
+        //console.log(res);
+        resetEditModal();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const deleteFromSwitchBox = () => {
+    axios
+      .delete(`http://192.168.1.46:4000/updateSwitchBox/${idForUpdate}`)
+      .then((res) => {
+        console.log(res);
+        // resetEditModal();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -247,6 +287,7 @@ function Switchbox() {
                     <label className="FormPlaceholder">
                       Location: {item.location}
                     </label>
+                    <br />
                   </div>
                 </div>
               </div>
@@ -268,11 +309,11 @@ function Switchbox() {
         onOk={() => setOpen(false)}
         onCancel={() => {
           resetEditModal();
-          setOpen(false);
         }}
         width={600}
         footer={null}
         maskClosable={false}
+        bodyStyle={{ overflowY: "auto", maxHeight: "calc(100vh - 180px)" }}
       >
         <div className="row col-12 mt-3">
           <form>
@@ -425,7 +466,7 @@ function Switchbox() {
                   <button
                     type="button"
                     className="btn btn-sm btn-danger text-center"
-                    //onClick={addData}
+                    onClick={deleteFromSwitchBox}
                   >
                     Delete
                   </button>
@@ -434,7 +475,7 @@ function Switchbox() {
                   <button
                     type="button"
                     className="btn btn-sm btn-primary text-center"
-                    //onClick={addData}
+                    onClick={updateSwitchBoxDetails}
                   >
                     Update
                   </button>

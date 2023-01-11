@@ -9,16 +9,16 @@ function Mapping() {
   const [mapLists, setMapLists] = useState([]);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    Apiservice.getLists(apiNames.mapping)
-      .then((res) => {
-        //console.log(res);
-        setMapLists(res.splice(0, 9));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   Apiservice.getLists(apiNames.mapping)
+  //     .then((res) => {
+  //       //console.log(res);
+  //       setMapLists(res.splice(0, 9));
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
   return (
     <>
       <div className="row">
@@ -81,6 +81,7 @@ function Mapping() {
           width={600}
           footer={null}
           maskClosable={false}
+          bodyStyle={{ overflowY: "auto", maxHeight: "calc(100vh - 180px)" }}
         >
           <div className="row col-12 mt-3">
             <form>
