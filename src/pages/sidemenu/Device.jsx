@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Modal } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../../assests/css/global.css";
 import { apiNames } from "../../routes/routeNames";
@@ -13,33 +14,15 @@ function Device() {
   const [zoneList, setZoneList] = useState([]);
   const [sectionList, setSectionList] = useState([]);
   const [locationList, setLocationList] = useState([]);
+  const [deviceName, setDeviceName] = useState("");
+  const [deviceId, setDeviceId] = useState("");
   const [zoneId, setZoneId] = useState("");
   const [sectionId, setSectionId] = useState("");
   const [locationId, setLocationId] = useState("");
   const [addDevicePlacePopup, setAddDevicePlacePopup] = useState(false);
-  const [secondPopup, setSecondPopup] = useState(false);
+  const [setupDevicePopup, setSetupDevicePopup] = useState(false);
 
   useEffect(() => {
-    Apiservice.getLists(apiNames.newDeviceLists)
-      .then((res) => {
-        let jsonObj = res[0].description;
-        let newDeviceLi = JSON.parse(jsonObj);
-        console.log(res[0]);
-        setNewDeviceLists(newDeviceLi);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    Apiservice.getLists(apiNames.deviceLists)
-      .then((res) => {
-        console.log(res);
-        setAvailableDevices(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
     Apiservice.getLists(apiNames.zoneLists)
       .then((res) => {
         setZoneList(res);
@@ -63,7 +46,43 @@ function Device() {
       .catch((err) => {
         console.log(err);
       });
+
+    newDevices();
+    devices();
   }, []);
+
+  const newDevices = () => {
+    Apiservice.getLists(apiNames.newDeviceLists)
+      .then((res) => {
+        //console.log(res);
+        if (res.length === 0) {
+          setNewDeviceLists([]);
+        } else {
+          let jsonObj = res[0].description;
+          let newDeviceLi = JSON.parse(jsonObj);
+          setDeviceId(res[0].id);
+          setNewDeviceLists(newDeviceLi);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const devices = () => {
+    Apiservice.getLists(apiNames.deviceLists)
+      .then((res) => {
+        //console.log(res);
+        setAvailableDevices(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const deviceNameChange = (e) => {
+    setDeviceName(e.target.value);
+  };
 
   const zoneListChange = (e) => {
     setZoneId(e.target.value);
@@ -75,6 +94,29 @@ function Device() {
 
   const locationListChange = (e) => {
     setLocationId(e.target.value);
+  };
+
+  const update = () => {
+    axios
+      .post(`http://192.168.1.46:4000/updateDevice/${deviceId}`, {
+        deviceName: deviceName,
+        zoneId: zoneId,
+        sectionId: sectionId,
+        locationId: locationId,
+      })
+      .then((res) => {
+        console.log(res);
+        setAvailableDevicesPopup("");
+        setSetupDevicePopup("");
+        setDeviceName("");
+        setZoneId("");
+        setSectionId("");
+        setLocationId("");
+        devices();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -99,7 +141,7 @@ function Device() {
         </div>
       </div>
 
-      <div className="row pb-4 color">
+      <div className="row pb-4 color text-center">
         {availableDevices.map((deviceDetails, index) => (
           <div
             key={`${deviceDetails.id}${index}`}
@@ -107,7 +149,11 @@ function Device() {
           >
             <div className="card h-100">
               <div className="card-body">
-                <p>{deviceDetails.id}</p>
+                <p className="FormContent">ID: {deviceDetails.deviceId}</p>
+                <p className="FormContent">Name: {deviceDetails.deviceName}</p>
+                <button className="btn btn-outline-primary btn-sm">
+                  Configuare
+                </button>
               </div>
             </div>
           </div>
@@ -128,20 +174,28 @@ function Device() {
         <div className="row pb-1 color text-center">
           <div className="card">
             <div className="card-body">
-              <div className="col-12">
-                <div className="FormContent">ID: {newDeviceLists.id}</div>
-                <div className="mt-1 FormContent">
-                  Name: {newDeviceLists.name}
+              {newDeviceLists.length === 0 ? (
+                <div className="col-12">
+                  <p className="FormContent">No devices found</p>
                 </div>
-              </div>
-              <div className="text-center mt-3">
-                <button
-                  onClick={() => setSecondPopup(true)}
-                  className="btn btn-sm btn-outline-primary"
-                >
-                  Configure
-                </button>
-              </div>
+              ) : (
+                <>
+                  <div className="col-12">
+                    <div className="FormContent">ID: {newDeviceLists.id}</div>
+                    <div className="mt-1 FormContent">
+                      Name: {newDeviceLists.name}
+                    </div>
+                  </div>
+                  <div className="text-center mt-3">
+                    <button
+                      onClick={() => setSetupDevicePopup(true)}
+                      className="btn btn-sm btn-outline-primary"
+                    >
+                      Setup
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -154,7 +208,7 @@ function Device() {
                 <div className="card-body text-center">                 
                   <div className="text-center">
                     <button
-                      onClick={() => setSecondPopup(true)}
+                      onClick={() => setSetupDevicePopup(true)}
                       className="btn btn-sm btn-outline-primary"
                     >
                       Configure
@@ -168,78 +222,84 @@ function Device() {
       </Modal>
 
       <Modal
-        title={<label className="FormContent">Setup device</label>}
+        title={<label className="FormHeading">Setup device</label>}
         centered
-        open={secondPopup}
-        onOk={() => setSecondPopup(false)}
-        onCancel={() => setSecondPopup(false)}
+        open={setupDevicePopup}
+        onOk={() => setSetupDevicePopup(false)}
+        onCancel={() => setSetupDevicePopup(false)}
         width={500}
         footer={null}
         maskClosable={false}
         //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
       >
-        <div className="row col-12 mt-3 p-2">
-          <form>
-            <div className="form-group">
-              <label className="FormLabel">Zone</label>
-              <select
-                className="form-select mt-1 FormPlaceholder"
-                aria-label="Default select example"
-                name="zoneList"
-                value={zoneId}
-                onChange={zoneListChange}
-              >
-                <option>Select</option>
-                {zoneList.map((list, index) => (
-                  <option key={`${list.id}${index}`} value={list.id}>
-                    {list.zoneName}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group pt-3">
-              <label className="FormLabel">Section</label>
-              <select
-                className="form-select mt-1 FormPlaceholder"
-                aria-label="Default select example"
-                name="sectionList"
-                value={sectionId}
-                onChange={sectionListChange}
-              >
-                <option>Select</option>
-                {sectionList.map((list, index) => (
-                  <option key={`${list.id}${index}`} value={list.id}>
-                    {list.section}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group pt-3">
-              <label className="FormLabel">Location</label>
-              <select
-                className="form-select mt-1 FormPlaceholder"
-                aria-label="Default select example"
-                name="sectionList"
-                value={locationId}
-                onChange={locationListChange}
-              >
-                <option>Select</option>
-                {locationList.map((list, index) => (
-                  <option key={`${list.id}${index}`} value={list.id}>
-                    {list.location}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="text-center mt-3">
-              <button
-                //onClick={() => setSecondPopup(true)}
-                className="btn btn-sm btn-outline-primary"
-              >
-                Save
-              </button>
-            </div>
-          </form>
+        <div className="row col-12">
+          <div className="form-group">
+            <label className="FormContent">Device name</label>
+            <input
+              type={"text"}
+              className="form-control mt-1 FormPlaceholder"
+              name="deviceName"
+              value={deviceName}
+              onChange={deviceNameChange}
+              placeholder={"Enter device name"}
+            />
+          </div>
+          <div className="form-group pt-3">
+            <label className="FormContent">Zone</label>
+            <select
+              className="form-select mt-1 FormPlaceholder"
+              aria-label="Default select example"
+              name="zoneList"
+              value={zoneId}
+              onChange={zoneListChange}
+            >
+              <option>Select</option>
+              {zoneList.map((list, index) => (
+                <option key={`${list.id}${index}`} value={list.id}>
+                  {list.zoneName}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group pt-3">
+            <label className="FormContent">Section</label>
+            <select
+              className="form-select mt-1 FormPlaceholder"
+              aria-label="Default select example"
+              name="sectionList"
+              value={sectionId}
+              onChange={sectionListChange}
+            >
+              <option>Select</option>
+              {sectionList.map((list, index) => (
+                <option key={`${list.id}${index}`} value={list.id}>
+                  {list.section}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group pt-3">
+            <label className="FormContent">Location</label>
+            <select
+              className="form-select mt-1 FormPlaceholder"
+              aria-label="Default select example"
+              name="sectionList"
+              value={locationId}
+              onChange={locationListChange}
+            >
+              <option>Select</option>
+              {locationList.map((list, index) => (
+                <option key={`${list.id}${index}`} value={list.id}>
+                  {list.location}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="text-center mt-3">
+            <button onClick={update} className="btn btn-sm btn-outline-primary">
+              Save
+            </button>
+          </div>
         </div>
         {/* <div className="row pb-4 color">
           <div className="col-12 mt-3">
