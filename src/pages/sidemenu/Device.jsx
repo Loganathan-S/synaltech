@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Modal } from "antd";
+import { Modal, Popover } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../../assests/css/global.css";
@@ -23,7 +23,10 @@ function Device() {
   const [setupDevicePopup, setSetupDevicePopup] = useState(false);
   const [configDevicePopup, setConfigDevicePopup] = useState(false);
   const [lines, setLines] = useState([]);
-  const [switchType, setSwitchType] = useState("");
+  const [switchType1, setSwitchType1] = useState("");
+  const [switchType2, setSwitchType2] = useState("");
+  const [switchType3, setSwitchType3] = useState("");
+  const [switchType4, setSwitchType4] = useState("");
 
   useEffect(() => {
     Apiservice.getLists(apiNames.zoneLists)
@@ -75,6 +78,7 @@ function Device() {
   const devices = () => {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
+        console.log(res);
         if (res.length === 0) {
           setLines([]);
           setAvailableDevices([]);
@@ -130,10 +134,58 @@ function Device() {
       });
   };
 
-  const configureSwitch = (e) => {
-    console.log(e.target.value);
-    setSwitchType(e.target.value);
-    
+  const content = (deviceDetails) => {
+    // console.log(deviceDetails.description);
+    let jsonObj = deviceDetails.description;
+    let newDeviceLi = JSON.parse(jsonObj);
+
+    return (
+      <div className="card">
+        <div className="card-body">
+          {/* Id: {deviceDetails.id} */}
+          <br />
+          Name: {deviceDetails.deviceId}
+          <br />
+          DeviceName: {deviceDetails.deviceName}
+          <br></br>
+          name: {newDeviceLi.name}
+          <br />
+          MacId: {newDeviceLi.mac}
+          <br />
+          Line 1: {newDeviceLi.lines[0].t}
+          <br />
+          Line 2: {newDeviceLi.lines[1].t}
+          <br />
+          Line 3: {newDeviceLi.lines[2].t}
+          <br />
+          Line 4: {newDeviceLi.lines[3].t}
+          <br />
+        </div>
+      </div>
+    );
+  };
+
+  const configureSwitch1 = (e) => {
+    setSwitchType1(e.target.value);
+  };
+
+  const configureSwitch2 = (e) => {
+    setSwitchType2(e.target.value);
+  };
+
+  const configureSwitch3 = (e) => {
+    setSwitchType3(e.target.value);
+  };
+
+  const configureSwitch4 = (e) => {
+    setSwitchType4(e.target.value);
+  };
+
+  const updateSwitchType = () => {
+    console.log(switchType1);
+    console.log(switchType2);
+    console.log(switchType3);
+    console.log(switchType4);
   };
 
   return (
@@ -164,18 +216,26 @@ function Device() {
             key={`${deviceDetails.id}${index}`}
             className="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3"
           >
-            <div className="card h-100">
-              <div className="card-body">
-                <p className="FormContent">ID: {deviceDetails.deviceId}</p>
-                <p className="FormContent">Name: {deviceDetails.deviceName}</p>
-                <button
-                  onClick={setConfigDevicePopup}
-                  className="btn btn-outline-primary btn-sm"
-                >
-                  Configuare
-                </button>
+            <Popover
+              content={content(deviceDetails)}
+              trigger="hover"
+              placement="bottom"
+            >
+              <div className="card h-100">
+                <div className="card-body">
+                  <p className="FormContent">ID: {deviceDetails.deviceId}</p>
+                  <p className="FormContent">
+                    Name: {deviceDetails.deviceName}
+                  </p>
+                  <button
+                    onClick={setConfigDevicePopup}
+                    className="btn btn-outline-primary btn-sm"
+                  >
+                    Configuare
+                  </button>
+                </div>
               </div>
-            </div>
+            </Popover>
           </div>
         ))}
       </div>
@@ -384,7 +444,65 @@ function Device() {
       >
         <div className="row col-12">
           <div className="form-group">
-            {lines.map((line, index) => (
+            <label className="FormContent">Switch 1</label>
+            <select
+              className="form-select FormPlaceholder mt-1"
+              name="switchType1"
+              value={switchType1}
+              onChange={configureSwitch1}
+            >
+              <option>Select switch type</option>
+              <option value="Fan">Fan</option>
+              <option value="CeilingLight">Ceiling Light</option>
+              <option value="AirConditioner">Air Conditioner</option>
+              <option value="PowerSocket">Power Socket</option>
+            </select>
+
+            <label className="FormContent mt-3">Switch 2</label>
+            <select
+              className="form-select FormPlaceholder mt-1"
+              name="switchType2"
+              value={switchType2}
+              onChange={configureSwitch2}
+              multiple={false}
+            >
+              <option>Select switch type</option>
+              <option value="Fan">Fan</option>
+              <option value="CeilingLight">Ceiling Light</option>
+              <option value="AirConditioner">Air Conditioner</option>
+              <option value="PowerSocket">Power Socket</option>
+            </select>
+
+            <label className="FormContent mt-3">Switch 3</label>
+            <select
+              className="form-select FormPlaceholder mt-1"
+              name="switchType3"
+              value={switchType3}
+              onChange={configureSwitch3}
+              multiple={false}
+            >
+              <option>Select switch type</option>
+              <option value="Fan">Fan</option>
+              <option value="CeilingLight">Ceiling Light</option>
+              <option value="AirConditioner">Air Conditioner</option>
+              <option value="PowerSocket">Power Socket</option>
+            </select>
+
+            <label className="FormContent mt-3">Switch 4</label>
+            <select
+              className="form-select FormPlaceholder mt-1"
+              name="switchType4"
+              value={switchType4}
+              onChange={configureSwitch4}
+              multiple={false}
+            >
+              <option>Select switch type</option>
+              <option value="Fan">Fan</option>
+              <option value="CeilingLight">Ceiling Light</option>
+              <option value="AirConditioner">Air Conditioner</option>
+              <option value="PowerSocket">Power Socket</option>
+            </select>
+            {/* {lines.map((line, index) => (
               <div key={`${line.line} ${index}`} className="mb-3">
                 <label className="FormContent">Switch {index + 1}</label>
                 <select
@@ -392,23 +510,24 @@ function Device() {
                   name="switchType"
                   value={switchType}
                   onChange={configureSwitch}
+                  multiple={false}
                 >
-                  <option>Select Switch Type</option>
+                  <option selected value>
+                    Select switch type
+                  </option>
                   <option value="Fan">Fan</option>
-
-                  
                   <option value="CeilingLight">Ceiling Light</option>
                   <option value="AirConditioner">Air Conditioner</option>
                   <option value="PowerSocket">Power Socket</option>
                 </select>
               </div>
-            ))}
+            ))} */}
           </div>
 
           <div className="text-center mt-3">
             <button
               type="button"
-              //onClick={}
+              onClick={updateSwitchType}
               className="btn btn-sm btn-outline-primary"
             >
               Save
