@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { Modal } from "antd";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import "../../assests/css/global.css";
-import "./Device.css";
-import { Apiservice } from "../../services/apiServices";
 import { apiNames } from "../../routes/routeNames";
+import { Apiservice } from "../../services/apiServices";
+import "./Device.css";
 
 function Device() {
   const [newDeviceLists, setNewDeviceLists] = useState([]);
@@ -23,8 +22,10 @@ function Device() {
   useEffect(() => {
     Apiservice.getLists(apiNames.newDeviceLists)
       .then((res) => {
-        console.log(res[0].description);
-        setNewDeviceLists(res[0].description);
+        let jsonObj = res[0].description;
+        let newDeviceLi = JSON.parse(jsonObj);
+        console.log(res[0]);
+        setNewDeviceLists(newDeviceLi);
       })
       .catch((err) => {
         console.log(err);
@@ -32,7 +33,7 @@ function Device() {
 
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
-        //console.log(res);
+        console.log(res);
         setAvailableDevices(res);
       })
       .catch((err) => {
@@ -80,7 +81,7 @@ function Device() {
     <>
       <div className="row">
         <div className="col-6">
-          <h4>Connected devices</h4>
+          <label className="ModuleHeading">Connected devices</label>
         </div>
         <div className="col-6 text-end">
           <div>
@@ -114,26 +115,36 @@ function Device() {
       </div>
 
       <Modal
-        title={<label className="FormContent">Add device</label>}
+        title={<label className="FormHeading">Add device</label>}
         centered
         open={availableDevicesPopup}
         onOk={() => setAvailableDevicesPopup(false)}
         onCancel={() => setAvailableDevicesPopup(false)}
-        width={600}
+        width={300}
         footer={null}
         maskClosable={false}
         //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
       >
-        <div className="row pb-1 color">
-          {Object.values(newDeviceLists)}
-          <div className="text-center">
-            <button
-              onClick={() => setSecondPopup(true)}
-              className="btn btn-sm btn-outline-primary"
-            >
-              Configure
-            </button>
+        <div className="row pb-1 color text-center">
+          <div className="card">
+            <div className="card-body">
+              <div className="col-12">
+                <div className="FormContent">ID: {newDeviceLists.id}</div>
+                <div className="mt-1 FormContent">
+                  Name: {newDeviceLists.name}
+                </div>
+              </div>
+              <div className="text-center mt-3">
+                <button
+                  onClick={() => setSecondPopup(true)}
+                  className="btn btn-sm btn-outline-primary"
+                >
+                  Configure
+                </button>
+              </div>
+            </div>
           </div>
+
           {/* {newDeviceLists.map((availableDeviceDetails, index) => (
             <div
               key={`${availableDeviceDetails.id}${index}`}
