@@ -90,26 +90,24 @@ function Zone() {
         maskClosable={false}
       >
         <div className="row col-12 mt-3">
-          <form>
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control"
-                aria-describedby="emailHelp"
-                value={addZone}
-                onChange={(e) => setAddZone(e.target.value)}
-              />
-            </div>
-            <div className="text-center">
-              <button
-                type="button"
-                className="btn btn-primary mt-3 text-center"
-                onClick={sumbitZone}
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control"
+              aria-describedby="emailHelp"
+              value={addZone}
+              onChange={(e) => setAddZone(e.target.value)}
+            />
+          </div>
+          <div className="text-center">
+            <button
+              type="button"
+              className="btn btn-primary mt-3 text-center"
+              onClick={sumbitZone}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </Modal>
     </div>
