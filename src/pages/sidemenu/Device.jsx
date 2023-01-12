@@ -21,6 +21,9 @@ function Device() {
   const [locationId, setLocationId] = useState("");
   const [addDevicePlacePopup, setAddDevicePlacePopup] = useState(false);
   const [setupDevicePopup, setSetupDevicePopup] = useState(false);
+  const [configDevicePopup, setConfigDevicePopup] = useState(false);
+  const [lines, setLines] = useState([]);
+  const [switchType, setSwitchType] = useState("");
 
   useEffect(() => {
     Apiservice.getLists(apiNames.zoneLists)
@@ -72,8 +75,16 @@ function Device() {
   const devices = () => {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
-        //console.log(res);
-        setAvailableDevices(res);
+        if (res.length === 0) {
+          setLines([]);
+          setAvailableDevices([]);
+        } else if (res.length !== 0) {
+          let jsonObj = res[0].description;
+          let newDeviceLi = JSON.parse(jsonObj);
+          let jsonLines = newDeviceLi.lines;
+          setLines(jsonLines);
+          setAvailableDevices(res);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -119,6 +130,12 @@ function Device() {
       });
   };
 
+  const configureSwitch = (e) => {
+    console.log(e.target.value);
+    setSwitchType(e.target.value);
+    
+  };
+
   return (
     <>
       <div className="row">
@@ -151,7 +168,10 @@ function Device() {
               <div className="card-body">
                 <p className="FormContent">ID: {deviceDetails.deviceId}</p>
                 <p className="FormContent">Name: {deviceDetails.deviceName}</p>
-                <button className="btn btn-outline-primary btn-sm">
+                <button
+                  onClick={setConfigDevicePopup}
+                  className="btn btn-outline-primary btn-sm"
+                >
                   Configuare
                 </button>
               </div>
@@ -349,6 +369,52 @@ function Device() {
             </form>
           </div>
         </div> */}
+      </Modal>
+
+      <Modal
+        title={<label className="FormHeading">Configure device</label>}
+        centered
+        open={configDevicePopup}
+        onOk={() => setConfigDevicePopup(false)}
+        onCancel={() => setConfigDevicePopup(false)}
+        width={500}
+        footer={null}
+        maskClosable={false}
+        //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
+      >
+        <div className="row col-12">
+          <div className="form-group">
+            {lines.map((line, index) => (
+              <div key={`${line.line} ${index}`} className="mb-3">
+                <label className="FormContent">Switch {index + 1}</label>
+                <select
+                  className="form-select FormPlaceholder"
+                  name="switchType"
+                  value={switchType}
+                  onChange={configureSwitch}
+                >
+                  <option>Select Switch Type</option>
+                  <option value="Fan">Fan</option>
+
+                  
+                  <option value="CeilingLight">Ceiling Light</option>
+                  <option value="AirConditioner">Air Conditioner</option>
+                  <option value="PowerSocket">Power Socket</option>
+                </select>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-3">
+            <button
+              type="button"
+              //onClick={}
+              className="btn btn-sm btn-outline-primary"
+            >
+              Save
+            </button>
+          </div>
+        </div>
       </Modal>
     </>
   );
