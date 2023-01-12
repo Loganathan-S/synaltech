@@ -10,19 +10,21 @@ import { apiNames } from "../../routes/routeNames";
 function Device() {
   const [newDeviceLists, setNewDeviceLists] = useState([]);
   const [availableDevices, setAvailableDevices] = useState([]);
-  const [openPopup, setOpenPopup] = useState(false);
+  const [availableDevicesPopup, setAvailableDevicesPopup] = useState(false);
   const [zoneList, setZoneList] = useState([]);
   const [sectionList, setSectionList] = useState([]);
   const [locationList, setLocationList] = useState([]);
   const [zoneId, setZoneId] = useState("");
   const [sectionId, setSectionId] = useState("");
   const [locationId, setLocationId] = useState("");
+  const [addDevicePlacePopup, setAddDevicePlacePopup] = useState(false);
+  const [secondPopup, setSecondPopup] = useState(false);
 
   useEffect(() => {
     Apiservice.getLists(apiNames.newDeviceLists)
       .then((res) => {
-        console.log(res);
-        setNewDeviceLists(res);
+        console.log(res[0].description);
+        setNewDeviceLists(res[0].description);
       })
       .catch((err) => {
         console.log(err);
@@ -30,7 +32,7 @@ function Device() {
 
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setAvailableDevices(res);
       })
       .catch((err) => {
@@ -78,7 +80,7 @@ function Device() {
     <>
       <div className="row">
         <div className="col-6">
-          <h4>Device lists</h4>
+          <h4>Connected devices</h4>
         </div>
         <div className="col-6 text-end">
           <div>
@@ -89,7 +91,7 @@ function Device() {
               height="35"
               className="pointer"
               onClick={() => {
-                setOpenPopup(true);
+                setAvailableDevicesPopup(true);
               }}
             />
           </div>
@@ -114,35 +116,58 @@ function Device() {
       <Modal
         title={<label className="FormContent">Add device</label>}
         centered
-        open={openPopup}
-        onOk={() => setOpenPopup(false)}
-        onCancel={() => setOpenPopup(false)}
-        width={700}
+        open={availableDevicesPopup}
+        onOk={() => setAvailableDevicesPopup(false)}
+        onCancel={() => setAvailableDevicesPopup(false)}
+        width={600}
         footer={null}
         maskClosable={false}
         //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
       >
-        <div className="row pb-4 color">
-          {newDeviceLists.map((availableDeviceDetails, index) => (
+        <div className="row pb-1 color">
+          {Object.values(newDeviceLists)}
+          <div className="text-center">
+            <button
+              onClick={() => setSecondPopup(true)}
+              className="btn btn-sm btn-outline-primary"
+            >
+              Configure
+            </button>
+          </div>
+          {/* {newDeviceLists.map((availableDeviceDetails, index) => (
             <div
               key={`${availableDeviceDetails.id}${index}`}
-              className="col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mt-3"
+              className="col-sm-12 col-md-6 col-lg-4 col-xl-12 col-xxl-4 mt-3"
             >
               <div className="card h-100">
-                <div className="card-body text-center">
-                  <p>{availableDeviceDetails.deviceId}</p>
-                  <p>{availableDeviceDetails.deviceName}</p>
+                <div className="card-body text-center">                 
                   <div className="text-center">
-                    <button className="btn btn-sm btn-outline-primary">
+                    <button
+                      onClick={() => setSecondPopup(true)}
+                      className="btn btn-sm btn-outline-primary"
+                    >
                       Configure
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
-        {/* <div className="row col-12 mt-3 p-2">
+      </Modal>
+
+      <Modal
+        title={<label className="FormContent">Setup device</label>}
+        centered
+        open={secondPopup}
+        onOk={() => setSecondPopup(false)}
+        onCancel={() => setSecondPopup(false)}
+        width={500}
+        footer={null}
+        maskClosable={false}
+        //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
+      >
+        <div className="row col-12 mt-3 p-2">
           <form>
             <div className="form-group">
               <label className="FormLabel">Zone</label>
@@ -195,7 +220,63 @@ function Device() {
                 ))}
               </select>
             </div>
+            <div className="text-center mt-3">
+              <button
+                //onClick={() => setSecondPopup(true)}
+                className="btn btn-sm btn-outline-primary"
+              >
+                Save
+              </button>
+            </div>
           </form>
+        </div>
+        {/* <div className="row pb-4 color">
+          <div className="col-12 mt-3">
+            <form action="">
+              <div className="mb-3">
+                <label htmlFor="">Zone</label>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  name="zoneList"
+                  value={zoneName}
+                  onChange={zoneListChange}
+                >
+                  <option>select</option>
+                  {zoneList.map((list, index) => (
+                    <option key={`${list.id}${index}`} value={list.zoneName}>
+                      {list.zoneName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="">Section</label>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  name="sectionList"
+                  value={sectionName}
+                  onChange={sectionListChange}
+                >
+                  <option>select</option>
+                  {sectionList.map((list, index) => (
+                    <option key={`${list.id}${index}`} value={list.section}>
+                      {list.section}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="text-center">
+                <button
+                  type="button"
+                  className="btn btn-sm btn-outline-primary"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
         </div> */}
       </Modal>
     </>

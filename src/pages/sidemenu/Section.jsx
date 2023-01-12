@@ -61,23 +61,21 @@ function Section() {
 
       <div className="row">
         <div className="col-md-5">
-          <form>
-            <div className="mb-3">
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                name="sectionList"
-                value={sectionName}
-                onChange={sectionListChange}
-              >
-                {sectionList.map((list, index) => (
-                  <option key={`${list.id}${index}`} value={list.section}>
-                    {list.section}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </form>
+          <div className="mb-3">
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              name="sectionList"
+              value={sectionName}
+              onChange={sectionListChange}
+            >
+              {sectionList.map((list, index) => (
+                <option key={`${list.id}${index}`} value={list.section}>
+                  {list.section}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -92,26 +90,24 @@ function Section() {
         maskClosable={false}
       >
         <div className="row col-12 mt-3">
-          <form>
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control"
-                aria-describedby="emailHelp"
-                value={addSection}
-                onChange={(e) => setAddSection(e.target.value)}
-              />
-            </div>
-            <div className="text-center">
-              <button
-                type="button"
-                className="btn btn-primary mt-3 text-center"
-                onClick={zoneRegisterHandler}
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control"
+              aria-describedby="emailHelp"
+              value={addSection}
+              onChange={(e) => setAddSection(e.target.value)}
+            />
+          </div>
+          <div className="text-center">
+            <button
+              type="button"
+              className="btn btn-primary mt-3 text-center"
+              onClick={zoneRegisterHandler}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </Modal>
     </div>

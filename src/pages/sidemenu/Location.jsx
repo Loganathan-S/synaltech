@@ -61,23 +61,21 @@ function Location() {
 
       <div className="row">
         <div className="col-md-5">
-          <form>
-            <div className="mb-3">
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                name="sectionList"
-                value={locationName}
-                onChange={locationListChange}
-              >
-                {locationList.map((list, index) => (
-                  <option key={`${list.id}${index}`} value={list.location}>
-                    {list.location}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </form>
+          <div className="mb-3">
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              name="sectionList"
+              value={locationName}
+              onChange={locationListChange}
+            >
+              {locationList.map((list, index) => (
+                <option key={`${list.id}${index}`} value={list.location}>
+                  {list.location}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -92,26 +90,24 @@ function Location() {
         maskClosable={false}
       >
         <div className="row col-12 mt-3">
-          <form>
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control"
-                aria-describedby="emailHelp"
-                value={addLocation}
-                onChange={(e) => setAddLocation(e.target.value)}
-              />
-            </div>
-            <div className="text-center">
-              <button
-                type="button"
-                className="btn btn-primary mt-3 text-center"
-                onClick={locationRegisterHandler}
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control"
+              aria-describedby="emailHelp"
+              value={addLocation}
+              onChange={(e) => setAddLocation(e.target.value)}
+            />
+          </div>
+          <div className="text-center">
+            <button
+              type="button"
+              className="btn btn-primary mt-3 text-center"
+              onClick={locationRegisterHandler}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </Modal>
     </div>
