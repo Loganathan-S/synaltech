@@ -60,30 +60,29 @@ const Dashboard = () => {
               icon: <PieChartOutlined />,
               label: "SwitchBox",
             },
-            {
-              key: `${routeNames.dashboard}${routeNames.mapping}`,
-              icon: <FundOutlined />,
-              label: "Mapping",
-            },
-            {
-              // key: `${routeNames.dashboard}${routeNames.settings}`,
-              icon: <SettingOutlined />,
-              label: "Settings",
-              children: [
-                {
-                  key: `${routeNames.dashboard}${routeNames.zone}`,
-                  label: "Zone",
-                },
-                {
-                  key: `${routeNames.dashboard}${routeNames.section}`,
-                  label: "Section",
-                },
-                {
-                  key: `${routeNames.dashboard}${routeNames.location}`,
-                  label: "Location",
-                },
-              ],
-            },
+            // {
+            //   key: `${routeNames.dashboard}${routeNames.mapping}`,
+            //   icon: <FundOutlined />,
+            //   label: "Mapping",
+            // },
+            // {
+            //   icon: <SettingOutlined />,
+            //   label: "Settings",
+            //   children: [
+            //     {
+            //       key: `${routeNames.dashboard}${routeNames.zone}`,
+            //       label: "Zone",
+            //     },
+            //     {
+            //       key: `${routeNames.dashboard}${routeNames.section}`,
+            //       label: "Section",
+            //     },
+            //     {
+            //       key: `${routeNames.dashboard}${routeNames.location}`,
+            //       label: "Location",
+            //     },
+            //   ],
+            // },
             {
               key: "logout",
               icon: <LogoutOutlined />,

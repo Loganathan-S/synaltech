@@ -182,10 +182,14 @@ function Device() {
   };
 
   const updateSwitchType = () => {
-    console.log(switchType1);
-    console.log(switchType2);
-    console.log(switchType3);
-    console.log(switchType4);
+    //console.log(switchType1);
+    //console.log(switchType2);
+    //console.log(switchType3);
+    //console.log(switchType4);
+    let nwUp = JSON.parse(availableDevices[0].description);
+    let upd = nwUp.lines[0];
+    upd.Name = switchType1;
+    console.log(upd);
   };
 
   return (
