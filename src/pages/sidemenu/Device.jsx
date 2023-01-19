@@ -6,6 +6,8 @@ import "../../assests/css/global.css";
 import { apiNames } from "../../routes/routeNames";
 import { Apiservice } from "../../services/apiServices";
 import "./Device.css";
+import { Switch } from "antd";
+import { Tabs } from "antd";
 
 function Device() {
   const [newDeviceLists, setNewDeviceLists] = useState([]);
@@ -14,14 +16,19 @@ function Device() {
   const [deviceName, setDeviceName] = useState("");
   const [deviceId, setDeviceId] = useState("");
   const [setupDevicePopup, setSetupDevicePopup] = useState(false);
+
+  const [setLightConfiguPopup, setSetupLightConfiguPopup] = useState(false);
+
   const [switchType1, setSwitchType1] = useState("");
   const [switchType2, setSwitchType2] = useState("");
   const [switchType3, setSwitchType3] = useState("");
   const [switchType4, setSwitchType4] = useState("");
   const [error, setError] = useState("");
 
+  const [result, setResult] = useState([]);
+
   useEffect(() => {
-    newDevices();
+    //newDevices();
     devices();
   }, []);
 
@@ -46,15 +53,39 @@ function Device() {
   const devices = () => {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
-        //console.log(res);
-        if (res.length === 0) {
-          setAvailableDevices([]);
-        } else if (res.length !== 0) {
-          let jsonObj = res[0].description;
-          let newDeviceLi = JSON.parse(jsonObj);
-          let jsonLines = newDeviceLi.lines;
-          setAvailableDevices(res);
-        }
+        setAvailableDevices(res);
+        console.log(res);
+        //  for (let i = 0; i < res.length; i++) {
+
+        //setResult((oldArray) => [...oldArray, res[i].description]);
+        //  }
+
+        //setTheArray(oldArray => [...oldArray, newElement]);
+        // console.log(res[0]);
+        // if (res.length === 0) {
+        //
+        // } else if (res.length !== 0) {
+        //   let jsonObj = res[0].description;
+        // let jsonObj1 = res[1].description;
+        //  let jsonObj2 = res[2].description;
+
+        //let newDeviceLi =JSON.parse(jsonObj);
+
+        // let newDeviceLi1 = JSON.parse(jsonObj1);
+        // let newDeviceLi2 = JSON.parse(jsonObj2);
+
+        //let jsonLines = newDeviceLi.lines;
+
+        // let jsonLines1 = newDeviceLi1.lines;
+
+        // let jsonLines2 = newDeviceLi2.lines;
+
+        //console.log(jsonLines);
+        // console.log(jsonLines1);
+        // console.log(jsonLines2);
+
+        //   setAvailableDevices(res);
+        // }
       })
       .catch((err) => {
         console.log(err);
@@ -63,13 +94,13 @@ function Device() {
 
   const content = (deviceDetails) => {
     // console.log(deviceDetails.description);
-    let jsonObj = deviceDetails.description;
-    let newDeviceLi = JSON.parse(jsonObj);
+    /// let jsonObj = deviceDetails.description;
+    // let newDeviceLi = JSON.parse(jsonObj);
 
     return (
       <div className="card">
-        <div className="card-body">
-          {/* Id: {deviceDetails.id} */}
+        {/* <div className="card-body">
+         
           <br />
           Name: {deviceDetails.deviceId}
           <br />
@@ -86,8 +117,8 @@ function Device() {
           Line 3: {newDeviceLi.lines[2].t}
           <br />
           Line 4: {newDeviceLi.lines[3].t}
-          <br />
-        </div>
+          <br /> */}
+        {/* </div> */}
       </div>
     );
   };
@@ -121,11 +152,16 @@ function Device() {
       switchType4 !== ""
     ) {
       setError("");
-      let upd = newDeviceLists.lines[0];
-      upd.Name = switchType1;
-      console.log(upd);
-      let zzz = newDeviceLists.lines[0].Add(upd);
-      console.log(zzz);
+      console.log(deviceName);
+      console.log(switchType1);
+      console.log(switchType2);
+      console.log(switchType3);
+      console.log(switchType4);
+      // let upd = newDeviceLists.lines[0];
+      // upd.Name = switchType1;
+      // console.log(upd);
+      //let zzz = newDeviceLists.lines[0].Add(upd);
+      //console.log(zzz);
     } else {
       setError("All the fields are required");
     }
@@ -148,13 +184,35 @@ function Device() {
     //     console.log(err);
     //   });
   };
+  const onChange = (checked) => {
+    console.log(`switch to ${checked}`);
+  };
 
+  const onChangeTabs = (key) => {
+    console.log(key);
+  };
+  const items = [
+    {
+      key: "1",
+      label: <h5>Light</h5>,
+      // children: `Content of Tab Pane 1`,
+    },
+    {
+      key: "2",
+      label: <h5>Switches</h5>,
+      // children: `Content of Tab Pane 2`,
+    },
+    {
+      key: "3",
+      label: <h5>PowerPoint</h5>,
+      // children: `Content of Tab Pane 3`,
+    },
+  ];
   return (
     <>
       <div className="row">
-        <div className="col-6">
-          <label className="ModuleHeading">Connected devices</label>
-        </div>
+        <Tabs defaultActiveKey="1" items={items} onChange={onChangeTabs} />
+        <div className="col-6"></div>
         <div className="col-6 text-end">
           <div>
             <Icon
@@ -172,37 +230,81 @@ function Device() {
       </div>
 
       <div className="row pb-4 color text-center">
-        {availableDevices.length !== 0 ? (
-          <>
-            {availableDevices.map((deviceDetails, index) => (
-              <div
-                key={`${deviceDetails.id}${index}`}
-                className="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3"
+        {/* {availableDevices.length !== 0 ? ( */}
+        <>
+          {/* {availableDevices.map((deviceDetails, index) => (
+            <div
+              key={`${deviceDetails.id}${index}`}
+              className="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3"
+            >
+              <Popover
+                content={content(deviceDetails)}
+                trigger="hover"
+                placement="bottom"
               >
-                <Popover
-                  content={content(deviceDetails)}
-                  trigger="hover"
-                  placement="bottom"
-                >
-                  <div className="card h-100">
-                    <div className="card-body">
-                      <p className="FormContent">
-                        ID: {deviceDetails.deviceId}
-                      </p>
-                      <p className="FormContent">
-                        Name: {deviceDetails.deviceName}
-                      </p>
+                <div className="card h-100">
+                  <div className="card-body">
+                    <p className="FormContent">ID: {deviceDetails.deviceId}</p>
+                    <p className="FormContent">
+                      Name: {deviceDetails.deviceName}
+                    </p>
+                  </div>
+                </div>
+              </Popover>
+            </div>
+          ))} */}
+
+          <div class="container">
+            <div class="row">
+              <div class="col-2"></div>
+              <div class="col-8">
+                <div className=" col-12 text-center">
+                  <div className="col-md-12 mt-4 ">
+                    <div
+                      onClick={() => {
+                        setSetupLightConfiguPopup(true);
+                      }}
+                    >
+                      <div className="card-body">
+                        {availableDevices.map((deviceDetails, index) => (
+                          <div
+                            key={`${deviceDetails.id}${index}`}
+                            className="col-sm-12 col-md-8 col-lg-12 col-xl-12 col-xxl-3 mt-3"
+                          >
+                            <div className="card mt-3">
+                              <p className="FormContent">
+                                <div>
+                                  {JSON.parse(deviceDetails.description)?.id}
+                                  {deviceDetails.description &&
+                                    JSON.parse(
+                                      deviceDetails.description
+                                    )?.lines.map((item, index) => (
+                                      <>
+                                        <div key={index}>{item.name}</div>
+
+                                        {/* <div>{item.type}</div> */}
+                                      </>
+                                    ))}
+                                </div>
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </Popover>
+                </div>
               </div>
-            ))}
-          </>
-        ) : (
-          <div className="col-12 mt-3">
-            <p className="FormContent">No devices found</p>
+              <div class="col-2"></div>
+            </div>
           </div>
-        )}
+        </>
+        {/* ) : ( 
+        <div className="col-12 mt-3">
+           <p className="FormContent">No devices found</p>
+         
+        </div>
+         )} */}
       </div>
 
       <Modal
@@ -346,6 +448,44 @@ function Device() {
               </button>
             </div>
           </div>
+        </div>
+      </Modal>
+      <Modal
+        title={<label className="FormHeading">Light Info</label>}
+        centered
+        open={setLightConfiguPopup}
+        onOk={() => setSetupLightConfiguPopup(false)}
+        onCancel={() => setSetupLightConfiguPopup(false)}
+        width={500}
+        footer={null}
+        maskClosable={false}
+        //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
+      >
+        <div className="card-body">
+          {availableDevices.map((deviceDetails, index) => (
+            <div
+              key={`${deviceDetails.id}${index}`}
+              className="col-sm-12 col-md-8 col-lg-12 col-xl-12 col-xxl-3 mt-3"
+            >
+              <div className="card mt-3">
+                <p className="FormContent">
+                  <div>
+                    {JSON.parse(deviceDetails.description)?.id}
+                    {deviceDetails.description &&
+                      JSON.parse(deviceDetails.description)?.lines.map(
+                        (item, index) => (
+                          <>
+                            <div key={index}>{item.name}</div>
+
+                            {/* <div>{item.type}</div> */}
+                          </>
+                        )
+                      )}
+                  </div>
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </Modal>
     </>
