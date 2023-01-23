@@ -27,6 +27,7 @@ function Device() {
   const [modalData, setModalData] = useState(null);
   const [first, setfirst] = useState([]);
   const [lines, setLines] = useState([]);
+  const [descriptionId, setDescriptionId] = useState("");
 
   useEffect(() => {
     newDevices();
@@ -42,7 +43,7 @@ function Device() {
   const newDevices = () => {
     Apiservice.getLists(apiNames.newDeviceLists)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.length === 0) {
           setNewDeviceLists([]);
         } else {
@@ -127,7 +128,17 @@ function Device() {
   };
 
   const updateSwitchType = () => {
-    console.log(lines);
+    //console.log(lines);
+    //console.log(newDeviceLists);
+    const updatedLineNames = {
+      deviceId: deviceId,
+      description: {
+        id: descriptionId,
+        lines: lines,
+      },
+    };
+
+    console.log(updatedLineNames);
     // if (
     //   deviceName !== "" &&
     //   switchType1 !== "" &&
@@ -164,13 +175,16 @@ function Device() {
     //   });
   };
 
-  const showDeviceData = (details, desc) => {
+  const showDeviceData = (details, desc, deviceId, descriptionId) => {
+    console.log(details);
+    console.log(desc);
+    setDeviceId(deviceId);
+    setDescriptionId(descriptionId);
+    console.log(descriptionId);
     setShowDeviceDetails(true);
     let json = JSON.parse(desc);
-    //  console.log(json.lines);
-    //  console.log(details);
     let description = JSON.parse(details.description);
-    console.log(description);
+    //console.log(description);
     setLines(json.lines);
     setModalData(description);
   };
@@ -232,7 +246,12 @@ function Device() {
           >
             <div
               onClick={() =>
-                showDeviceData(deviceDetails, deviceDetails.description)
+                showDeviceData(
+                  deviceDetails,
+                  deviceDetails.description,
+                  deviceDetails.deviceId,
+                  JSON.parse(deviceDetails.description)?.id
+                )
               }
               style={{ cursor: "pointer" }}
             >
