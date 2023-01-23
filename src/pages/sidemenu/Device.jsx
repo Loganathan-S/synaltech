@@ -1,13 +1,11 @@
 import { Icon } from "@iconify/react";
-import { Modal, Popover } from "antd";
+import { Button, Modal, Space } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../../assests/css/global.css";
 import { apiNames } from "../../routes/routeNames";
 import { Apiservice } from "../../services/apiServices";
 import "./Device.css";
-import { Switch } from "antd";
-import { Tabs } from "antd";
 
 function Device() {
   const [newDeviceLists, setNewDeviceLists] = useState([]);
@@ -16,21 +14,30 @@ function Device() {
   const [deviceName, setDeviceName] = useState("");
   const [deviceId, setDeviceId] = useState("");
   const [setupDevicePopup, setSetupDevicePopup] = useState(false);
-
-  const [setLightConfiguPopup, setSetupLightConfiguPopup] = useState(false);
-
   const [switchType1, setSwitchType1] = useState("");
   const [switchType2, setSwitchType2] = useState("");
   const [switchType3, setSwitchType3] = useState("");
   const [switchType4, setSwitchType4] = useState("");
   const [error, setError] = useState("");
-
-  const [result, setResult] = useState([]);
+  const [sample, setsample] = useState("");
+  const [showDeviceDetails, setShowDeviceDetails] = useState(false);
+  const [dataArray, setDataArry] = useState([]);
+  const [show, setShow] = React.useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalData, setModalData] = useState(null);
+  const [first, setfirst] = useState([]);
+  const [lines, setLines] = useState([]);
 
   useEffect(() => {
-    //newDevices();
+    newDevices();
     devices();
+    //showDeviceData()
   }, []);
+
+  const jparse = (_value) => {
+    setsample(JSON.parse(_value));
+    return JSON.parse(_value);
+  };
 
   const newDevices = () => {
     Apiservice.getLists(apiNames.newDeviceLists)
@@ -39,10 +46,10 @@ function Device() {
         if (res.length === 0) {
           setNewDeviceLists([]);
         } else {
-          let jsonObj = res[0].description;
-          let newDeviceLi = JSON.parse(jsonObj);
-          setDeviceId(res[0].id);
-          setNewDeviceLists(newDeviceLi);
+          // let jsonObj = res[0].description;
+          // let newDeviceLi = JSON.parse(jsonObj);
+          //setDeviceId(res[0].id);
+          setNewDeviceLists(res);
         }
       })
       .catch((err) => {
@@ -53,39 +60,15 @@ function Device() {
   const devices = () => {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
-        setAvailableDevices(res);
-        console.log(res);
-        //  for (let i = 0; i < res.length; i++) {
-
-        //setResult((oldArray) => [...oldArray, res[i].description]);
-        //  }
-
-        //setTheArray(oldArray => [...oldArray, newElement]);
-        // console.log(res[0]);
-        // if (res.length === 0) {
-        //
-        // } else if (res.length !== 0) {
-        //   let jsonObj = res[0].description;
-        // let jsonObj1 = res[1].description;
-        //  let jsonObj2 = res[2].description;
-
-        //let newDeviceLi =JSON.parse(jsonObj);
-
-        // let newDeviceLi1 = JSON.parse(jsonObj1);
-        // let newDeviceLi2 = JSON.parse(jsonObj2);
-
-        //let jsonLines = newDeviceLi.lines;
-
-        // let jsonLines1 = newDeviceLi1.lines;
-
-        // let jsonLines2 = newDeviceLi2.lines;
-
-        //console.log(jsonLines);
-        // console.log(jsonLines1);
-        // console.log(jsonLines2);
-
-        //   setAvailableDevices(res);
-        // }
+        //console.log(res);
+        if (res.length === 0) {
+          setAvailableDevices([]);
+        } else if (res.length !== 0) {
+          let jsonObj = res[0].description;
+          // let newDeviceLi = JSON.parse(jsonObj);
+          // let jsonLines = newDeviceLi.lines;
+          setAvailableDevices(res);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -94,13 +77,13 @@ function Device() {
 
   const content = (deviceDetails) => {
     // console.log(deviceDetails.description);
-    /// let jsonObj = deviceDetails.description;
-    // let newDeviceLi = JSON.parse(jsonObj);
+    let jsonObj = deviceDetails.description;
+    let newDeviceLi = JSON.parse(jsonObj);
 
     return (
       <div className="card">
-        {/* <div className="card-body">
-         
+        <div className="card-body">
+          {/* Id: {deviceDetails.id} */}
           <br />
           Name: {deviceDetails.deviceId}
           <br />
@@ -117,8 +100,8 @@ function Device() {
           Line 3: {newDeviceLi.lines[2].t}
           <br />
           Line 4: {newDeviceLi.lines[3].t}
-          <br /> */}
-        {/* </div> */}
+          <br />
+        </div>
       </div>
     );
   };
@@ -144,27 +127,23 @@ function Device() {
   };
 
   const updateSwitchType = () => {
-    if (
-      deviceName !== "" &&
-      switchType1 !== "" &&
-      switchType2 !== "" &&
-      switchType3 !== "" &&
-      switchType4 !== ""
-    ) {
-      setError("");
-      console.log(deviceName);
-      console.log(switchType1);
-      console.log(switchType2);
-      console.log(switchType3);
-      console.log(switchType4);
-      // let upd = newDeviceLists.lines[0];
-      // upd.Name = switchType1;
-      // console.log(upd);
-      //let zzz = newDeviceLists.lines[0].Add(upd);
-      //console.log(zzz);
-    } else {
-      setError("All the fields are required");
-    }
+    console.log(lines);
+    // if (
+    //   deviceName !== "" &&
+    //   switchType1 !== "" &&
+    //   switchType2 !== "" &&
+    //   switchType3 !== "" &&
+    //   switchType4 !== ""
+    // ) {
+    //   setError("");
+    //   let upd = newDeviceLists.lines[0];
+    //   upd.Name = switchType1;
+    //   console.log(upd);
+    //   let zzz = newDeviceLists.lines[0].Add(upd);
+    //   console.log(zzz);
+    // } else {
+    //   setError("All the fields are required");
+    // }
 
     // axios
     //   .post(`http://192.168.1.46:4000/updateDevice/${deviceId}`, {
@@ -184,35 +163,51 @@ function Device() {
     //     console.log(err);
     //   });
   };
-  const onChange = (checked) => {
-    console.log(`switch to ${checked}`);
+
+  const showDeviceData = (details, desc) => {
+    setShowDeviceDetails(true);
+    let json = JSON.parse(desc);
+    //  console.log(json.lines);
+    //  console.log(details);
+    let description = JSON.parse(details.description);
+    console.log(description);
+    setLines(json.lines);
+    setModalData(description);
   };
 
-  const onChangeTabs = (key) => {
-    console.log(key);
+  const handlePassInfoShow = (data) => {
+    setShow(true);
+    console.log(data);
   };
-  const items = [
-    {
-      key: "1",
-      label: <h5>Light</h5>,
-      // children: `Content of Tab Pane 1`,
-    },
-    {
-      key: "2",
-      label: <h5>Switches</h5>,
-      // children: `Content of Tab Pane 2`,
-    },
-    {
-      key: "3",
-      label: <h5>PowerPoint</h5>,
-      // children: `Content of Tab Pane 3`,
-    },
-  ];
+
+  const onchangeinput = (e, id) => {
+    //console.log(e);
+    //console.log(lines);
+    const { name, accept, value, align, alt, accessKey } = e.target;
+    const newItems = lines.map((item) => {
+      if (item.Id !== id) {
+        return { ...item };
+      }
+      return {
+        Id: id,
+        enable: name,
+        forceValue: accept,
+        line: value,
+        status: align,
+        t: alt,
+        value: accessKey,
+      };
+    });
+    setLines(newItems);
+  };
+
   return (
     <>
       <div className="row">
-        <Tabs defaultActiveKey="1" items={items} onChange={onChangeTabs} />
-        <div className="col-6"></div>
+        <div className="col-6">
+          <label className="ModuleHeading">Connected devices</label>
+        </div>
+
         <div className="col-6 text-end">
           <div>
             <Icon
@@ -229,83 +224,119 @@ function Device() {
         </div>
       </div>
 
-      <div className="row pb-4 color text-center">
-        {/* {availableDevices.length !== 0 ? ( */}
-        <>
-          {/* {availableDevices.map((deviceDetails, index) => (
+      <div className="row text-center">
+        {newDeviceLists.map((deviceDetails, index) => (
+          <div
+            key={`${deviceDetails.id}${index}`}
+            className="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3"
+          >
             <div
-              key={`${deviceDetails.id}${index}`}
-              className="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3"
+              onClick={() =>
+                showDeviceData(deviceDetails, deviceDetails.description)
+              }
+              style={{ cursor: "pointer" }}
             >
-              <Popover
-                content={content(deviceDetails)}
-                trigger="hover"
-                placement="bottom"
-              >
-                <div className="card h-100">
-                  <div className="card-body">
-                    <p className="FormContent">ID: {deviceDetails.deviceId}</p>
-                    <p className="FormContent">
-                      Name: {deviceDetails.deviceName}
-                    </p>
-                  </div>
+              <div className="card mt-3">
+                <div className="card-body FormContent">
+                  {JSON.parse(deviceDetails.description)?.id}
                 </div>
-              </Popover>
+              </div>
             </div>
-          ))} */}
+          </div>
+        ))}
+      </div>
 
-          <div class="container">
-            <div class="row">
-              <div class="col-2"></div>
-              <div class="col-8">
-                <div className=" col-12 text-center">
-                  <div className="col-md-12 mt-4 ">
-                    <div
-                      onClick={() => {
-                        setSetupLightConfiguPopup(true);
-                      }}
-                    >
-                      <div className="card-body">
-                        {availableDevices.map((deviceDetails, index) => (
-                          <div
-                            key={`${deviceDetails.id}${index}`}
-                            className="col-sm-12 col-md-8 col-lg-12 col-xl-12 col-xxl-3 mt-3"
-                          >
-                            <div className="card mt-3">
-                              <p className="FormContent">
-                                <div>
-                                  {JSON.parse(deviceDetails.description)?.id}
-                                  {deviceDetails.description &&
-                                    JSON.parse(
-                                      deviceDetails.description
-                                    )?.lines.map((item, index) => (
-                                      <>
-                                        <div key={index}>{item.name}</div>
+      <Modal
+        title={<label className="FormHeading">Device details</label>}
+        centered
+        open={showDeviceDetails}
+        onOk={() => setShowDeviceDetails(false)}
+        onCancel={() => setShowDeviceDetails(false)}
+        width={500}
+        footer={null}
+        maskClosable={false}
+        //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
+      >
+        <div className="row col-12">
+          <div className="form-group">
+            <>
+              <div>
+                <div
+                  className="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mt-3"
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="card mt-1">
+                    <div className="card-body FormContent">
+                      {/* <p className="FormContent">ID: {modalData.id}</p> */}
+                      {/* <p className="FormContent">Mac Id: {modalData.mac}</p> */}
+                      {/* <p className="FormContent">
+                        NoOfChennel: {modalData.NoOfChennel}
+                      </p> */}
 
-                                        {/* <div>{item.type}</div> */}
-                                      </>
-                                    ))}
-                                </div>
-                              </p>
+                      {Object.keys(lines).map((item, index) => (
+                        <div
+                          key={lines[item].Id}
+                          className="row mt-2 align-items-center"
+                        >
+                          <div className="col-2 ">Line{index + 1} :</div>
+                          <div className="col-10">
+                            <input
+                              name={lines[item].enable}
+                              accept={lines[item].forceValue}
+                              value={lines[item].line}
+                              align={lines[item].status}
+                              alt={lines[item].t}
+                              accessKey={lines[item].value}
+                              type="text"
+                              className="form-control"
+                              onChange={(e) => onchangeinput(e, lines[item].Id)}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                      <>
+                        {/* <p className="FormContent">ID:     {modalData?.id}</p>
+                     <p className="FormContent">Device ID: {modalData?.deviceId}</p>
+                     <p className="FormContent">mac Id: {JSON.parse(modalData.description)?.mac}</p>
+                     <p className="FormContent">NoOfChennel: {JSON.parse(modalData.description)?.NoOfChennel}</p> */}
+
+                        {/* {JSON.parse(modalData.description)?.lines.map((item,i) => {
+                        return (
+                          <div key={item.Id} className="row mt-2 align-items-center">
+                            <div className="col-2 ">
+                            Line :
+                            </div>
+                            <div className="col-10">
+                            <input
+                                name="roomRent"
+                                type="text"
+                                value={item.line}
+                                className="form-control"
+                                onChange={(e) => onchangeinput(e,item.Id)}
+                              />
                             </div>
                           </div>
-                        ))}
-                      </div>
+                        );
+                      })} */}
+                      </>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-2"></div>
-            </div>
+            </>
           </div>
-        </>
-        {/* ) : ( 
-        <div className="col-12 mt-3">
-           <p className="FormContent">No devices found</p>
-         
+
+          <div className="text-center mt-4 pt-2">
+            <button
+              type="button"
+              onClick={updateSwitchType}
+              className="btn btn-sm btn-outline-primary"
+            >
+              Update
+            </button>
+          </div>
         </div>
-         )} */}
-      </div>
+      </Modal>
 
       <Modal
         title={<label className="FormHeading">Add device</label>}
@@ -450,46 +481,52 @@ function Device() {
           </div>
         </div>
       </Modal>
-      <Modal
-        title={<label className="FormHeading">Light Info</label>}
-        centered
-        open={setLightConfiguPopup}
-        onOk={() => setSetupLightConfiguPopup(false)}
-        onCancel={() => setSetupLightConfiguPopup(false)}
-        width={500}
-        footer={null}
-        maskClosable={false}
-        //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
-      >
-        <div className="card-body">
-          {availableDevices.map((deviceDetails, index) => (
-            <div
-              key={`${deviceDetails.id}${index}`}
-              className="col-sm-12 col-md-8 col-lg-12 col-xl-12 col-xxl-3 mt-3"
-            >
-              <div className="card mt-3">
-                <p className="FormContent">
-                  <div>
-                    {JSON.parse(deviceDetails.description)?.id}
-                    {deviceDetails.description &&
-                      JSON.parse(deviceDetails.description)?.lines.map(
-                        (item, index) => (
-                          <>
-                            <div key={index}>{item.name}</div>
-
-                            {/* <div>{item.type}</div> */}
-                          </>
-                        )
-                      )}
-                  </div>
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Modal>
     </>
   );
 }
+
+// function Device() {
+//   const [items, setItems] = useState([
+//     { id: 1, name: "first", text: "first" },
+//     { id: 2, name: "second", text: "second" },
+//     { id: 3, name: "third", text: "third" },
+//   ]);
+
+//   const handleChange = (evt, id) => {
+//     const { name, value } = evt.target;
+
+//     const newItems = items.map((item) => {
+//       if (item.id !== id) {
+//         return { ...item };
+//       }
+
+//       return { id, name, text: value };
+//     });
+
+//     setItems(newItems);
+//   };
+
+//   const submit = () => {
+//     alert(JSON.stringify(items));
+//   };
+
+//   return (
+//     <div className="App">
+//       <h1>Example</h1>
+//       <form>
+//         {items.map((item) => (
+//           <div key={item.id}>
+//             <input
+//               name={item.name}
+//               value={item.text}
+//               onChange={(evt) => handleChange(evt, item.id)}
+//             />
+//           </div>
+//         ))}
+//         <button onClick={submit}>Submit</button>
+//       </form>
+//     </div>
+//   );
+// }
 
 export default Device;
