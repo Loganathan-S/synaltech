@@ -30,4 +30,5 @@ export const apiNames = {
   newSection: "newSection",
   locationLists: "locationList",
   newLocation: "newLocation",
+  lines: "device/line/",
 };
