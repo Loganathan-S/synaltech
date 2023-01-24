@@ -50,8 +50,8 @@ function Device() {
   };
 
   const updateSwitchType = () => {
-    console.log(lines);
-    console.log(newDeviceLists);
+    // console.log(lines);
+    //console.log(newDeviceLists);
 
     let descObj = {
       description: {
@@ -61,7 +61,7 @@ function Device() {
 
     Apiservice.addLines(`${apiNames.lines}${id}`, descObj)
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         setShowDeviceDetails(false);
         newDevices();
         devices();
@@ -78,26 +78,37 @@ function Device() {
     let description = JSON.parse(details.description);
     setLines(json.lines);
     setModalData(description);
+    //console.log(description);
   };
 
-  const onchangeinput = (e, id) => {
-    const { name, accept, value, align, alt, accessKey } = e.target;
-    const newItems = lines.map((item) => {
-      if (item.Id !== id) {
-        return { ...item };
-      }
-      return {
-        Id: id,
-        enable: name,
-        forceValue: accept,
-        line: value,
-        status: align,
-        t: alt,
-        value: accessKey,
-      };
-    });
-    setLines(newItems);
+  const onchangeinput = (e, inputIndex) => {
+    //console.log(inputIndex);
+    const { value } = e.target;
+    setLines((line) =>
+      line?.map((list, index) =>
+        index === inputIndex ? { ...list, line: value } : list
+      )
+    );
   };
+
+  // const onchangeinput = (e, id) => {
+  //   const { name, accept, value, align, alt, accessKey } = e.target;
+  //   const newItems = lines.map((item) => {
+  //     if (item.Id !== id) {
+  //       return { ...item };
+  //     }
+  //     return {
+  //       Id: id,
+  //       enable: name,
+  //       forceValue: accept,
+  //       line: value,
+  //       status: align,
+  //       t: alt,
+  //       value: accessKey,
+  //     };
+  //   });
+  //   setLines(newItems);
+  // };
 
   return (
     <>
@@ -169,20 +180,28 @@ function Device() {
                 >
                   <div className="card mt-1">
                     <div className="card-body FormContent">
-                      <div className="row mt-2 align-items-center">
-                        <div className="col-3 FormContent">ID:</div>
-                        <div className="col-9 FormContent">{modalData.id}</div>
-                      </div>
-                      <div className="row mt-2 align-items-center">
-                        <div className="col-3 FormContent">Mac Id:</div>
-                        <div className="col-9 FormContent">{modalData.mac}</div>
-                      </div>
-                      <div className="row mt-2 align-items-center">
-                        <div className="col-3 FormContent">Chennels:</div>
-                        <div className="col-9 FormContent">
-                          {modalData.NoOfChennel}
-                        </div>
-                      </div>
+                      {modalData && (
+                        <>
+                          <div className="row mt-2 align-items-center">
+                            <div className="col-3 FormContent">ID:</div>
+                            <div className="col-9 FormContent">
+                              {modalData.id}
+                            </div>
+                          </div>
+                          <div className="row mt-2 align-items-center">
+                            <div className="col-3 FormContent">Mac Id:</div>
+                            <div className="col-9 FormContent">
+                              {modalData.mac}
+                            </div>
+                          </div>
+                          <div className="row mt-2 align-items-center">
+                            <div className="col-3 FormContent">Channels:</div>
+                            <div className="col-9 FormContent">
+                              {modalData.NoOfChennel}
+                            </div>
+                          </div>
+                        </>
+                      )}
 
                       {Object.keys(lines).map((item, index) => (
                         <div
@@ -192,6 +211,14 @@ function Device() {
                           <div className="col-3">Line{index + 1} :</div>
                           <div className="col-9">
                             <input
+                              name="line"
+                              value={lines[item].line}
+                              type="text"
+                              className="form-control"
+                              onChange={(e) => onchangeinput(e, index)}
+                            />
+
+                            {/* <input
                               name={lines[item].enable}
                               accept={lines[item].forceValue}
                               value={lines[item].line}
@@ -201,7 +228,7 @@ function Device() {
                               type="text"
                               className="form-control"
                               onChange={(e) => onchangeinput(e, lines[item].Id)}
-                            />
+                            /> */}
                           </div>
                         </div>
                       ))}
