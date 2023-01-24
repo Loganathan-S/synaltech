@@ -12,7 +12,7 @@ function Device() {
   const [availableDevices, setAvailableDevices] = useState([]);
   const [availableDevicesPopup, setAvailableDevicesPopup] = useState(false);
   const [deviceName, setDeviceName] = useState("");
-  const [deviceId, setDeviceId] = useState("");
+  const [id, setId] = useState("");
   const [setupDevicePopup, setSetupDevicePopup] = useState(false);
   const [switchType1, setSwitchType1] = useState("");
   const [switchType2, setSwitchType2] = useState("");
@@ -27,18 +27,12 @@ function Device() {
   const [modalData, setModalData] = useState(null);
   const [first, setfirst] = useState([]);
   const [lines, setLines] = useState([]);
-  const [descriptionId, setDescriptionId] = useState("");
 
   useEffect(() => {
     newDevices();
     devices();
     //showDeviceData()
   }, []);
-
-  const jparse = (_value) => {
-    setsample(JSON.parse(_value));
-    return JSON.parse(_value);
-  };
 
   const newDevices = () => {
     Apiservice.getLists(apiNames.newDeviceLists)
@@ -49,7 +43,6 @@ function Device() {
         } else {
           // let jsonObj = res[0].description;
           // let newDeviceLi = JSON.parse(jsonObj);
-          //setDeviceId(res[0].id);
           setNewDeviceLists(res);
         }
       })
@@ -128,59 +121,34 @@ function Device() {
   };
 
   const updateSwitchType = () => {
-    //console.log(lines);
-    //console.log(newDeviceLists);
-    const updatedLineNames = {
-      deviceId: deviceId,
-      description: {
-        id: descriptionId,
-        lines: lines,
-      },
-    };
+    console.log(lines);
+    console.log(newDeviceLists);
+    // const updatedLineNames = {
+    //   id: id,
+    // description: {
+    //   lines: lines,
+    // },
+    // };
 
-    console.log(updatedLineNames);
-    // if (
-    //   deviceName !== "" &&
-    //   switchType1 !== "" &&
-    //   switchType2 !== "" &&
-    //   switchType3 !== "" &&
-    //   switchType4 !== ""
-    // ) {
-    //   setError("");
-    //   let upd = newDeviceLists.lines[0];
-    //   upd.Name = switchType1;
-    //   console.log(upd);
-    //   let zzz = newDeviceLists.lines[0].Add(upd);
-    //   console.log(zzz);
-    // } else {
-    //   setError("All the fields are required");
-    // }
-
-    // axios
-    //   .post(`http://192.168.1.46:4000/updateDevice/${deviceId}`, {
-    //     deviceName: deviceName,
-    //     // zoneId: zoneId,
-    //     // sectionId: sectionId,
-    //     // locationId: locationId,
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //     setAvailableDevicesPopup("");
-    //     setSetupDevicePopup("");
-    //     setDeviceName("");
-    //     devices();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios
+      .post(`http://192.168.1.46:4000/device/line/${id}`, {
+        description: {
+          lines: lines,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const showDeviceData = (details, desc, deviceId, descriptionId) => {
-    console.log(details);
-    console.log(desc);
-    setDeviceId(deviceId);
-    setDescriptionId(descriptionId);
-    console.log(descriptionId);
+  const showDeviceData = (details, desc, Id) => {
+    // console.log(details);
+    // console.log(desc);
+    setId(Id);
+    // console.log(descriptionId);
     setShowDeviceDetails(true);
     let json = JSON.parse(desc);
     let description = JSON.parse(details.description);
@@ -249,8 +217,7 @@ function Device() {
                 showDeviceData(
                   deviceDetails,
                   deviceDetails.description,
-                  deviceDetails.deviceId,
-                  JSON.parse(deviceDetails.description)?.id
+                  deviceDetails.id
                 )
               }
               style={{ cursor: "pointer" }}
