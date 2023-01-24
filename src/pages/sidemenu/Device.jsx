@@ -1,6 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Button, Modal, Space } from "antd";
-import axios from "axios";
+import { Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import "../../assests/css/global.css";
 import { apiNames } from "../../routes/routeNames";
@@ -11,38 +10,22 @@ function Device() {
   const [newDeviceLists, setNewDeviceLists] = useState([]);
   const [availableDevices, setAvailableDevices] = useState([]);
   const [availableDevicesPopup, setAvailableDevicesPopup] = useState(false);
-  const [deviceName, setDeviceName] = useState("");
   const [id, setId] = useState("");
-  const [setupDevicePopup, setSetupDevicePopup] = useState(false);
-  const [switchType1, setSwitchType1] = useState("");
-  const [switchType2, setSwitchType2] = useState("");
-  const [switchType3, setSwitchType3] = useState("");
-  const [switchType4, setSwitchType4] = useState("");
-  const [error, setError] = useState("");
-  const [sample, setsample] = useState("");
   const [showDeviceDetails, setShowDeviceDetails] = useState(false);
-  const [dataArray, setDataArry] = useState([]);
-  const [show, setShow] = React.useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [first, setfirst] = useState([]);
   const [lines, setLines] = useState([]);
 
   useEffect(() => {
     newDevices();
     devices();
-    //showDeviceData()
   }, []);
 
   const newDevices = () => {
     Apiservice.getLists(apiNames.newDeviceLists)
       .then((res) => {
-        // console.log(res);
         if (res.length === 0) {
           setNewDeviceLists([]);
         } else {
-          // let jsonObj = res[0].description;
-          // let newDeviceLi = JSON.parse(jsonObj);
           setNewDeviceLists(res);
         }
       })
@@ -54,13 +37,10 @@ function Device() {
   const devices = () => {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
-        //console.log(res);
         if (res.length === 0) {
           setAvailableDevices([]);
         } else if (res.length !== 0) {
           let jsonObj = res[0].description;
-          // let newDeviceLi = JSON.parse(jsonObj);
-          // let jsonLines = newDeviceLi.lines;
           setAvailableDevices(res);
         }
       })
@@ -70,15 +50,12 @@ function Device() {
   };
 
   const content = (deviceDetails) => {
-    // console.log(deviceDetails.description);
     let jsonObj = deviceDetails.description;
     let newDeviceLi = JSON.parse(jsonObj);
 
     return (
       <div className="card">
         <div className="card-body">
-          {/* Id: {deviceDetails.id} */}
-          <br />
           Name: {deviceDetails.deviceId}
           <br />
           DeviceName: {deviceDetails.deviceName}
@@ -100,26 +77,6 @@ function Device() {
     );
   };
 
-  const deviceNameChange = (e) => {
-    setDeviceName(e.target.value);
-  };
-
-  const configureSwitch1 = (e) => {
-    setSwitchType1(e.target.value);
-  };
-
-  const configureSwitch2 = (e) => {
-    setSwitchType2(e.target.value);
-  };
-
-  const configureSwitch3 = (e) => {
-    setSwitchType3(e.target.value);
-  };
-
-  const configureSwitch4 = (e) => {
-    setSwitchType4(e.target.value);
-  };
-
   const updateSwitchType = () => {
     console.log(lines);
     console.log(newDeviceLists);
@@ -133,6 +90,9 @@ function Device() {
     Apiservice.addLines(`${apiNames.lines}${id}`, descObj)
       .then((response) => {
         console.log(response);
+        setShowDeviceDetails(false);
+        newDevices();
+        devices();
       })
       .catch((err) => {
         console.log(err);
@@ -140,26 +100,15 @@ function Device() {
   };
 
   const showDeviceData = (details, desc, Id) => {
-    // console.log(details);
-    // console.log(desc);
     setId(Id);
-    // console.log(descriptionId);
     setShowDeviceDetails(true);
     let json = JSON.parse(desc);
     let description = JSON.parse(details.description);
-    //console.log(description);
     setLines(json.lines);
     setModalData(description);
   };
 
-  const handlePassInfoShow = (data) => {
-    setShow(true);
-    console.log(data);
-  };
-
   const onchangeinput = (e, id) => {
-    //console.log(e);
-    //console.log(lines);
     const { name, accept, value, align, alt, accessKey } = e.target;
     const newItems = lines.map((item) => {
       if (item.Id !== id) {
@@ -275,31 +224,6 @@ function Device() {
                           </div>
                         </div>
                       ))}
-                      <>
-                        {/* <p className="FormContent">ID:     {modalData?.id}</p>
-                     <p className="FormContent">Device ID: {modalData?.deviceId}</p>
-                     <p className="FormContent">mac Id: {JSON.parse(modalData.description)?.mac}</p>
-                     <p className="FormContent">NoOfChennel: {JSON.parse(modalData.description)?.NoOfChennel}</p> */}
-
-                        {/* {JSON.parse(modalData.description)?.lines.map((item,i) => {
-                        return (
-                          <div key={item.Id} className="row mt-2 align-items-center">
-                            <div className="col-2 ">
-                            Line :
-                            </div>
-                            <div className="col-10">
-                            <input
-                                name="roomRent"
-                                type="text"
-                                value={item.line}
-                                className="form-control"
-                                onChange={(e) => onchangeinput(e,item.Id)}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })} */}
-                      </>
                     </div>
                   </div>
                 </div>
@@ -346,10 +270,7 @@ function Device() {
                   </div>
                 </div>
                 <div className="text-center mt-3">
-                  <button
-                    onClick={() => setSetupDevicePopup(true)}
-                    className="btn btn-sm btn-outline-primary"
-                  >
+                  <button className="btn btn-sm btn-outline-primary">
                     Setup
                   </button>
                 </div>
@@ -359,155 +280,8 @@ function Device() {
           </div>
         </div>
       </Modal>
-
-      <Modal
-        title={<label className="FormHeading">Setup device</label>}
-        centered
-        open={setupDevicePopup}
-        onOk={() => setSetupDevicePopup(false)}
-        onCancel={() => setSetupDevicePopup(false)}
-        width={500}
-        footer={null}
-        maskClosable={false}
-        //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
-      >
-        <div className="row col-12">
-          <div className="form-group">
-            <label className="FormContent">Device name</label>
-            <input
-              type={"text"}
-              className="form-control FormPlaceholder mt-1"
-              name="deviceName"
-              value={deviceName}
-              onChange={deviceNameChange}
-              placeholder="Enter device name"
-            />
-
-            <label className="FormContent mt-3">Switch 1</label>
-            <select
-              className="form-select FormPlaceholder mt-1"
-              name="switchType1"
-              value={switchType1}
-              onChange={configureSwitch1}
-            >
-              <option>Select switch type</option>
-              <option value="Fan">Fan</option>
-              <option value="CeilingLight">Ceiling Light</option>
-              <option value="AirConditioner">Air Conditioner</option>
-              <option value="PowerSocket">Power Socket</option>
-            </select>
-
-            <label className="FormContent mt-3">Switch 2</label>
-            <select
-              className="form-select FormPlaceholder mt-1"
-              name="switchType2"
-              value={switchType2}
-              onChange={configureSwitch2}
-              multiple={false}
-            >
-              <option>Select switch type</option>
-              <option value="Fan">Fan</option>
-              <option value="CeilingLight">Ceiling Light</option>
-              <option value="AirConditioner">Air Conditioner</option>
-              <option value="PowerSocket">Power Socket</option>
-            </select>
-
-            <label className="FormContent mt-3">Switch 3</label>
-            <select
-              className="form-select FormPlaceholder mt-1"
-              name="switchType3"
-              value={switchType3}
-              onChange={configureSwitch3}
-              multiple={false}
-            >
-              <option>Select switch type</option>
-              <option value="Fan">Fan</option>
-              <option value="CeilingLight">Ceiling Light</option>
-              <option value="AirConditioner">Air Conditioner</option>
-              <option value="PowerSocket">Power Socket</option>
-            </select>
-
-            <label className="FormContent mt-3">Switch 4</label>
-            <select
-              className="form-select FormPlaceholder mt-1"
-              name="switchType4"
-              value={switchType4}
-              onChange={configureSwitch4}
-              multiple={false}
-            >
-              <option>Select switch type</option>
-              <option value="Fan">Fan</option>
-              <option value="CeilingLight">Ceiling Light</option>
-              <option value="AirConditioner">Air Conditioner</option>
-              <option value="PowerSocket">Power Socket</option>
-            </select>
-          </div>
-
-          <div className="position-relative text-danger">
-            <div
-              className="position-absolute mt-2"
-              style={{ marginLeft: "29%" }}
-            >
-              {error}
-            </div>
-            <div className="text-center mt-4 pt-2">
-              <button
-                type="button"
-                onClick={updateSwitchType}
-                className="btn btn-sm btn-outline-primary"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      </Modal>
     </>
   );
 }
-
-// function Device() {
-//   const [items, setItems] = useState([
-//     { id: 1, name: "first", text: "first" },
-//     { id: 2, name: "second", text: "second" },
-//     { id: 3, name: "third", text: "third" },
-//   ]);
-
-//   const handleChange = (evt, id) => {
-//     const { name, value } = evt.target;
-
-//     const newItems = items.map((item) => {
-//       if (item.id !== id) {
-//         return { ...item };
-//       }
-
-//       return { id, name, text: value };
-//     });
-
-//     setItems(newItems);
-//   };
-
-//   const submit = () => {
-//     alert(JSON.stringify(items));
-//   };
-
-//   return (
-//     <div className="App">
-//       <h1>Example</h1>
-//       <form>
-//         {items.map((item) => (
-//           <div key={item.id}>
-//             <input
-//               name={item.name}
-//               value={item.text}
-//               onChange={(evt) => handleChange(evt, item.id)}
-//             />
-//           </div>
-//         ))}
-//         <button onClick={submit}>Submit</button>
-//       </form>
-//     </div>
-//   );
-// }
 
 export default Device;
