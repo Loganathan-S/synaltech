@@ -59,7 +59,7 @@ export class Apiservice {
 
   static addLines = async (apiname, descObj) => {
     return await axios.post(baseUrl + apiname, descObj).then((response) => {
-      return response.data;
+      return response;
     });
   };
 }
