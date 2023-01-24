@@ -123,19 +123,14 @@ function Device() {
   const updateSwitchType = () => {
     console.log(lines);
     console.log(newDeviceLists);
-    // const updatedLineNames = {
-    //   id: id,
-    // description: {
-    //   lines: lines,
-    // },
-    // };
 
-    axios
-      .post(`http://192.168.1.46:4000/device/line/${id}`, {
-        description: {
-          lines: lines,
-        },
-      })
+    let descObj = {
+      description: {
+        lines: lines,
+      },
+    };
+
+    Apiservice.addLines(`${apiNames.lines}${id}`, descObj)
       .then((response) => {
         console.log(response);
       })

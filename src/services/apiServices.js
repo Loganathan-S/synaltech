@@ -56,4 +56,10 @@ export class Apiservice {
         return response.data;
       });
   };
+
+  static addLines = async (apiname, descObj) => {
+    return await axios.post(baseUrl + apiname, descObj).then((response) => {
+      return response.data;
+    });
+  };
 }
