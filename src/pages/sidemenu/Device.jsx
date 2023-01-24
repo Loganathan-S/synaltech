@@ -49,34 +49,6 @@ function Device() {
       });
   };
 
-  const content = (deviceDetails) => {
-    let jsonObj = deviceDetails.description;
-    let newDeviceLi = JSON.parse(jsonObj);
-
-    return (
-      <div className="card">
-        <div className="card-body">
-          Name: {deviceDetails.deviceId}
-          <br />
-          DeviceName: {deviceDetails.deviceName}
-          <br></br>
-          name: {newDeviceLi.name}
-          <br />
-          MacId: {newDeviceLi.mac}
-          <br />
-          Line 1: {newDeviceLi.lines[0].t}
-          <br />
-          Line 2: {newDeviceLi.lines[1].t}
-          <br />
-          Line 3: {newDeviceLi.lines[2].t}
-          <br />
-          Line 4: {newDeviceLi.lines[3].t}
-          <br />
-        </div>
-      </div>
-    );
-  };
-
   const updateSwitchType = () => {
     console.log(lines);
     console.log(newDeviceLists);
@@ -197,19 +169,28 @@ function Device() {
                 >
                   <div className="card mt-1">
                     <div className="card-body FormContent">
-                      {/* <p className="FormContent">ID: {modalData.id}</p> */}
-                      {/* <p className="FormContent">Mac Id: {modalData.mac}</p> */}
-                      {/* <p className="FormContent">
-                        NoOfChennel: {modalData.NoOfChennel}
-                      </p> */}
+                      <div className="row mt-2 align-items-center">
+                        <div className="col-3 FormContent">ID:</div>
+                        <div className="col-9 FormContent">{modalData.id}</div>
+                      </div>
+                      <div className="row mt-2 align-items-center">
+                        <div className="col-3 FormContent">Mac Id:</div>
+                        <div className="col-9 FormContent">{modalData.mac}</div>
+                      </div>
+                      <div className="row mt-2 align-items-center">
+                        <div className="col-3 FormContent">Chennels:</div>
+                        <div className="col-9 FormContent">
+                          {modalData.NoOfChennel}
+                        </div>
+                      </div>
 
                       {Object.keys(lines).map((item, index) => (
                         <div
                           key={lines[item].Id}
-                          className="row mt-2 align-items-center"
+                          className="row mt-3 mb-3 align-items-center"
                         >
-                          <div className="col-2 ">Line{index + 1} :</div>
-                          <div className="col-10">
+                          <div className="col-3">Line{index + 1} :</div>
+                          <div className="col-9">
                             <input
                               name={lines[item].enable}
                               accept={lines[item].forceValue}
@@ -231,7 +212,7 @@ function Device() {
             </>
           </div>
 
-          <div className="text-center mt-4 pt-2">
+          <div className="text-center mt-2 pt-2">
             <button
               type="button"
               onClick={updateSwitchType}
