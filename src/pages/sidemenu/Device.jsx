@@ -12,7 +12,7 @@ function Device() {
   const [availableDevices, setAvailableDevices] = useState([]);
   const [availableDevicesPopup, setAvailableDevicesPopup] = useState(false);
   const [deviceName, setDeviceName] = useState("");
-  const [deviceId, setDeviceId] = useState("");
+  const [id, setId] = useState("");
   const [setupDevicePopup, setSetupDevicePopup] = useState(false);
   const [switchType1, setSwitchType1] = useState("");
   const [switchType2, setSwitchType2] = useState("");
@@ -34,21 +34,15 @@ function Device() {
     //showDeviceData()
   }, []);
 
-  const jparse = (_value) => {
-    setsample(JSON.parse(_value));
-    return JSON.parse(_value);
-  };
-
   const newDevices = () => {
     Apiservice.getLists(apiNames.newDeviceLists)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.length === 0) {
           setNewDeviceLists([]);
         } else {
           // let jsonObj = res[0].description;
           // let newDeviceLi = JSON.parse(jsonObj);
-          //setDeviceId(res[0].id);
           setNewDeviceLists(res);
         }
       })
@@ -128,49 +122,37 @@ function Device() {
 
   const updateSwitchType = () => {
     console.log(lines);
-    // if (
-    //   deviceName !== "" &&
-    //   switchType1 !== "" &&
-    //   switchType2 !== "" &&
-    //   switchType3 !== "" &&
-    //   switchType4 !== ""
-    // ) {
-    //   setError("");
-    //   let upd = newDeviceLists.lines[0];
-    //   upd.Name = switchType1;
-    //   console.log(upd);
-    //   let zzz = newDeviceLists.lines[0].Add(upd);
-    //   console.log(zzz);
-    // } else {
-    //   setError("All the fields are required");
-    // }
+    console.log(newDeviceLists);
+    // const updatedLineNames = {
+    //   id: id,
+    // description: {
+    //   lines: lines,
+    // },
+    // };
 
-    // axios
-    //   .post(`http://192.168.1.46:4000/updateDevice/${deviceId}`, {
-    //     deviceName: deviceName,
-    //     // zoneId: zoneId,
-    //     // sectionId: sectionId,
-    //     // locationId: locationId,
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //     setAvailableDevicesPopup("");
-    //     setSetupDevicePopup("");
-    //     setDeviceName("");
-    //     devices();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios
+      .post(`http://192.168.1.46:4000/device/line/${id}`, {
+        description: {
+          lines: lines,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const showDeviceData = (details, desc) => {
+  const showDeviceData = (details, desc, Id) => {
+    // console.log(details);
+    // console.log(desc);
+    setId(Id);
+    // console.log(descriptionId);
     setShowDeviceDetails(true);
     let json = JSON.parse(desc);
-    //  console.log(json.lines);
-    //  console.log(details);
     let description = JSON.parse(details.description);
-    console.log(description);
+    //console.log(description);
     setLines(json.lines);
     setModalData(description);
   };
@@ -232,7 +214,11 @@ function Device() {
           >
             <div
               onClick={() =>
-                showDeviceData(deviceDetails, deviceDetails.description)
+                showDeviceData(
+                  deviceDetails,
+                  deviceDetails.description,
+                  deviceDetails.id
+                )
               }
               style={{ cursor: "pointer" }}
             >
