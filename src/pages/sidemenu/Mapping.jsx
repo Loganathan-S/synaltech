@@ -87,7 +87,7 @@ function Mapping() {
     },
     {
       key: "2",
-      label: <h5>Switches</h5>,
+      label: <h5>USB</h5>,
       children: (
         <div>
           {availableDevices.map((deviceDetails, index) => (
