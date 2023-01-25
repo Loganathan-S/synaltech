@@ -11,6 +11,7 @@ function Mapping() {
   const [availableDevices, setAvailableDevices] = useState([]);
   const [setLightConfiguPopup, setSetupLightConfiguPopup] = useState(false);
   const [popupDetails, setPopupDetails] = useState([]);
+  const [value, setValue] = useState();
   const [modalId, setModalId] = useState("");
   const [type, settype] = useState("");
 
@@ -19,13 +20,13 @@ function Mapping() {
   }, []);
 
   const modalOpen = (details, id) => {
-    console.log(details);
+    //console.log(details);
     setModalId(id);
-    console.log(id);
+    //console.log(id);
     setSetupLightConfiguPopup(true);
     settype(details.type);
-
     setPopupDetails(details);
+    setValue(details.value);
   };
 
   const devices = () => {
@@ -182,6 +183,14 @@ function Mapping() {
       .post(`http://192.168.1.46:4000/device/line/action/${modalId}`, descObj)
       .then((response) => {
         console.log(response);
+        setValue((prevState) => {
+          if (prevState === 0) {
+            return (prevState = 1);
+          } else if (prevState === 1) {
+            return (prevState = 0);
+          }
+        });
+        devices();
       })
       .catch((err) => console.log(err));
   };
@@ -217,12 +226,13 @@ function Mapping() {
               <hr />
               <div className="col-3 FormHeadingLight">Value:</div>
               <div className="col-9 p-1">
-                <label class="switch">
+                <label className="switch">
                   <input
                     type="checkbox"
                     onChange={(e) => onChangeModal(e, popupDetails.id, modalId)}
+                    checked={value === 1 ? true : false}
                   />
-                  <span class="slider round"></span>
+                  <span className="slider round"></span>
                 </label>
               </div>
               <hr />

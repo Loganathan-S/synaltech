@@ -173,7 +173,7 @@ function Device() {
 
                       {Object.keys(lines).map((item, index) => (
                         <div
-                          key={lines[item].Id}
+                          key={`${lines[item].Id}${index}`}
                           className="row mt-3 mb-3 align-items-center"
                         >
                           <div className="col-2">Line{index + 1} :</div>
