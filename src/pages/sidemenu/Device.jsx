@@ -19,7 +19,7 @@ function Device() {
   }, []);
 
   const newDevices = () => {
-    Apiservice.getLists(apiNames.newDeviceLists)
+    Apiservice.getLists(apiNames.deviceLists) //newDeviceLists
       .then((res) => {
         console.log(res);
         if (res.length === 0) {
@@ -60,11 +60,20 @@ function Device() {
     setModalData(description);
   };
 
-  const onchangeinput = (e, inputIndex) => {
+  const onChangeType = (e, inputIndex) => {
     const { value } = e.target;
-    setLines((line) =>
-      line?.map((list, index) =>
-        index === inputIndex ? { ...list, line: value } : list
+    setLines((type) =>
+      type?.map((list, index) =>
+        index === inputIndex ? { ...list, type: value } : list
+      )
+    );
+  };
+
+  const onChangeName = (e, inputIndex) => {
+    const { value } = e.target;
+    setLines((name) =>
+      name?.map((list, index) =>
+        index === inputIndex ? { ...list, name: value } : list
       )
     );
   };
@@ -124,7 +133,7 @@ function Device() {
         open={showDeviceDetails}
         onOk={() => setShowDeviceDetails(false)}
         onCancel={() => setShowDeviceDetails(false)}
-        width={500}
+        width={600}
         footer={null}
         maskClosable={false}
         //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
@@ -156,7 +165,7 @@ function Device() {
                           <div className="row mt-2 align-items-center">
                             <div className="col-3 FormContent">Channels:</div>
                             <div className="col-9 FormContent">
-                              {modalData.NoOfChennel}
+                              {modalData.name}
                             </div>
                           </div>
                         </>
@@ -167,14 +176,24 @@ function Device() {
                           key={lines[item].Id}
                           className="row mt-3 mb-3 align-items-center"
                         >
-                          <div className="col-3">Line{index + 1} :</div>
-                          <div className="col-9">
+                          <div className="col-2">Line{index + 1} :</div>
+                          <div className="col-4">
                             <input
                               name="line"
-                              value={lines[item].line}
+                              value={lines[item].type}
                               type="text"
                               className="form-control"
-                              onChange={(e) => onchangeinput(e, index)}
+                              onChange={(e) => onChangeType(e, index)}
+                            />
+                          </div>
+                          <div className="col-2">Place :</div>
+                          <div className="col-4">
+                            <input
+                              name="line"
+                              value={lines[item].name}
+                              type="text"
+                              className="form-control"
+                              onChange={(e) => onChangeName(e, index)}
                             />
                           </div>
                         </div>

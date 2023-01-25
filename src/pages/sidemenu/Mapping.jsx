@@ -53,7 +53,7 @@ function Mapping() {
             <div key={`${deviceDetails.id}${index}`} className="row">
               {deviceDetails.description &&
                 JSON.parse(deviceDetails.description)
-                  ?.lines.filter((d) => d.type === "light")
+                  ?.lines.filter((d) => d.type === "Light")
                   .map((item, index) => (
                     <div
                       key={`${item.id}${index}`}
@@ -87,14 +87,14 @@ function Mapping() {
     },
     {
       key: "2",
-      label: <h5>Switches</h5>,
+      label: <h5>USB</h5>,
       children: (
         <div>
           {availableDevices.map((deviceDetails, index) => (
             <div key={`${deviceDetails.id}${index}`} className="row">
               {deviceDetails.description &&
                 JSON.parse(deviceDetails.description)
-                  ?.lines.filter((d) => d.type === "switch")
+                  ?.lines.filter((d) => d.type === "USB")
                   .map((item, index) => (
                     <div
                       key={`${item.id}${index}`}
@@ -126,14 +126,14 @@ function Mapping() {
     },
     {
       key: "3",
-      label: <h5>PowerPoint</h5>,
+      label: <h5>Power Socket</h5>,
       children: (
         <div>
           {availableDevices.map((deviceDetails, index) => (
             <div key={`${deviceDetails.id}${index}`} className="row">
               {deviceDetails.description &&
                 JSON.parse(deviceDetails.description)
-                  ?.lines.filter((d) => d.type === "powerpoint")
+                  ?.lines.filter((d) => d.type === "Power socket")
                   .map((item, index) => (
                     <div
                       key={`${item.id}${index}`}
@@ -220,15 +220,6 @@ function Mapping() {
                 <label class="switch">
                   <input
                     type="checkbox"
-                    autocapitalize={popupDetails.name}
-                    autocomplete={popupDetails.type}
-                    dir={popupDetails.status}
-                    dirName={popupDetails.enable}
-                    elementTiming={popupDetails.forceValue}
-                    enterKeyHint={popupDetails.ts}
-                    formMethod={popupDetails.dim}
-                    formTarget={popupDetails.dimValue}
-                    innerText={popupDetails.group}
                     onChange={(e) => onChangeModal(e, popupDetails.id, modalId)}
                   />
                   <span class="slider round"></span>
@@ -247,8 +238,6 @@ function Mapping() {
               <div className="col-9">{popupDetails.dim}</div> <hr />
               <div className="col-3 FormHeadingLight">DimValue:</div>
               <div className="col-9">{popupDetails.dimValue}</div> <hr />
-              <div className="col-3 FormHeadingLight">Group:</div>
-              <div className="col-9">{popupDetails.group}</div> <hr />
             </div>
           </div>
         </div>
