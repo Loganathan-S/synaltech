@@ -1,130 +1,261 @@
-import { Icon } from "@iconify/react";
-import React, { useEffect, useState } from "react";
-import { Apiservice } from "../../services/apiServices";
-import { apiNames } from "../../routes/routeNames";
 import { Modal } from "antd";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import "../../assests/css/global.css";
+import { apiNames } from "../../routes/routeNames";
+import { Apiservice } from "../../services/apiServices";
+import "./Device.css";
+import { Tabs } from "antd";
 
 function Mapping() {
-  const [mapLists, setMapLists] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [availableDevices, setAvailableDevices] = useState([]);
+  const [setLightConfiguPopup, setSetupLightConfiguPopup] = useState(false);
+  const [popupDetails, setPopupDetails] = useState([]);
+  const [modalId, setModalId] = useState("");
+  const [type, settype] = useState("");
 
-  // useEffect(() => {
-  //   Apiservice.getLists(apiNames.mapping)
-  //     .then((res) => {
-  //       //console.log(res);
-  //       setMapLists(res.splice(0, 9));
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+  useEffect(() => {
+    devices();
+  }, []);
+
+  const modalOpen = (details, id) => {
+    console.log(details);
+    setModalId(id);
+    console.log(id);
+    setSetupLightConfiguPopup(true);
+    settype(details.type);
+
+    setPopupDetails(details);
+  };
+
+  const devices = () => {
+    Apiservice.getLists(apiNames.deviceLists)
+      .then((res) => {
+        setAvailableDevices(res);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const onChangeTabs = (key) => {
+    console.log(key);
+  };
+
+  const items = [
+    {
+      key: "1",
+      label: <h5>Light</h5>,
+      children: (
+        <>
+          <div className="row">
+            {availableDevices.map((deviceDetails, index) => (
+              <>
+                {deviceDetails.description &&
+                  JSON.parse(deviceDetails.description)
+                    ?.lines.filter((d) => d.type === "light")
+                    .map((item, index) => (
+                      <>
+                        <div className="col-sm-12 col-md-8 col-lg-12 col-xl-4 col-xxl-6 mt-2">
+                          <div className="card mt-1">
+                            <div className="card-body">
+                              <div className="row">
+                                <div key={index} className="col-8 FormHeading">
+                                  {item.name}
+                                </div>
+                                <div className="col-4 text-end ">
+                                  <button
+                                    className="btn-sm btn btn-outline-primary"
+                                    onClick={() =>
+                                      modalOpen(item, deviceDetails.id)
+                                    }
+                                  >
+                                    Config
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ))}
+              </>
+            ))}
+          </div>
+        </>
+      ),
+    },
+    {
+      key: "2",
+      label: <h5>Switches</h5>,
+      children: (
+        <>
+          <div className="row">
+            {availableDevices.map((deviceDetails, index) => (
+              <>
+                {deviceDetails.description &&
+                  JSON.parse(deviceDetails.description)
+                    ?.lines.filter((d) => d.type === "switch")
+                    .map((item, index) => (
+                      <>
+                        <div className="col-sm-12 col-md-8 col-lg-12 col-xl-4 col-xxl-6 mt-2">
+                          <div className="card mt-1">
+                            <div className="card-body">
+                              <div className="row">
+                                <div key={index} className="col-8 FormHeading">
+                                  {item.name}
+                                </div>
+                                <div className="col-4 text-end ">
+                                  <button
+                                    className="btn-sm btn btn-outline-primary"
+                                    onClick={() => modalOpen(item, item.id)}
+                                  >
+                                    Config
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ))}
+              </>
+            ))}
+          </div>
+        </>
+      ),
+    },
+    {
+      key: "3",
+      label: <h5>PowerPoint</h5>,
+      children: (
+        <>
+          <div className="row">
+            {availableDevices.map((deviceDetails, index) => (
+              <>
+                {deviceDetails.description &&
+                  JSON.parse(deviceDetails.description)
+                    ?.lines.filter((d) => d.type === "powerpoint")
+                    .map((item, index) => (
+                      <>
+                        <div className="col-sm-12 col-md-8 col-lg-12 col-xl-4 col-xxl-6 mt-2">
+                          <div className="card mt-1">
+                            <div className="card-body">
+                              <div className="row">
+                                <div key={index} className="col-8 FormHeading">
+                                  {item.name}
+                                </div>
+                                <div className="col-4 text-end ">
+                                  <button
+                                    className="btn-sm btn btn-outline-primary"
+                                    onClick={() => modalOpen(item, item.id)}
+                                  >
+                                    Config
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ))}
+              </>
+            ))}
+          </div>
+        </>
+      ),
+    },
+  ];
+
+  const onChangeModal = (e, id, modalId) => {
+    let boolean;
+    if (e.target.checked === false) {
+      boolean = 0;
+    } else if (e.target.checked === true) {
+      boolean = 1;
+    }
+
+    let descObj = {
+      id: id,
+      value: boolean,
+    };
+
+    axios
+      .post(`http://192.168.1.46:4000/device/line/action/${modalId}`, descObj)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <div className="row">
-        <div className="col-6">
-          <h4>Mapping</h4>
-        </div>
+        <Tabs defaultActiveKey="1" items={items} onChange={onChangeTabs} />
+        <div className="col-6"></div>
         <div className="col-6 text-end">
-          <div>
-            <Icon
-              icon="fa:plus-circle"
-              color="#2596be"
-              width="35"
-              height="35"
-              className="pointer"
-              onClick={() => setOpen(true)}
-            />
+          <div></div>
+        </div>
+      </div>
+
+      <Modal
+        title={<label className="FormHeading">{type} Info</label>}
+        centered
+        open={setLightConfiguPopup}
+        onOk={() => setSetupLightConfiguPopup(false)}
+        onCancel={() => setSetupLightConfiguPopup(false)}
+        width={500}
+        footer={null}
+        maskClosable={false}
+      >
+        <div className="card ">
+          <div className="card-body">
+            <div className="row ">
+              <div className="col-3  FormHeadingLight">Name:</div>
+              <div className="col-9 ">{popupDetails.name}</div>
+              <hr />
+              <div className="col-3 FormHeadingLight">Type:</div>
+              <div className="col-9 ">{popupDetails.type}</div>
+              <hr />
+              <div className="col-3 FormHeadingLight">Value:</div>
+              <div className="col-9 p-1">
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    autocapitalize={popupDetails.name}
+                    autocomplete={popupDetails.type}
+                    dir={popupDetails.status}
+                    dirName={popupDetails.enable}
+                    elementTiming={popupDetails.forceValue}
+                    enterKeyHint={popupDetails.ts}
+                    formMethod={popupDetails.dim}
+                    formTarget={popupDetails.dimValue}
+                    innerText={popupDetails.group}
+                    onChange={(e) => onChangeModal(e, popupDetails.id, modalId)}
+                  />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+              <hr />
+              <div className="col-3 FormHeadingLight">Status:</div>
+              <div className="col-9">{popupDetails.status}</div> <hr />
+              <div className="col-3 FormHeadingLight">Enable:</div>
+              <div className="col-9">{popupDetails.enable}</div> <hr />
+              <div className="col-3 FormHeadingLight">ForceValue:</div>
+              <div className="col-9">{popupDetails.forceValue}</div> <hr />
+              <div className="col-3 FormHeadingLight">Ts:</div>
+              <div className="col-9">{popupDetails.ts}</div> <hr />
+              <div className="col-3 FormHeadingLight">Dim:</div>
+              <div className="col-9">{popupDetails.dim}</div> <hr />
+              <div className="col-3 FormHeadingLight">DimValue:</div>
+              <div className="col-9">{popupDetails.dimValue}</div> <hr />
+              <div className="col-3 FormHeadingLight">Group:</div>
+              <div className="col-9">{popupDetails.group}</div> <hr />
+            </div>
           </div>
         </div>
-
-        {mapLists.length > 0 ? (
-          <div className="row pb-4 color">
-            {mapLists.map((item, index) => (
-              <div
-                key={`${item.id}${index}`}
-                className="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-2"
-              >
-                <div className="card h-100">
-                  <div className="card-body">
-                    <div className="mt-2 text-center p-2">
-                      <label className="FormContent">Id: {item.id}</label>
-                      <br />
-                      <label className="FormPlaceholder">
-                        Mapping-1: {item.Mapping1}
-                      </label>
-                      <br />
-                      <label className="FormPlaceholder">
-                        Mapping-2: {item.Mapping2}
-                      </label>
-                      <br />
-                      <label className="FormPlaceholder">
-                        Mapping-3: {item.Mapping3}
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center">
-            <h5>Loading mapping...</h5>
-          </div>
-        )}
-        <Modal
-          title="Device (Properties)"
-          centered
-          open={open}
-          onOk={() => setOpen(false)}
-          onCancel={() => setOpen(false)}
-          width={600}
-          footer={null}
-          maskClosable={false}
-          bodyStyle={{ overflowY: "auto", maxHeight: "calc(100vh - 180px)" }}
-        >
-          <div className="row col-12 mt-3">
-            <form>
-              <div className="form-group">
-                <label>Mapping-1</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  aria-describedby="emailHelp"
-                  //placeholder="Enter Device ID"
-                />
-              </div>
-              <div className="form-group mt-3">
-                <label>Mapping-2</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  //placeholder="Device Name"
-                />
-              </div>
-              <div className="form-group mt-3">
-                <label>Mapping-3</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  aria-describedby="emailHelp"
-                  //placeholder="Enter Device ID"
-                />
-              </div>
-
-              <div className="text-center">
-                <button
-                  type="button"
-                  className="btn btn-primary mt-3 text-center"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-        </Modal>
-      </div>
+      </Modal>
     </>
   );
 }

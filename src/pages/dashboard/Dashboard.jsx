@@ -60,11 +60,11 @@ const Dashboard = () => {
               icon: <PieChartOutlined />,
               label: "SwitchBox",
             },
-            // {
-            //   key: `${routeNames.dashboard}${routeNames.mapping}`,
-            //   icon: <FundOutlined />,
-            //   label: "Mapping",
-            // },
+            {
+              key: `${routeNames.dashboard}${routeNames.mapping}`,
+              icon: <FundOutlined />,
+              label: "Configure",
+            },
             // {
             //   icon: <SettingOutlined />,
             //   label: "Settings",
