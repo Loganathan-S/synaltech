@@ -55,11 +55,11 @@ const Dashboard = () => {
               icon: <DatabaseOutlined />,
               label: "Device",
             },
-            {
-              key: `${routeNames.dashboard}${routeNames.switchbox}`,
-              icon: <PieChartOutlined />,
-              label: "SwitchBox",
-            },
+            // {
+            //   key: `${routeNames.dashboard}${routeNames.switchbox}`,
+            //   icon: <PieChartOutlined />,
+            //   label: "SwitchBox",
+            // },
             {
               key: `${routeNames.dashboard}${routeNames.mapping}`,
               icon: <FundOutlined />,

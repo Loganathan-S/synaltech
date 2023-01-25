@@ -8,7 +8,6 @@ import "./Device.css";
 
 function Device() {
   const [newDeviceLists, setNewDeviceLists] = useState([]);
-  const [availableDevices, setAvailableDevices] = useState([]);
   const [availableDevicesPopup, setAvailableDevicesPopup] = useState(false);
   const [id, setId] = useState("");
   const [showDeviceDetails, setShowDeviceDetails] = useState(false);
@@ -17,12 +16,12 @@ function Device() {
 
   useEffect(() => {
     newDevices();
-    devices();
   }, []);
 
   const newDevices = () => {
     Apiservice.getLists(apiNames.newDeviceLists)
       .then((res) => {
+        console.log(res);
         if (res.length === 0) {
           setNewDeviceLists([]);
         } else {
@@ -34,25 +33,7 @@ function Device() {
       });
   };
 
-  const devices = () => {
-    Apiservice.getLists(apiNames.deviceLists)
-      .then((res) => {
-        if (res.length === 0) {
-          setAvailableDevices([]);
-        } else if (res.length !== 0) {
-          let jsonObj = res[0].description;
-          setAvailableDevices(res);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const updateSwitchType = () => {
-    // console.log(lines);
-    //console.log(newDeviceLists);
-
     let descObj = {
       description: {
         lines: lines,
@@ -64,7 +45,6 @@ function Device() {
         //console.log(response);
         setShowDeviceDetails(false);
         newDevices();
-        devices();
       })
       .catch((err) => {
         console.log(err);
@@ -78,11 +58,9 @@ function Device() {
     let description = JSON.parse(details.description);
     setLines(json.lines);
     setModalData(description);
-    //console.log(description);
   };
 
   const onchangeinput = (e, inputIndex) => {
-    //console.log(inputIndex);
     const { value } = e.target;
     setLines((line) =>
       line?.map((list, index) =>
@@ -90,25 +68,6 @@ function Device() {
       )
     );
   };
-
-  // const onchangeinput = (e, id) => {
-  //   const { name, accept, value, align, alt, accessKey } = e.target;
-  //   const newItems = lines.map((item) => {
-  //     if (item.Id !== id) {
-  //       return { ...item };
-  //     }
-  //     return {
-  //       Id: id,
-  //       enable: name,
-  //       forceValue: accept,
-  //       line: value,
-  //       status: align,
-  //       t: alt,
-  //       value: accessKey,
-  //     };
-  //   });
-  //   setLines(newItems);
-  // };
 
   return (
     <>
@@ -217,18 +176,6 @@ function Device() {
                               className="form-control"
                               onChange={(e) => onchangeinput(e, index)}
                             />
-
-                            {/* <input
-                              name={lines[item].enable}
-                              accept={lines[item].forceValue}
-                              value={lines[item].line}
-                              align={lines[item].status}
-                              alt={lines[item].t}
-                              accessKey={lines[item].value}
-                              type="text"
-                              className="form-control"
-                              onChange={(e) => onchangeinput(e, lines[item].Id)}
-                            /> */}
                           </div>
                         </div>
                       ))}

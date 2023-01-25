@@ -31,8 +31,8 @@ function Mapping() {
   const devices = () => {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
-        setAvailableDevices(res);
         console.log(res);
+        setAvailableDevices(res);
       })
       .catch((err) => {
         console.log(err);
@@ -40,7 +40,7 @@ function Mapping() {
   };
 
   const onChangeTabs = (key) => {
-    console.log(key);
+    //console.log(key);
   };
 
   const items = [
@@ -48,122 +48,119 @@ function Mapping() {
       key: "1",
       label: <h5>Light</h5>,
       children: (
-        <>
-          <div className="row">
-            {availableDevices.map((deviceDetails, index) => (
-              <>
-                {deviceDetails.description &&
-                  JSON.parse(deviceDetails.description)
-                    ?.lines.filter((d) => d.type === "light")
-                    .map((item, index) => (
-                      <>
-                        <div className="col-sm-12 col-md-8 col-lg-12 col-xl-4 col-xxl-6 mt-2">
-                          <div className="card mt-1">
-                            <div className="card-body">
-                              <div className="row">
-                                <div key={index} className="col-8 FormHeading">
-                                  {item.name}
-                                </div>
-                                <div className="col-4 text-end ">
-                                  <button
-                                    className="btn-sm btn btn-outline-primary"
-                                    onClick={() =>
-                                      modalOpen(item, deviceDetails.id)
-                                    }
-                                  >
-                                    Config
-                                  </button>
-                                </div>
-                              </div>
+        <div>
+          {availableDevices.map((deviceDetails, index) => (
+            <div key={`${deviceDetails.id}${index}`} className="row">
+              {deviceDetails.description &&
+                JSON.parse(deviceDetails.description)
+                  ?.lines.filter((d) => d.type === "light")
+                  .map((item, index) => (
+                    <div
+                      key={`${item.id}${index}`}
+                      className="col-sm-12 col-md-9 col-lg-6 col-xl-4 col-xxl-4 mt-2"
+                    >
+                      <div className="card">
+                        <div className="card-body">
+                          <div className="row">
+                            <div key={index} className="col-8 FormHeading">
+                              {item.name}
+                            </div>
+                            <div className="col-4 text-end ">
+                              <button
+                                className="btn-sm btn btn-outline-primary"
+                                onClick={() =>
+                                  modalOpen(item, deviceDetails.id)
+                                }
+                              >
+                                Config
+                              </button>
                             </div>
                           </div>
                         </div>
-                      </>
-                    ))}
-              </>
-            ))}
-          </div>
-        </>
+                      </div>
+                    </div>
+                  ))}
+            </div>
+          ))}
+        </div>
       ),
     },
     {
       key: "2",
       label: <h5>Switches</h5>,
       children: (
-        <>
-          <div className="row">
-            {availableDevices.map((deviceDetails, index) => (
-              <>
-                {deviceDetails.description &&
-                  JSON.parse(deviceDetails.description)
-                    ?.lines.filter((d) => d.type === "switch")
-                    .map((item, index) => (
-                      <>
-                        <div className="col-sm-12 col-md-8 col-lg-12 col-xl-4 col-xxl-6 mt-2">
-                          <div className="card mt-1">
-                            <div className="card-body">
-                              <div className="row">
-                                <div key={index} className="col-8 FormHeading">
-                                  {item.name}
-                                </div>
-                                <div className="col-4 text-end ">
-                                  <button
-                                    className="btn-sm btn btn-outline-primary"
-                                    onClick={() => modalOpen(item, item.id)}
-                                  >
-                                    Config
-                                  </button>
-                                </div>
-                              </div>
+        <div>
+          {availableDevices.map((deviceDetails, index) => (
+            <div key={`${deviceDetails.id}${index}`} className="row">
+              {deviceDetails.description &&
+                JSON.parse(deviceDetails.description)
+                  ?.lines.filter((d) => d.type === "switch")
+                  .map((item, index) => (
+                    <div
+                      key={`${item.id}${index}`}
+                      className="col-sm-12 col-md-8 col-lg-12 col-xl-4 col-xxl-6 mt-2"
+                    >
+                      <div className="card mt-1">
+                        <div className="card-body">
+                          <div className="row">
+                            <div key={index} className="col-8 FormHeading">
+                              {item.name}
+                            </div>
+                            <div className="col-4 text-end ">
+                              <button
+                                className="btn-sm btn btn-outline-primary"
+                                onClick={() => modalOpen(item, item.id)}
+                              >
+                                Config
+                              </button>
                             </div>
                           </div>
                         </div>
-                      </>
-                    ))}
-              </>
-            ))}
-          </div>
-        </>
+                      </div>
+                    </div>
+                  ))}
+            </div>
+          ))}
+        </div>
       ),
     },
     {
       key: "3",
       label: <h5>PowerPoint</h5>,
       children: (
-        <>
-          <div className="row">
-            {availableDevices.map((deviceDetails, index) => (
-              <>
-                {deviceDetails.description &&
-                  JSON.parse(deviceDetails.description)
-                    ?.lines.filter((d) => d.type === "powerpoint")
-                    .map((item, index) => (
-                      <>
-                        <div className="col-sm-12 col-md-8 col-lg-12 col-xl-4 col-xxl-6 mt-2">
-                          <div className="card mt-1">
-                            <div className="card-body">
-                              <div className="row">
-                                <div key={index} className="col-8 FormHeading">
-                                  {item.name}
-                                </div>
-                                <div className="col-4 text-end ">
-                                  <button
-                                    className="btn-sm btn btn-outline-primary"
-                                    onClick={() => modalOpen(item, item.id)}
-                                  >
-                                    Config
-                                  </button>
-                                </div>
-                              </div>
+        <div>
+          {availableDevices.map((deviceDetails, index) => (
+            <div key={`${deviceDetails.id}${index}`} className="row">
+              {deviceDetails.description &&
+                JSON.parse(deviceDetails.description)
+                  ?.lines.filter((d) => d.type === "powerpoint")
+                  .map((item, index) => (
+                    <div
+                      key={`${item.id}${index}`}
+                      className="col-sm-12 col-md-9 col-lg-6 col-xl-4 col-xxl-4 mt-2"
+                    >
+                      <div className="card">
+                        <div className="card-body">
+                          <div className="row">
+                            <div key={index} className="col-8 FormHeading">
+                              {item.name}
+                            </div>
+                            <div className="col-4 text-end ">
+                              <button
+                                className="btn-sm btn btn-outline-primary"
+                                onClick={() => modalOpen(item, item.id)}
+                              >
+                                Config
+                              </button>
                             </div>
                           </div>
                         </div>
-                      </>
-                    ))}
-              </>
-            ))}
-          </div>
-        </>
+                      </div>
+                    </div>
+                  ))}
+            </div>
+          ))}
+        </div>
       ),
     },
   ];
