@@ -29,6 +29,7 @@ const App = () => {
     <Icon icon="tabler:list-details" />,
   ]);
   const navigate = useNavigate();
+  const navToLogout = useNavigate();
 
   const showAddList = () => {
     setListShow(!listShow);
@@ -44,6 +45,10 @@ const App = () => {
     // navToDeviceList(`${routeNames.dashboard}${routeNames.device}`)
   };
 
+  const logout = () => {
+    navToLogout(routeNames.auth.login);
+  };
+
   const items = [
     {
       label: "Home",
@@ -51,11 +56,20 @@ const App = () => {
       children: (
         <div className="container">
           <div className=" mt-3">
-            <h3 className="ModuleHeading" style={{ cursor: "pointer" }}>
-              SynalTech
-            </h3>
+            <div className="row">
+              <div className="col-8">
+                <h3 className="ModuleHeading" style={{ cursor: "pointer" }}>
+                  SynalTech
+                </h3>
+              </div>
+              <div className="col-4 text-end">
+                <button className="btn btn-sm btn-secondary" onClick={logout}>
+                  Logout
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="row ">
+          <div className="row mt-3">
             <div className="col-12">
               <div className="text-end">
                 <Icon
