@@ -16,3 +16,53 @@
 .pagination a:hover:not(.active) {
   background-color: #ddd;
 }
+
+.react-autosuggest__container {
+  position: relative;
+}
+
+.react-autosuggest__input {
+  width: 100%;
+  height: 38px;
+  padding: 10px 10px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.react-autosuggest__input:focus {
+  outline: none;
+}
+
+.react-autosuggest__container--open .react-autosuggest__input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  border: 0px solid #aaa;
+  background-color: rgb(243, 243, 243);
+  font-family: Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 5px 1px;
+}
+
+.react-autosuggest__suggestion--focused {
+  background-color: #ddd;
+}

@@ -41,8 +41,8 @@ const Login = () => {
   return (
     <div className="container ">
       <div className="row align-items-center justify-content-center min-vh-100">
-        <div className="col-7"></div>
-        <div className="col-5">
+        <div className="col-sm-12 col-md-7"></div>
+        <div className="col-sm-12 col-md-5">
           <div className="card shadow p-3">
             <div className="card-body">
               <form onSubmit={handleSubmit(formSubmitHandler)}>
