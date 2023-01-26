@@ -32,7 +32,7 @@ function Mapping() {
   const devices = () => {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setAvailableDevices(res);
       })
       .catch((err) => {
@@ -49,7 +49,7 @@ function Mapping() {
       key: "1",
       label: <h5>Light</h5>,
       children: (
-        <div>
+        <>
           {availableDevices.map((deviceDetails, index) => (
             <div key={`${deviceDetails.id}${index}`} className="row">
               {deviceDetails.description &&
@@ -58,7 +58,7 @@ function Mapping() {
                   .map((item, index) => (
                     <div
                       key={`${item.id}${index}`}
-                      className="col-sm-12 col-md-9 col-lg-6 col-xl-4 col-xxl-4 mt-2"
+                      className="col-sm-12 col-md-9 col-lg-6 col-xl-4 col-xxl-4 mt-3"
                     >
                       <div className="card">
                         <div className="card-body">
@@ -83,14 +83,14 @@ function Mapping() {
                   ))}
             </div>
           ))}
-        </div>
+        </>
       ),
     },
     {
       key: "2",
       label: <h5>USB</h5>,
       children: (
-        <div>
+        <>
           {availableDevices.map((deviceDetails, index) => (
             <div key={`${deviceDetails.id}${index}`} className="row">
               {deviceDetails.description &&
@@ -99,46 +99,7 @@ function Mapping() {
                   .map((item, index) => (
                     <div
                       key={`${item.id}${index}`}
-                      className="col-sm-12 col-md-8 col-lg-12 col-xl-4 col-xxl-6 mt-2"
-                    >
-                      <div className="card mt-1">
-                        <div className="card-body">
-                          <div className="row">
-                            <div key={index} className="col-8 FormHeading">
-                              {item.name}
-                            </div>
-                            <div className="col-4 text-end ">
-                              <button
-                                className="btn-sm btn btn-outline-primary"
-                                onClick={() => modalOpen(item, item.id)}
-                              >
-                                Config
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-            </div>
-          ))}
-        </div>
-      ),
-    },
-    {
-      key: "3",
-      label: <h5>Power Socket</h5>,
-      children: (
-        <div>
-          {availableDevices.map((deviceDetails, index) => (
-            <div key={`${deviceDetails.id}${index}`} className="row">
-              {deviceDetails.description &&
-                JSON.parse(deviceDetails.description)
-                  ?.lines.filter((d) => d.type === "Power socket")
-                  .map((item, index) => (
-                    <div
-                      key={`${item.id}${index}`}
-                      className="col-sm-12 col-md-9 col-lg-6 col-xl-4 col-xxl-4 mt-2"
+                      className="col-sm-12 col-md-8 col-lg-12 col-xl-4 col-xxl-6 mt-3"
                     >
                       <div className="card">
                         <div className="card-body">
@@ -161,7 +122,85 @@ function Mapping() {
                   ))}
             </div>
           ))}
-        </div>
+        </>
+      ),
+    },
+    {
+      key: "3",
+      label: <h5>Power Socket</h5>,
+      children: (
+        <>
+          {availableDevices.map((deviceDetails, index) => (
+            <div key={`${deviceDetails.id}${index}`} className="row">
+              {deviceDetails.description &&
+                JSON.parse(deviceDetails.description)
+                  ?.lines.filter((d) => d.type === "Power socket")
+                  .map((item, index) => (
+                    <div
+                      key={`${item.id}${index}`}
+                      className="col-sm-12 col-md-9 col-lg-6 col-xl-4 col-xxl-4 mt-3"
+                    >
+                      <div className="card">
+                        <div className="card-body">
+                          <div className="row">
+                            <div key={index} className="col-8 FormHeading">
+                              {item.name}
+                            </div>
+                            <div className="col-4 text-end ">
+                              <button
+                                className="btn-sm btn btn-outline-primary"
+                                onClick={() => modalOpen(item, item.id)}
+                              >
+                                Config
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+            </div>
+          ))}
+        </>
+      ),
+    },
+    {
+      key: "4",
+      label: <h5>Fan</h5>,
+      children: (
+        <>
+          {availableDevices.map((deviceDetails, index) => (
+            <div key={`${deviceDetails.id}${index}`} className="row">
+              {deviceDetails.description &&
+                JSON.parse(deviceDetails.description)
+                  ?.lines.filter((d) => d.type === "Fan")
+                  .map((item, index) => (
+                    <div
+                      key={`${item.id}${index}`}
+                      className="col-sm-12 col-md-9 col-lg-6 col-xl-4 col-xxl-4 mt-3"
+                    >
+                      <div className="card">
+                        <div className="card-body">
+                          <div className="row">
+                            <div key={index} className="col-8 FormHeading">
+                              {item.name}
+                            </div>
+                            <div className="col-4 text-end ">
+                              <button
+                                className="btn-sm btn btn-outline-primary"
+                                onClick={() => modalOpen(item, item.id)}
+                              >
+                                Config
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+            </div>
+          ))}
+        </>
       ),
     },
   ];
@@ -197,13 +236,7 @@ function Mapping() {
 
   return (
     <>
-      <div className="row">
-        <Tabs defaultActiveKey="1" items={items} onChange={onChangeTabs} />
-        <div className="col-6"></div>
-        <div className="col-6 text-end">
-          <div></div>
-        </div>
-      </div>
+      <Tabs size={"small"} defaultActiveKey="1" items={items} />
 
       <Modal
         title={<label className="FormHeading">{type} Info</label>}
