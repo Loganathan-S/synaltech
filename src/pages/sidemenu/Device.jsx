@@ -13,6 +13,8 @@ function Device() {
   const [showDeviceDetails, setShowDeviceDetails] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [lines, setLines] = useState([]);
+  const [deviceName, setDeviceName] = useState("");
+  const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
     newDevices();
@@ -34,24 +36,29 @@ function Device() {
   };
 
   const updateSwitchType = () => {
-    let descObj = {
-      description: {
-        lines: lines,
-      },
-    };
-
-    Apiservice.addLines(`${apiNames.lines}${id}`, descObj)
-      .then((response) => {
-        //console.log(response);
-        setShowDeviceDetails(false);
-        newDevices();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // let descObj = {
+    //   description: {
+    //     lines: lines,
+    //   },
+    // };
+    // Apiservice.addLines(`${apiNames.lines}${id}`, descObj)
+    //   .then((response) => {
+    //     //console.log(response);
+    //     setShowDeviceDetails(false);
+    //     newDevices();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
-  const showDeviceData = (details, desc, Id) => {
+  const showDeviceData = (details, desc, Id, index) => {
+    if (details.deviceName !== null) {
+      setDeviceName(details.deviceName);
+    } else if (details.deviceName === null) {
+      setDeviceName(`Device ${index + 1}`);
+    }
+
     setId(Id);
     setShowDeviceDetails(true);
     let json = JSON.parse(desc);
@@ -78,11 +85,19 @@ function Device() {
     );
   };
 
+  const changeDeviceName = (e) => {
+    setDeviceName(e.target.value);
+  };
+
+  const changeRoomName = (e) => {
+    setRoomName(e.target.value);
+  };
+
   return (
     <>
       <div className="row">
         <div className="col-6">
-          <label className="ModuleHeading">Connected devices</label>
+          <label className="ModuleHeading">Device lists</label>
         </div>
 
         <div className="col-6 text-end">
@@ -102,29 +117,37 @@ function Device() {
       </div>
 
       <div className="row text-center">
-        {newDeviceLists.map((deviceDetails, index) => (
-          <div
-            key={`${deviceDetails.id}${index}`}
-            className="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3"
-          >
+        {newDeviceLists &&
+          newDeviceLists.map((deviceDetails, index) => (
             <div
-              onClick={() =>
-                showDeviceData(
-                  deviceDetails,
-                  deviceDetails.description,
-                  deviceDetails.id
-                )
-              }
-              style={{ cursor: "pointer" }}
+              key={`${deviceDetails.id}${index}`}
+              className="col-sm-12 col-md-12 col-lg-6 col-xl-3 col-xxl-3 mt-3"
             >
-              <div className="card mt-3">
-                <div className="card-body FormContent">
-                  {JSON.parse(deviceDetails.description)?.id}
+              <div
+                onClick={() =>
+                  showDeviceData(
+                    deviceDetails,
+                    deviceDetails.description,
+                    deviceDetails.id,
+                    index
+                  )
+                }
+                style={{ cursor: "pointer" }}
+              >
+                <div className="card mt-3">
+                  <div className="card-body FormContent">
+                    <p>ID : {deviceDetails.deviceId}</p>
+                    {deviceDetails.deviceName ? (
+                      <p>Name : {deviceDetails.deviceName}</p>
+                    ) : (
+                      <p>Name : Device {index + 1}</p>
+                    )}
+                    <p>Mac ID : {JSON.parse(deviceDetails.description)?.mac}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       <Modal
@@ -151,33 +174,49 @@ function Device() {
                       {modalData && (
                         <>
                           <div className="row mt-2 align-items-center">
-                            <div className="col-3 FormContent">ID:</div>
+                            <div className="col-3 FormContent">
+                              Device name :
+                            </div>
                             <div className="col-9 FormContent">
-                              {modalData.id}
+                              <input
+                                type={"text"}
+                                value={deviceName}
+                                placeholder="Enter device name"
+                                className="form-control"
+                                onChange={changeDeviceName}
+                              />
                             </div>
                           </div>
-                          <div className="row mt-2 align-items-center">
-                            <div className="col-3 FormContent">Mac Id:</div>
-                            <div className="col-9 FormContent">
-                              {modalData.mac}
-                            </div>
-                          </div>
-                          <div className="row mt-2 align-items-center">
-                            <div className="col-3 FormContent">Channels:</div>
+
+                          <div className="row mt-3 align-items-center">
+                            <div className="col-3 FormContent">Channels :</div>
                             <div className="col-9 FormContent">
                               {modalData.name}
+                            </div>
+                          </div>
+
+                          <div className="row mt-2 align-items-center">
+                            <div className="col-3 FormContent">Room name :</div>
+                            <div className="col-9 FormContent">
+                              <input
+                                type={"text"}
+                                value={roomName}
+                                placeholder="Enter room name"
+                                className="form-control"
+                                onChange={changeRoomName}
+                              />
                             </div>
                           </div>
                         </>
                       )}
 
-                      {Object.keys(lines).map((item, index) => (
+                      {/* {Object.keys(lines).map((item, index) => (
                         <div
                           key={`${lines[item].Id}${index}`}
                           className="row mt-3 mb-3 align-items-center"
                         >
-                          <div className="col-2">Line{index + 1} :</div>
-                          <div className="col-4">
+                          <div className="col-2 mt-2">Line {index + 1} :</div>
+                          <div className="col-4 mt-2">
                             <input
                               name="line"
                               value={lines[item].type}
@@ -186,8 +225,8 @@ function Device() {
                               onChange={(e) => onChangeType(e, index)}
                             />
                           </div>
-                          <div className="col-2">Place :</div>
-                          <div className="col-4">
+                          <div className="col-2 mt-2">Place :</div>
+                          <div className="col-4 mt-2">
                             <input
                               name="line"
                               value={lines[item].name}
@@ -197,7 +236,7 @@ function Device() {
                             />
                           </div>
                         </div>
-                      ))}
+                      ))} */}
                     </div>
                   </div>
                 </div>

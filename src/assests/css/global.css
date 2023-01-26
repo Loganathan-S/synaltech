@@ -48,9 +48,9 @@
   font-weight: 400;
 }
 
-.card:hover {
+/* .card:hover {
   box-shadow: 5px 6px 6px 2px #e9ecef;
-}
+} */
 
 .rounded-button:hover {
   width: 19.3px;
