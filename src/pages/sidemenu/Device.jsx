@@ -5,6 +5,38 @@ import "../../assests/css/global.css";
 import { apiNames } from "../../routes/routeNames";
 import { Apiservice } from "../../services/apiServices";
 import "./Device.css";
+import Autosuggest from "react-autosuggest";
+
+const languages = [
+  {
+    name: "Hall",
+  },
+  {
+    name: "Master bed room",
+  },
+  {
+    name: "Kitchen",
+  },
+  {
+    name: "Theatre",
+  },
+];
+
+const getSuggestions = (value) => {
+  const inputValue = value.trim().toLowerCase();
+  const inputLength = inputValue.length;
+
+  return inputLength === 0
+    ? []
+    : languages.filter(
+        (lang) => lang.name.toLowerCase().slice(0, inputLength) === inputValue
+      );
+};
+
+const getSuggestionValue = (suggestion) => suggestion.name;
+
+// Use your imagination to render suggestions.
+const renderSuggestion = (suggestion) => <div>{suggestion.name}</div>;
 
 function Device() {
   const [newDeviceLists, setNewDeviceLists] = useState([]);
@@ -15,10 +47,31 @@ function Device() {
   const [lines, setLines] = useState([]);
   const [deviceName, setDeviceName] = useState("");
   const [roomName, setRoomName] = useState("");
+  const [value, setValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
     newDevices();
   }, []);
+
+  const onChangeVal = (event, { newValue }) => {
+    setValue(newValue);
+    console.log(newValue);
+  };
+
+  const onSuggestionsFetchRequested = ({ value }) => {
+    setSuggestions(getSuggestions(value));
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setSuggestions([]);
+  };
+
+  const inputProps = {
+    placeholder: "Enter name",
+    value,
+    onChange: onChangeVal,
+  };
 
   const newDevices = () => {
     Apiservice.getLists(apiNames.deviceLists) //newDeviceLists
@@ -94,13 +147,13 @@ function Device() {
   };
 
   return (
-    <>
-      <div className="row">
-        <div className="col-6">
+    <div className="container">
+      <div className="row mt-2">
+        <div className="col-8">
           <label className="ModuleHeading">Device lists</label>
         </div>
 
-        <div className="col-6 text-end">
+        <div className="col-4 text-end">
           <div>
             <Icon
               icon="fa:plus-circle"
@@ -163,54 +216,63 @@ function Device() {
       >
         <div className="row col-12">
           <div className="form-group">
-            <>
-              <div>
-                <div
-                  className="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mt-3"
-                  style={{ cursor: "pointer" }}
-                >
-                  <div className="card mt-1">
-                    <div className="card-body FormContent">
-                      {modalData && (
-                        <>
-                          <div className="row mt-2 align-items-center">
-                            <div className="col-3 FormContent">
-                              Device name :
-                            </div>
-                            <div className="col-9 FormContent">
-                              <input
-                                type={"text"}
-                                value={deviceName}
-                                placeholder="Enter device name"
-                                className="form-control"
-                                onChange={changeDeviceName}
-                              />
-                            </div>
+            <div>
+              <div
+                className="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12"
+                style={{ cursor: "pointer" }}
+              >
+                <div className="card">
+                  <div className="card-body FormContent">
+                    {modalData && (
+                      <>
+                        <div className="row mt-1 align-items-center">
+                          <div className="col-3 FormContent">Device name :</div>
+                          <div className="col-9 FormContent">
+                            <input
+                              type={"text"}
+                              value={deviceName}
+                              placeholder="Enter device name"
+                              className="form-control"
+                              onChange={changeDeviceName}
+                            />
                           </div>
+                        </div>
 
-                          <div className="row mt-3 align-items-center">
-                            <div className="col-3 FormContent">Channels :</div>
-                            <div className="col-9 FormContent">
-                              {modalData.name}
-                            </div>
+                        <div className="row mt-3 align-items-center">
+                          <div className="col-3 FormContent">Channels :</div>
+                          <div className="col-9 FormContent">
+                            {modalData.name}
                           </div>
+                        </div>
 
-                          <div className="row mt-2 align-items-center">
-                            <div className="col-3 FormContent">Room name :</div>
-                            <div className="col-9 FormContent">
-                              <input
+                        <div className="row mt-3 align-items-center">
+                          <div className="col-3 FormContent">Room name :</div>
+                          <div className="col-9 FormContent">
+                            {/* <input
                                 type={"text"}
                                 value={roomName}
                                 placeholder="Enter room name"
                                 className="form-control"
                                 onChange={changeRoomName}
-                              />
-                            </div>
+                              /> */}
+                            <Autosuggest
+                              suggestions={suggestions}
+                              onSuggestionsFetchRequested={
+                                onSuggestionsFetchRequested
+                              }
+                              onSuggestionsClearRequested={
+                                onSuggestionsClearRequested
+                              }
+                              getSuggestionValue={getSuggestionValue}
+                              renderSuggestion={renderSuggestion}
+                              inputProps={inputProps}
+                            />
                           </div>
-                        </>
-                      )}
+                        </div>
+                      </>
+                    )}
 
-                      {/* {Object.keys(lines).map((item, index) => (
+                    {/* {Object.keys(lines).map((item, index) => (
                         <div
                           key={`${lines[item].Id}${index}`}
                           className="row mt-3 mb-3 align-items-center"
@@ -237,11 +299,10 @@ function Device() {
                           </div>
                         </div>
                       ))} */}
-                    </div>
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           </div>
 
           <div className="text-center mt-2 pt-2">
@@ -293,7 +354,7 @@ function Device() {
           </div>
         </div>
       </Modal>
-    </>
+    </div>
   );
 }
 
