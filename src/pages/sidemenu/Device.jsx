@@ -2,41 +2,11 @@ import { Icon } from "@iconify/react";
 import { Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import "../../assests/css/global.css";
-import { apiNames } from "../../routes/routeNames";
+import { apiNames, routeNames } from "../../routes/routeNames";
 import { Apiservice } from "../../services/apiServices";
 import "./Device.css";
 import Autosuggest from "react-autosuggest";
-
-const languages = [
-  {
-    name: "Hall",
-  },
-  {
-    name: "Master bed room",
-  },
-  {
-    name: "Kitchen",
-  },
-  {
-    name: "Theatre",
-  },
-];
-
-const getSuggestions = (value) => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-
-  return inputLength === 0
-    ? []
-    : languages.filter(
-        (lang) => lang.name.toLowerCase().slice(0, inputLength) === inputValue
-      );
-};
-
-const getSuggestionValue = (suggestion) => suggestion.name;
-
-// Use your imagination to render suggestions.
-const renderSuggestion = (suggestion) => <div>{suggestion.name}</div>;
+import { useNavigate } from "react-router-dom";
 
 function Device() {
   const [newDeviceLists, setNewDeviceLists] = useState([]);
@@ -49,10 +19,57 @@ function Device() {
   const [roomName, setRoomName] = useState("");
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [section, setSection] = useState([]);
+
+  const navigateToDashboard = useNavigate();
 
   useEffect(() => {
     newDevices();
+    getSection();
   }, []);
+
+  const newDevices = () => {
+    Apiservice.getLists(apiNames.deviceLists) //newDeviceLists
+      .then((res) => {
+        console.log(res);
+        if (res.length === 0) {
+          setNewDeviceLists([]);
+        } else {
+          setNewDeviceLists(res);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getSection = () => {
+    Apiservice.getLists(apiNames.sectionLists)
+      .then((res) => {
+        console.log(res);
+        setSection(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getSuggestions = (value) => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+
+    return inputLength === 0
+      ? []
+      : section.filter(
+          (lang) =>
+            lang.section.toLowerCase().slice(0, inputLength) === inputValue
+        );
+  };
+
+  const getSuggestionValue = (suggestion) => suggestion.section;
+
+  // Use your imagination to render suggestions.
+  const renderSuggestion = (suggestion) => <div>{suggestion.section}</div>;
 
   const onChangeVal = (event, { newValue }) => {
     setValue(newValue);
@@ -71,21 +88,6 @@ function Device() {
     placeholder: "Enter name",
     value,
     onChange: onChangeVal,
-  };
-
-  const newDevices = () => {
-    Apiservice.getLists(apiNames.deviceLists) //newDeviceLists
-      .then((res) => {
-        console.log(res);
-        if (res.length === 0) {
-          setNewDeviceLists([]);
-        } else {
-          setNewDeviceLists(res);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const updateSwitchType = () => {
@@ -146,11 +148,24 @@ function Device() {
     setRoomName(e.target.value);
   };
 
+  const navToDashboard = () => {
+    navigateToDashboard(routeNames.dashboard);
+  };
+
   return (
     <div className="container">
       <div className="row mt-2">
         <div className="col-8">
-          <label className="ModuleHeading">Device lists</label>
+          <label className="ModuleHeading">
+            <Icon
+              icon="material-symbols:arrow-right-alt-rounded"
+              fontSize={32}
+              rotate={2}
+              onClick={navToDashboard}
+              style={{ cursor: "pointer" }}
+            />
+            <span>&nbsp;Device lists</span>
+          </label>
         </div>
 
         <div className="col-4 text-end">
@@ -208,7 +223,10 @@ function Device() {
         centered
         open={showDeviceDetails}
         onOk={() => setShowDeviceDetails(false)}
-        onCancel={() => setShowDeviceDetails(false)}
+        onCancel={() => {
+          setShowDeviceDetails(false);
+          setValue("");
+        }}
         width={600}
         footer={null}
         maskClosable={false}
