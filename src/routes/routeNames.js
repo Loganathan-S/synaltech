@@ -24,6 +24,7 @@ export const apiNames = {
   newSwitchBox: "newSwitchBox",
   newDeviceLists: "newDeviceList",
   deviceLists: "deviceList",
+  updateDevice: "updateDevice/",
   zoneLists: "zoneList",
   newZone: "newZone",
   sectionLists: "sectionList",

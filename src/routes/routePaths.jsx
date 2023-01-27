@@ -10,9 +10,9 @@ export default function routePaths() {
   return (
     <Routes>
       <Route exact path={routeNames.auth.login} element={<Login />} />
+      <Route exact path={routeNames.auth.register} element={<Register />} />
       <Route exact path={routeNames.dashboard} element={<Bottommenu />} />
       <Route path={routeNames.device} element={<Device />} />
-      <Route exact path={routeNames.auth.register} element={<Register />} />
     </Routes>
   );
 }

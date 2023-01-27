@@ -8,6 +8,17 @@ export class Apiservice {
     });
   };
 
+  static updateDeviceRoomName = async (apiname, id, roomid, devicename) => {
+    return await axios
+      .post(baseUrl + apiname + id, {
+        deviceName: devicename,
+        sectionId: roomid,
+      })
+      .then((response) => {
+        return response.data;
+      });
+  };
+
   static addZone = async (apiname, addZone) => {
     return await axios
       .post(baseUrl + apiname, { zoneName: addZone })
