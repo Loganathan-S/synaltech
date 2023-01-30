@@ -192,7 +192,7 @@ const Device = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container mb-4">
       <div className="row mt-2">
         <div className="col-8">
           <label className="ModuleHeading">
