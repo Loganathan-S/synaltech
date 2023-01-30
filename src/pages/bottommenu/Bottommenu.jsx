@@ -35,10 +35,6 @@ const App = () => {
     setListShow(!listShow);
   };
 
-  const addDevice = () => {
-    alert("device list page");
-  };
-
   const showDeviceList = (id, list) => {
     console.log(list, id);
     navigate(routeNames.device);
@@ -47,6 +43,15 @@ const App = () => {
 
   const logout = () => {
     navToLogout(routeNames.auth.login);
+  };
+
+  const addDevice = (list, id) => {
+    //console.log(list, id);
+    if (list === 0) {
+      navigate(routeNames.addnewdevice);
+    } else {
+      navigate(routeNames.dashboard);
+    }
   };
 
   const items = [
@@ -95,7 +100,7 @@ const App = () => {
                               style={{
                                 width: 350,
                               }}
-                              onClick={addDevice}
+                              onClick={() => addDevice(listIndex, list)}
                             >
                               <div className="row">
                                 <div className="col-9">
