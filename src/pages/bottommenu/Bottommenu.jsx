@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import "../../assests/css/global.css";
 import "./Bottommenu.scss";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routeNames } from "../../routes/routeNames";
 
 const App = () => {
@@ -29,7 +29,6 @@ const App = () => {
     <Icon icon="tabler:list-details" />,
   ]);
 
-  const [first, setFirst] = useState();
   const navigate = useNavigate();
   const navToLogout = useNavigate();
 
@@ -48,8 +47,7 @@ const App = () => {
       console.log("Add new Room/Zone");
     } else if (addLists[id] === "Sort Zone/Room") {
       console.log("Sort Zone/Room");
-      setFirst(addLists[id]);
-      navigate(`${routeNames.dashboard}${routeNames.sortroom}`);
+      navigate(routeNames.sortroom);
     }
   };
 
@@ -68,9 +66,7 @@ const App = () => {
     {
       label: "Home",
       key: 1,
-      children: first ? (
-        <Outlet />
-      ) : (
+      children: (
         <div className="container">
           <div className=" mt-3">
             <div className="row">

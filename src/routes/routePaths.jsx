@@ -15,13 +15,8 @@ export default function routePaths() {
       <Route exact path={routeNames.auth.register} element={<Register />} />
       <Route path={routeNames.device} element={<Device />} />
       <Route exact path={routeNames.addnewdevice} element={<AddNewDevice />} />
-      <Route exact path={routeNames.dashboard} element={<Bottommenu />}>
-        <Route
-          exact
-          path={`${routeNames.dashboard}${routeNames.sortroom}`}
-          element={<Sortroom />}
-        />
-      </Route>
+      <Route exact path={routeNames.dashboard} element={<Bottommenu />} />
+      <Route exact path={routeNames.sortroom} element={<Sortroom />} />
     </Routes>
   );
 }
