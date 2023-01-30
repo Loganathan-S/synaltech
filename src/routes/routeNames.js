@@ -17,6 +17,7 @@ export const routeNames = {
   section: base + "section",
   location: base + "location",
   addnewdevice: base + "addnewdevice",
+  sortroom: base + "sortroom",
 };
 
 export const apiNames = {

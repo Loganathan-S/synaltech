@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import "../../assests/css/global.css";
 import "./Bottommenu.scss";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { routeNames } from "../../routes/routeNames";
 
 const App = () => {
@@ -28,6 +28,8 @@ const App = () => {
     <Icon icon="ic:round-device-hub" inline={true} />,
     <Icon icon="tabler:list-details" />,
   ]);
+
+  const [first, setFirst] = useState();
   const navigate = useNavigate();
   const navToLogout = useNavigate();
 
@@ -35,22 +37,30 @@ const App = () => {
     setListShow(!listShow);
   };
 
-  const showDeviceList = (id, list) => {
-    console.log(list, id);
-    navigate(routeNames.device);
-    // navToDeviceList(`${routeNames.dashboard}${routeNames.device}`)
-  };
-
   const logout = () => {
     navToLogout(routeNames.auth.login);
   };
 
   const addDevice = (list, id) => {
-    //console.log(list, id);
-    if (list === 0) {
+    if (addLists[id] === "Add Device") {
       navigate(routeNames.addnewdevice);
-    } else {
-      navigate(routeNames.dashboard);
+    } else if (addLists[id] === "Add new Room/Zone") {
+      console.log("Add new Room/Zone");
+    } else if (addLists[id] === "Sort Zone/Room") {
+      console.log("Sort Zone/Room");
+      setFirst(addLists[id]);
+      navigate(`${routeNames.dashboard}${routeNames.sortroom}`);
+    }
+  };
+
+  const showDeviceList = (id, list) => {
+    // console.log(id);
+    if (settingLists[id] === "Account") {
+      console.log("Account");
+    } else if (settingLists[id] === "Device List") {
+      navigate(routeNames.device);
+    } else if (settingLists[id] === "Bridge Details") {
+      console.log("Bridge Details");
     }
   };
 
@@ -58,7 +68,9 @@ const App = () => {
     {
       label: "Home",
       key: 1,
-      children: (
+      children: first ? (
+        <Outlet />
+      ) : (
         <div className="container">
           <div className=" mt-3">
             <div className="row">
@@ -100,7 +112,7 @@ const App = () => {
                               style={{
                                 width: 350,
                               }}
-                              onClick={() => addDevice(listIndex, list)}
+                              onClick={() => addDevice(list, listIndex)}
                             >
                               <div className="row">
                                 <div className="col-9">
