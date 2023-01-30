@@ -16,6 +16,7 @@ export const routeNames = {
   zone: base + "zone",
   section: base + "section",
   location: base + "location",
+  addnewdevice: base + "addnewdevice",
 };
 
 export const apiNames = {
@@ -24,6 +25,7 @@ export const apiNames = {
   newSwitchBox: "newSwitchBox",
   newDeviceLists: "newDeviceList",
   deviceLists: "deviceList",
+  updateDevice: "updateDevice/",
   zoneLists: "zoneList",
   newZone: "newZone",
   sectionLists: "sectionList",
