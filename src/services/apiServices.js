@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseUrl } from "../routes/routeNames";
+import { baseUrl } from "../constants/routePath";
 
 export class Apiservice {
   static getLists = async (apiname) => {

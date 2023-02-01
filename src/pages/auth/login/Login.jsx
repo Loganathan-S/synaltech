@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../validations/validationSchema";
 import { Icon } from "@iconify/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { routeNames } from "../../../routes/routeNames";
+import { routeNames } from "../../../constants/routePath";
 import "./Login.css";
 
 const Login = () => {

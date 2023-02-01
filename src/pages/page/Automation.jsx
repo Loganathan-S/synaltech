@@ -1,9 +1,8 @@
 import { Icon } from "@iconify/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../../assests/css/global.css";
-import { routeNames } from "../../routes/routeNames";
-import "./Bottommenu.scss";
+import "../../assests/css/global.scss";
+import { routeNames } from "../../constants/routePath";
 
 function Automation() {
   const navigateToDashboard = useNavigate();

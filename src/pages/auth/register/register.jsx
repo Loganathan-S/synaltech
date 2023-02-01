@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { registerSchema } from "../../../validations/validationSchema";
 import "../register/register.css";
 import { useNavigate } from "react-router-dom";
-import { routeNames } from "../../../routes/routeNames";
+import { routeNames } from "../../../constants/routePath";
 
 const Register = () => {
   const [passwordType, setpasswordType] = useState("password");

@@ -1,10 +1,10 @@
 import { Icon } from "@iconify/react";
 import { Modal } from "antd";
 import React, { useEffect, useState } from "react";
-import "../../assests/css/global.css";
-import { apiNames, routeNames } from "../../routes/routeNames";
+import "../../assests/css/global.scss";
+import { apiNames, routeNames } from "../../constants/routePath";
 import { Apiservice } from "../../services/apiServices";
-import "./Device.css";
+import "./scss/Device.scss";
 import Autosuggest from "react-autosuggest";
 import { useNavigate } from "react-router-dom";
 
