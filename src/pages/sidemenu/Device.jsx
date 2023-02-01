@@ -197,11 +197,11 @@ const Device = () => {
   };
 
   const navToDashboard = () => {
-    navigateToDashboard(routeNames.dashboard);
+    navigateToDashboard(`${routeNames.dashboard}${routeNames.settings}`);
   };
 
   return (
-    <div className="container mb-4">
+    <div className="container">
       <div className="row mt-2">
         <div className="col-8">
           <label className="ModuleHeading">
@@ -249,7 +249,7 @@ const Device = () => {
               >
                 <div className="card mt-2 position-relative">
                   {deviceDetails.sectionId === null && (
-                    <div class="position-absolute top-0 end-0 mx-2">
+                    <div className="position-absolute top-0 end-0 mx-2">
                       <span>
                         <Icon icon="clarity:new-line" className="newIcon" />
                       </span>

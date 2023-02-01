@@ -10,6 +10,8 @@ export const routeNames = {
   dashboard: base + "dashboard",
   synaltech: base + "synaltech",
   device: base + "device",
+  home: base + "home",
+  automation: base + "automation",
   settings: base + "settings",
   mapping: base + "mapping",
   switchbox: base + "switchbox",
