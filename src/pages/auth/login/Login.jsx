@@ -26,8 +26,8 @@ const Login = () => {
     navigateRegister(routeNames.auth.register);
   };
 
-  const formSubmitHandler = (data) => {
-    navigateDashboard(routeNames.dashboard);
+  const formSubmitHandler = () => {
+    navigateDashboard(`${routeNames.dashboard}${routeNames.home}`);
   };
 
   const togglePassword = (e) => {

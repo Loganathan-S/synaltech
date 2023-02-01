@@ -1,18 +1,55 @@
 import { Icon } from "@iconify/react";
 import { Card } from "antd";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { routeNames } from "../../routes/routeNames";
-import "../../assests/css/global.css";
 
-function Sortroom() {
-  const rooms = ["Dining", "Kitchen", "Hall"];
-  const zones = ["Ground floor", "First floor", "Second floor"];
+function SortRoomZone() {
+  const [zones, setZonesLists] = useState([]);
 
+  const [rooms, setRoomLists] = useState([]);
   const navigateToDashboard = useNavigate();
 
+  useEffect(() => {
+    getZoneLists();
+    getSectionLists();
+  }, []);
+
+  const getZoneLists = () => {
+    axios
+      .get("http://192.168.1.46:3000/zoneList")
+      .then((res) => {
+        console.log(res);
+        if (res.length === 0) {
+          setZonesLists([]);
+        } else {
+          setZonesLists(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getSectionLists = () => {
+    axios
+      .get("http://192.168.1.46:3000/sectionList")
+      .then((res) => {
+        console.log(res);
+        if (res.length === 0) {
+          setRoomLists([]);
+        } else {
+          setRoomLists(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const navToDashboard = () => {
-    navigateToDashboard(routeNames.dashboard);
+    navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
   };
 
   return (
@@ -27,20 +64,19 @@ function Sortroom() {
               onClick={navToDashboard}
               style={{ cursor: "pointer" }}
             />
+            <span>&nbsp;Sort Zone/Room</span>
           </label>
         </div>
       </div>
-      <div className="row">
-        <div className="col-sm-12 col-md-3 mx-1">
-          <label className="FormHeading">Room</label>
-        </div>
 
-        {rooms.map((room, index) => (
-          <div key={index} className="col-sm-12 col-md-3 mt-2">
+      <div className="row mt-2">
+        {zones ? <h5>Zone:</h5> : null}
+        {zones.map((zone, index) => (
+          <div key={index} className="col-sm-12 col-md-4  mt-2">
             <Card cover hoverable>
               <div className="row">
                 <div className="col-9">
-                  <p className="FormContent m-0">{room}</p>
+                  <p className="fs-5 m-0">{zone.zoneName}</p>
                 </div>
                 <div className="col-3 text-end">
                   <p className="fs-5 m-0">
@@ -51,16 +87,16 @@ function Sortroom() {
             </Card>
           </div>
         ))}
+      </div>
 
-        <div className="col-sm-12 col-md-3 mx-1 mt-2">
-          <label className="FormHeading">Zone</label>
-        </div>
-        {zones.map((zone, index) => (
-          <div key={index} className="col-sm-12 col-md-3  mt-2">
+      <div className="row mt-2">
+        {rooms ? <h5>Room:</h5> : null}
+        {rooms.map((room, index) => (
+          <div key={index} className="col-sm-12 col-md-4  mt-2">
             <Card cover hoverable>
               <div className="row">
                 <div className="col-9">
-                  <p className="FormContent m-0">{zone}</p>
+                  <p className="fs-5 m-0">{room.section}</p>
                 </div>
                 <div className="col-3 text-end">
                   <p className="fs-5 m-0">
@@ -76,4 +112,4 @@ function Sortroom() {
   );
 }
 
-export default Sortroom;
+export default SortRoomZone;

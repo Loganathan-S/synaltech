@@ -70,7 +70,7 @@ function AddNewDevice() {
   };
 
   const navToDashboard = () => {
-    navigateToDashboard(routeNames.dashboard);
+    navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
   };
 
   const getSection = () => {
