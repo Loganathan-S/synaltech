@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Bottommenu from "./Bottommenu";
+import NavbarMenu from "../../components/navbar/NavbarMenu";
 
 function Layout() {
   return (
@@ -9,7 +9,7 @@ function Layout() {
         <Outlet />
       </div>
       <div className="mt-5">
-        <Bottommenu />
+        <NavbarMenu />
       </div>
     </div>
   );

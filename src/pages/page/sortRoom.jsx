@@ -3,7 +3,7 @@ import { Card } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { routeNames } from "../../routes/routeNames";
+import { routeNames } from "../../constants/routePath";
 
 function SortRoomZone() {
   const [zones, setZonesLists] = useState([]);

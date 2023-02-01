@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { apiNames, routeNames } from "../../routes/routeNames";
+import { apiNames, routeNames } from "../../constants/routePath";
 import { Apiservice } from "../../services/apiServices";
 import Autosuggest from "react-autosuggest";
 import { Modal } from "antd";

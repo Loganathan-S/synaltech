@@ -2,14 +2,14 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../pages/auth/login/Login";
 import Register from "../pages/auth/register/register";
-import AddNewDevice from "../pages/bottommenu/addNewDevice";
-import Automation from "../pages/bottommenu/Automation";
-import Home from "../pages/bottommenu/Home";
-import Layout from "../pages/bottommenu/Layout";
-import Settings from "../pages/bottommenu/Settings";
+import AddNewDevice from "../pages/page/addNewDevice";
+import Automation from "../pages/page/Automation";
+import Home from "../pages/page/Home";
+import Layout from "../pages/dashboard/Layout";
+import Settings from "../pages/page/Settings";
 import SortRoomZone from "../pages/page/sortRoom";
-import Device from "../pages/sidemenu/Device";
-import { routeNames } from "./routeNames";
+import Device from "../pages/page/Device";
+import { routeNames } from "../constants/routePath";
 
 export default function routePaths() {
   return (

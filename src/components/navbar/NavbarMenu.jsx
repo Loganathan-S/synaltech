@@ -2,8 +2,8 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
-import { routeNames } from "../../routes/routeNames";
-import "./Bottommenu.scss";
+import { routeNames } from "../../constants/routePath";
+import "./navbarMenu.scss";
 
 function Bottommenu() {
   return (

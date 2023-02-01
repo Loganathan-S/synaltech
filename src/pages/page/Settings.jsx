@@ -1,13 +1,10 @@
 import React from "react";
-
 import { Card, Tabs } from "antd";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import "../../assests/css/global.css";
-import "./Bottommenu.scss";
-
+import "../../assests/css/global.scss";
 import { useNavigate } from "react-router-dom";
-import { routeNames } from "../../routes/routeNames";
+import { routeNames } from "../../constants/routePath";
 
 function Settings() {
   const [settingLists, setSettingList] = useState([
