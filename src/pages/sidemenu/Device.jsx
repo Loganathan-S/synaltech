@@ -29,11 +29,14 @@ const Device = () => {
   const newDevices = () => {
     Apiservice.getLists(apiNames.deviceLists) //newDeviceLists
       .then((res) => {
-        console.log(res);
         if (res.length === 0) {
           setNewDeviceLists([]);
         } else {
-          setNewDeviceLists(res);
+          const availDevices = res.filter((room) => {
+            return room.sectionId !== null;
+          });
+          setNewDeviceLists(availDevices);
+          console.log(availDevices);
         }
       })
       .catch((err) => {
