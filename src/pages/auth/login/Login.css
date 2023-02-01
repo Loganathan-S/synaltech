@@ -21,3 +21,12 @@ input:-webkit-autofill {
   -webkit-text-fill-color: rgb(0, 0, 0) !important;
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
+
+/* .grad {
+  background-image: linear-gradient(180deg, red, yellow);
+} */
+
+.relative {
+  /* background-image: conic-gradient(#5464b6, #eb2b83, rgb(255, 255, 255) 190deg); */
+  background-image: linear-gradient(#f15d9f, #5464b6);
+}
