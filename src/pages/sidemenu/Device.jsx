@@ -32,11 +32,17 @@ const Device = () => {
         if (res.length === 0) {
           setNewDeviceLists([]);
         } else {
-          const availDevices = res.filter((room) => {
+          const availableDevices = res.filter((room) => {
+            return room.sectionId === null;
+          });
+
+          const notAvailableDevices = res.filter((room) => {
             return room.sectionId !== null;
           });
-          setNewDeviceLists(availDevices);
-          console.log(availDevices);
+
+          const concat = availableDevices.concat(notAvailableDevices);
+          setNewDeviceLists(concat);
+          console.log(res);
         }
       })
       .catch((err) => {
@@ -241,7 +247,15 @@ const Device = () => {
                 }
                 style={{ cursor: "pointer" }}
               >
-                <div className="card mt-2">
+                <div className="card mt-2 position-relative">
+                  {deviceDetails.sectionId === null && (
+                    <div class="position-absolute top-0 end-0 mx-2">
+                      <span>
+                        <Icon icon="clarity:new-line" className="newIcon" />
+                      </span>
+                    </div>
+                  )}
+
                   <div className="card-body FormContent">
                     <p>ID : {deviceDetails.deviceId}</p>
                     {deviceDetails.deviceName ? (

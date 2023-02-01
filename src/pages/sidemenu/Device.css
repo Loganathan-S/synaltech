@@ -70,3 +70,7 @@
 .react-autosuggest__suggestion--focused {
   background-color: #ddd;
 }
+
+.newIcon {
+  font-size: 2.2rem;
+}
