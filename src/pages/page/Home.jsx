@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Tabs } from "antd";
+import { Card } from "antd";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import "../../assests/css/global.scss";
@@ -8,16 +8,12 @@ import { routeNames } from "../../constants/routePath";
 
 function Home() {
   const [listShow, setListShow] = useState(false);
-  const [addLists, setAddList] = useState([
-    "Add Device",
-    "Add new Room/Zone",
-    "Sort Zone/Room",
-  ]);
-  const [icons, setIcons] = useState([
+  const addLists = ["Add Device", "Add new Zone & Room", "Configure Zone"];
+  const icons = [
     <Icon icon="ic:round-device-hub" inline={true} />,
     <Icon icon="ic:baseline-meeting-room" inline={true} />,
     <Icon icon="mdi:sort-calendar-descending" inline={true} />,
-  ]);
+  ];
   const navigate = useNavigate();
   const navToLogout = useNavigate();
 
@@ -32,9 +28,9 @@ function Home() {
   const addDevice = (list, id) => {
     if (addLists[id] === "Add Device") {
       navigate(`${routeNames.dashboard}${routeNames.addnewdevice}`);
-    } else if (addLists[id] === "Add new Room/Zone") {
+    } else if (addLists[id] === "Add new Zone & Room") {
       console.log("Add new Room/Zone");
-    } else if (addLists[id] === "Sort Zone/Room") {
+    } else if (addLists[id] === "Configure Zone") {
       // console.log("Sort Zone/Room");
       navigate(`${routeNames.dashboard}${routeNames.sortroom}`);
     }

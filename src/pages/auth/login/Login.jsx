@@ -98,12 +98,9 @@ const Login = () => {
                   <></>
                 )}
                 <div className="text-end mt-3">
-                  <a
-                    className="text-decoration-none"
-                    style={{ cursor: "pointer" }}
-                  >
+                  <label className="text-primary" style={{ cursor: "pointer" }}>
                     Forgot Password
-                  </a>
+                  </label>
                 </div>
                 <div className="mt-3 mb-3 text-center">
                   <button
@@ -117,13 +114,13 @@ const Login = () => {
 
                 <div className="text-center mt-4">
                   <span>Don't have an account</span>&nbsp;
-                  <a
+                  <label
                     onClick={() => registerForm()}
-                    className=""
+                    className="text-primary"
                     style={{ cursor: "pointer" }}
                   >
                     create an account
-                  </a>
+                  </label>
                 </div>
               </form>
             </div>
