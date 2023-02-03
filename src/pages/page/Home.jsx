@@ -33,9 +33,8 @@ function Home() {
     if (addLists[id] === "Add Device") {
       navigate(`${routeNames.dashboard}${routeNames.addnewdevice}`);
     } else if (addLists[id] === "Add new Room/Zone") {
-      console.log("Add new Room/Zone");
+      navigate(`${routeNames.dashboard}${routeNames.addroomzone}`);
     } else if (addLists[id] === "Sort Zone/Room") {
-      // console.log("Sort Zone/Room");
       navigate(`${routeNames.dashboard}${routeNames.sortroom}`);
     }
   };
