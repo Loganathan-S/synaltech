@@ -20,6 +20,8 @@ export const routeNames = {
   location: base + "location",
   addnewdevice: base + "addnewdevice",
   sortroom: base + "sortroom",
+  addroomzone: base + "addroomzone",
+  roomzonelist: base + "roomzonelist",
 };
 
 export const apiNames = {
@@ -36,4 +38,10 @@ export const apiNames = {
   locationLists: "locationList",
   newLocation: "newLocation",
   lines: "device/line/",
+  sectionlists: "sectionList",
+  zonelists: "zoneList",
+  updatesection: "updateSection/",
+  deletesection: "deleteSection/",
+  updatezone: "updateZone/",
+  deletezone: "deleteZone/",
 };

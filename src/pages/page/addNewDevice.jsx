@@ -22,13 +22,13 @@ function AddNewDevice() {
   const [show, setShow] = useState(false);
 
   const searchHandleSearch = () => {
-    console.log(search);
+    //console.log(search);
     const deviceLists = avaliableDevice.filter(
       (person) =>
         person.deviceName.toLowerCase().includes(search.toLowerCase()) &&
         person.sectionId === null
     );
-    console.log(deviceLists);
+    //console.log(deviceLists);
     const count = avaliableDevice.filter((p) => p.sectionId === null);
     setCountDevice(count.length);
     setItem(deviceLists);
@@ -37,7 +37,7 @@ function AddNewDevice() {
 
   const searchOnchage = (e) => {
     setNewSearch(e.target.value);
-    console.log(e.target.value);
+    //console.log(e.target.value);
   };
 
   useEffect(() => {
@@ -55,7 +55,7 @@ function AddNewDevice() {
           const devices = avaliableDevice.filter((person) =>
             person.deviceName.toLowerCase().includes(search.toLowerCase())
           );
-          setItem(devices);
+          //  setItem(devices);
           const count = avaliableDevice.filter((p) => p.sectionId === null);
           setCountDevice(count.length);
         }
@@ -238,7 +238,9 @@ function AddNewDevice() {
                   ))}
                 </>
               ) : (
-                <p className="text-center">No device Found</p>
+                <p className="text-center mt-2 text-danger">
+                  Did't find any device
+                </p>
               )}
             </>
           )}

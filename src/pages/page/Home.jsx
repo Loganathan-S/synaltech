@@ -8,7 +8,7 @@ import { routeNames } from "../../constants/routePath";
 
 function Home() {
   const [listShow, setListShow] = useState(false);
-  const addLists = ["Add Device", "Add new Zone & Room", "Configure Zone"];
+  const addLists = ["Add Device", "Add Zone & Room", "Configure Zone"];
   const icons = [
     <Icon icon="ic:round-device-hub" inline={true} />,
     <Icon icon="ic:baseline-meeting-room" inline={true} />,
@@ -28,8 +28,9 @@ function Home() {
   const addDevice = (list, id) => {
     if (addLists[id] === "Add Device") {
       navigate(`${routeNames.dashboard}${routeNames.addnewdevice}`);
-    } else if (addLists[id] === "Add new Zone & Room") {
-      console.log("Add new Room/Zone");
+    } else if (addLists[id] === "Add Zone & Room") {
+      //console.log("Add new Room/Zone");
+      navigate(`${routeNames.dashboard}${routeNames.addroomzone}`);
     } else if (addLists[id] === "Configure Zone") {
       // console.log("Sort Zone/Room");
       navigate(`${routeNames.dashboard}${routeNames.sortroom}`);
