@@ -28,17 +28,11 @@ function Home() {
   const addDevice = (list, id) => {
     if (addLists[id] === "Add Device") {
       navigate(`${routeNames.dashboard}${routeNames.addnewdevice}`);
-<<<<<<< HEAD
-    } else if (addLists[id] === "Add new Room/Zone") {
-      navigate(`${routeNames.dashboard}${routeNames.addroomzone}`);
-    } else if (addLists[id] === "Sort Zone/Room") {
-=======
     } else if (addLists[id] === "Add Zone & Room") {
       //console.log("Add new Room/Zone");
       navigate(`${routeNames.dashboard}${routeNames.addroomzone}`);
     } else if (addLists[id] === "Configure Zone") {
       // console.log("Sort Zone/Room");
->>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
       navigate(`${routeNames.dashboard}${routeNames.sortroom}`);
     }
   };
