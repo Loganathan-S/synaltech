@@ -142,13 +142,13 @@ const Register = () => {
 
                   <div className="text-center mt-4">
                     <span>Already have an account</span>&nbsp;
-                    <a
+                    <label
                       onClick={loginForm}
-                      className=""
+                      className="text-primary"
                       style={{ cursor: "pointer" }}
                     >
                       login
-                    </a>
+                    </label>
                   </div>
                 </form>
               </div>

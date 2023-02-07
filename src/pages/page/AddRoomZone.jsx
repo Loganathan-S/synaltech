@@ -28,9 +28,9 @@ function AddRoomZone() {
   const addZone = () => {
     let zoneObj = zone;
     Apiservice.addZoneList(apiNames.newZone, zoneObj)
-      .then((res) => {
-        console.log(res);
-      })
+      // .then((res) => {
+      //   console.log(res);
+      // })
       .catch((err) => {
         console.log(err);
       });
@@ -40,9 +40,9 @@ function AddRoomZone() {
   const addSection = () => {
     let addSection = section;
     Apiservice.addSectionList(apiNames.newSection, addSection)
-      .then((res) => {
-        console.log(res);
-      })
+      // .then((res) => {
+      //   console.log(res);
+      // })
       .catch((err) => {
         console.log(err);
       });
@@ -79,7 +79,7 @@ function AddRoomZone() {
                       value={zone}
                       onChange={handleZoneChange}
                       type="text"
-                      placeholder="enter zone ex: Ground floor"
+                      placeholder="ex: Ground floor"
                     />
                   </Col>
                   <Col
@@ -107,7 +107,7 @@ function AddRoomZone() {
                         value={section}
                         onChange={handleSectionChange}
                         type="text"
-                        placeholder="enter zone ex: Hall"
+                        placeholder="ex: Hall"
                       />
                     </Col>
                     <Col

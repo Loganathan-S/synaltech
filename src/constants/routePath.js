@@ -5,7 +5,7 @@ export const baseUrl = "http://192.168.1.46:4000/";
 
 export const routeNames = {
   auth: {
-    login: base,
+    home: base,
     register: base + "register",
   },
   dashboard: base + "dashboard",
@@ -21,11 +21,17 @@ export const routeNames = {
   location: base + "location",
   addnewdevice: base + "addnewdevice",
   sortroom: base + "sortroom",
+<<<<<<< HEAD
   addroomzone:base + "addroomzone",
   roomzonelist:base+"roomzonelist"
+=======
+  addroomzone: base + "addroomzone",
+  roomzonelist: base + "roomzonelist",
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
 };
 
 export const apiNames = {
+  login: "login/",
   mapping: "mapping",
   switchBoxLists: "switchBoxList",
   newSwitchBox: "newSwitchBox",
@@ -37,6 +43,7 @@ export const apiNames = {
   locationLists: "locationList",
   newLocation: "newLocation",
   lines: "device/line/",
+<<<<<<< HEAD
 
   sectionlists: "sectionList",
   zonelists: "zoneList",
@@ -44,4 +51,12 @@ export const apiNames = {
   deletesection:"deleteSection/",
   updatezone:"updateZone/",
   deletezone:"deleteZone/",
+=======
+  sectionlists: "sectionList",
+  zonelists: "zoneList",
+  updatesection: "updateSection/",
+  deletesection: "deleteSection/",
+  updatezone: "updateZone/",
+  deletezone: "deleteZone/",
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
 };

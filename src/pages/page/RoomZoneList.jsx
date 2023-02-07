@@ -30,7 +30,11 @@ function RoomZoneList() {
   const getZoneLists = () => {
     Apiservice.getLists(apiNames.zonelists)
       .then((res) => {
+<<<<<<< HEAD
         console.log(res);
+=======
+        //console.log(res);
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
         if (res.length === 0) {
           setZonesLists([]);
         } else {
@@ -80,7 +84,11 @@ function RoomZoneList() {
   const updateZoneName = () => {
     Apiservice.updateZoneName(apiNames.updatezone, zoneId, zoneName)
       .then((res) => {
+<<<<<<< HEAD
         console.log(res);
+=======
+        // console.log(res);
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
         setEditZoneDetails(false);
         getZoneLists();
       })
@@ -92,7 +100,11 @@ function RoomZoneList() {
   const updateRoomName = () => {
     Apiservice.updateSectionName(apiNames.updatesection, sectionId, sectionName)
       .then((res) => {
+<<<<<<< HEAD
         console.log(res);
+=======
+        //console.log(res);
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
         setEditRoomDetails(false);
         getSectionLists();
       })
@@ -104,7 +116,11 @@ function RoomZoneList() {
   const deleteZone = (id) => {
     Apiservice.deleteZone(apiNames.deletezone, id)
       .then((res) => {
+<<<<<<< HEAD
         console.log(res);
+=======
+        // console.log(res);
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
         //  seteditZoneDetails(false);
         getZoneLists();
       })
@@ -115,14 +131,22 @@ function RoomZoneList() {
   };
 
   const cancelZone = (e) => {
+<<<<<<< HEAD
     console.log(e);
+=======
+    // console.log(e);
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
     message.error("Cancelled");
   };
 
   const deleteSection = (id) => {
     Apiservice.deleteSection(apiNames.deletesection, id)
       .then((res) => {
+<<<<<<< HEAD
         console.log(res);
+=======
+        // console.log(res);
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
         getSectionLists();
       })
       .catch((err) => {
@@ -132,7 +156,11 @@ function RoomZoneList() {
   };
 
   const cancelSection = (e) => {
+<<<<<<< HEAD
     console.log(e);
+=======
+    // console.log(e);
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
     message.error("Cancelled");
   };
 
@@ -153,17 +181,29 @@ function RoomZoneList() {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="row mt-2">
         {zones ? <h5>Zone List:</h5> : null}
+=======
+      <div className="row mt-3">
+        {zones ? <span className="FormHeading">Zone List:</span> : null}
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
         {zones.map((zone, index) => (
           <div key={index} className="col-sm-12 col-md-4  mt-2">
             <Card cover>
               <div className="row">
                 <div className="col-8">
+<<<<<<< HEAD
                   <p className="fs-5 m-0">{zone.zoneName}</p>
                 </div>
                 <div className="col-2 text-end ">
                   <p className="fs-5 m-0 ">
+=======
+                  <span className="FormContent m-0">{zone.zoneName}</span>
+                </div>
+                <div className="col-2 text-end">
+                  <p className="m-0 FormContent">
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
                     <Icon
                       icon="material-symbols:edit"
                       onClick={() => editZonePopup(zone.id, zone.zoneName)}
@@ -172,7 +212,11 @@ function RoomZoneList() {
                 </div>
 
                 <div className="col-2 text-end ">
+<<<<<<< HEAD
                   <p className="fs-5 m-0">
+=======
+                  <p className="FormContent m-0">
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
                     <Popconfirm
                       title="Remove Zone"
                       description="Are you sure to Remove this Zone?"
@@ -191,18 +235,30 @@ function RoomZoneList() {
         ))}
       </div>
 
+<<<<<<< HEAD
       <div className="row mt-2">
         {rooms ? <h5>Room List:</h5> : null}
+=======
+      <div className="row mt-3">
+        {rooms ? <span className="FormHeading">Room List:</span> : null}
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
 
         {rooms.map((room, index) => (
           <div key={index} className="col-sm-12 col-md-4  mt-2">
             <Card cover>
               <div className="row">
                 <div className="col-8">
+<<<<<<< HEAD
                   <p className="fs-5 m-0">{room.section}</p>
                 </div>
                 <div className="col-2 text-end hover">
                   <p className="fs-5 m-0">
+=======
+                  <p className="FormContent m-0">{room.section}</p>
+                </div>
+                <div className="col-2 text-end hover">
+                  <p className="FormContent m-0">
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
                     <Icon
                       icon="material-symbols:edit"
                       onClick={() => editSectionPopup(room.id, room.section)}
@@ -211,7 +267,11 @@ function RoomZoneList() {
                 </div>
 
                 <div className="col-2 text-end">
+<<<<<<< HEAD
                   <p className="fs-5 m-0">
+=======
+                  <p className="FormContent m-0">
+>>>>>>> 8577b7ca12c386ba098acd8419344f7abb331479
                     <Popconfirm
                       title="Remove Section"
                       description="Are you sure to Remove this Section?"

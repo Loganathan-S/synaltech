@@ -16,7 +16,7 @@ import RoomZoneList from "../pages/page/RoomZoneList";
 export default function routePaths() {
   return (
     <Routes>
-      <Route exact path={routeNames.auth.login} element={<Login />} />
+      <Route exact path={routeNames.auth.home} element={<Login />} />
       <Route exact path={routeNames.auth.register} element={<Register />} />
       <Route exact path={routeNames.dashboard} element={<Layout />}>
         <Route

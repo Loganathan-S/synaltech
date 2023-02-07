@@ -8,12 +8,9 @@ import { Modal } from "antd";
 
 function AddNewDevice() {
   const navigateToDashboard = useNavigate();
-  const [newDeviceLists, setNewDeviceLists] = useState([]);
-  const [changeLinesNamePopup, setChangeLinesNamePopup] = useState(false);
   const [id, setId] = useState("");
   const [showDeviceDetails, setShowDeviceDetails] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [lines, setLines] = useState([]);
   const [deviceName, setDeviceName] = useState("");
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -25,13 +22,13 @@ function AddNewDevice() {
   const [show, setShow] = useState(false);
 
   const searchHandleSearch = () => {
-    console.log(search);
+    //console.log(search);
     const deviceLists = avaliableDevice.filter(
       (person) =>
         person.deviceName.toLowerCase().includes(search.toLowerCase()) &&
         person.sectionId === null
     );
-    console.log(deviceLists);
+    //console.log(deviceLists);
     const count = avaliableDevice.filter((p) => p.sectionId === null);
     setCountDevice(count.length);
     setItem(deviceLists);
@@ -40,28 +37,27 @@ function AddNewDevice() {
 
   const searchOnchage = (e) => {
     setNewSearch(e.target.value);
-    console.log(e.target.value);
+    //console.log(e.target.value);
   };
 
   useEffect(() => {
     newDevices();
     getSection();
-  }, []);
+  });
 
   const newDevices = () => {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
-        setAvaliableDevice(res);
-        const devices = avaliableDevice.filter((person) =>
-          person.deviceName.toLowerCase().includes(search.toLowerCase())
-        );
-        setItem(devices);
-        const count = avaliableDevice.filter((p) => p.sectionId === null);
-        setCountDevice(count.length);
         if (res.length === 0) {
-          setNewDeviceLists([]);
+          setAvaliableDevice([]);
         } else {
-          setNewDeviceLists(res);
+          setAvaliableDevice(res);
+          const devices = avaliableDevice.filter((person) =>
+            person.deviceName.toLowerCase().includes(search.toLowerCase())
+          );
+          //  setItem(devices);
+          const count = avaliableDevice.filter((p) => p.sectionId === null);
+          setCountDevice(count.length);
         }
       })
       .catch((err) => {
@@ -137,7 +133,6 @@ function AddNewDevice() {
       newDevices();
       getSection();
       setShowDeviceDetails(false);
-      setChangeLinesNamePopup(true);
     }
     if (result === undefined) {
       Apiservice.addSection(apiNames.newSection, value)
@@ -169,9 +164,7 @@ function AddNewDevice() {
 
     setId(Id);
     setShowDeviceDetails(true);
-    let json = JSON.parse(desc);
     let description = JSON.parse(details.description);
-    setLines(json.lines);
     setModalData(description);
   };
 
@@ -245,7 +238,9 @@ function AddNewDevice() {
                   ))}
                 </>
               ) : (
-                <p className="text-center">No device Found</p>
+                <p className="text-center mt-2 text-danger">
+                  Did't find any device
+                </p>
               )}
             </>
           )}
