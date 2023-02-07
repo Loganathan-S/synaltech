@@ -10,11 +10,13 @@ import Settings from "../pages/page/Settings";
 import SortRoomZone from "../pages/page/sortRoom";
 import Device from "../pages/page/Device";
 import { routeNames } from "../constants/routePath";
+import AddRoomZone from "../pages/page/AddRoomZone";
+import RoomZoneList from "../pages/page/RoomZoneList";
 
 export default function routePaths() {
   return (
     <Routes>
-      <Route exact path={routeNames.auth.login} element={<Login />} />
+      <Route exact path={routeNames.auth.home} element={<Login />} />
       <Route exact path={routeNames.auth.register} element={<Register />} />
       <Route exact path={routeNames.dashboard} element={<Layout />}>
         <Route
@@ -46,6 +48,16 @@ export default function routePaths() {
           exact
           path={`${routeNames.dashboard}${routeNames.device}`}
           element={<Device />}
+        />
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.addroomzone}`}
+          element={<AddRoomZone />}
+        />
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.roomzonelist}`}
+          element={<RoomZoneList />}
         />
       </Route>
     </Routes>

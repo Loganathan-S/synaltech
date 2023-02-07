@@ -2,6 +2,14 @@ import axios from "axios";
 import { baseUrl } from "../constants/routePath";
 
 export class Apiservice {
+  static login = async (apiname, email, password) => {
+    return await axios
+      .post(baseUrl + apiname + email + "/" + password)
+      .then((response) => {
+        return response.data;
+      });
+  };
+
   static getLists = async (apiname) => {
     return await axios.get(baseUrl + apiname).then((response) => {
       return response.data;
@@ -19,7 +27,7 @@ export class Apiservice {
       });
   };
 
-  static addZone = async (apiname, addZone) => {
+  static addZoneList = async (apiname, addZone) => {
     return await axios
       .post(baseUrl + apiname, { zoneName: addZone })
       .then((response) => {
@@ -27,7 +35,7 @@ export class Apiservice {
       });
   };
 
-  static addSection = async (apiname, addSection) => {
+  static addSectionList = async (apiname, addSection) => {
     return await axios
       .post(baseUrl + apiname, { section: addSection })
       .then((response) => {
@@ -35,37 +43,36 @@ export class Apiservice {
       });
   };
 
-  static addLocation = async (apiname, addLocation) => {
+  static updateSectionName = async (apiname, id, sectionname) => {
     return await axios
-      .post(baseUrl + apiname, { location: addLocation })
+      .post(baseUrl + apiname + id, {
+        section: sectionname,
+      })
       .then((response) => {
         return response.data;
       });
   };
 
-  static addSwitchBox = async (
-    apiname,
-    zoneid,
-    sectionid,
-    locationid,
-    lights,
-    fans,
-    sockets,
-    usbs
-  ) => {
+  static updateZoneName = async (apiname, id, zoneName) => {
     return await axios
-      .post(baseUrl + apiname, {
-        zoneId: zoneid,
-        sectionId: sectionid,
-        locationId: locationid,
-        noOfLights: lights,
-        noOfFans: fans,
-        noOfSockets: sockets,
-        noOfUSBS: usbs,
+      .post(baseUrl + apiname + id, {
+        zoneName: zoneName,
       })
       .then((response) => {
         return response.data;
       });
+  };
+
+  static deleteZone = async (apiname, id) => {
+    return await axios.post(baseUrl + apiname + id).then((response) => {
+      return response.data;
+    });
+  };
+
+  static deleteSection = async (apiname, id) => {
+    return await axios.post(baseUrl + apiname + id).then((response) => {
+      return response.data;
+    });
   };
 
   static addLines = async (apiname, descObj) => {
