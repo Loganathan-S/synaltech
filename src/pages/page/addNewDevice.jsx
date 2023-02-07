@@ -43,7 +43,7 @@ function AddNewDevice() {
   useEffect(() => {
     newDevices();
     getSection();
-  });
+  }, []);
 
   const newDevices = () => {
     Apiservice.getLists(apiNames.deviceLists)
@@ -217,7 +217,7 @@ function AddNewDevice() {
                   {item.map((deviceDetails, index) => (
                     <div className="text-center" key={deviceDetails.id}>
                       <div className="text-center mt-2">
-                        {countDevice} Device Found
+                        {index === 0 && <>{countDevice} Device Found</>}
                       </div>
                       <div
                         className="card mt-3"

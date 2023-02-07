@@ -160,7 +160,7 @@ const Device = () => {
 
     if (details.sectionId !== null) {
       let result = section.find((f) => f.id === details.sectionId);
-      //console.log(result);
+      console.log(result);
       if (result !== null) {
         setValue(result.section);
       }
