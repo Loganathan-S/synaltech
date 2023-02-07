@@ -4,7 +4,7 @@ export const baseUrl = "http://192.168.1.46:4000/";
 
 export const routeNames = {
   auth: {
-    login: base,
+    home: base,
     register: base + "register",
   },
   dashboard: base + "dashboard",
@@ -25,6 +25,7 @@ export const routeNames = {
 };
 
 export const apiNames = {
+  login: "login/",
   mapping: "mapping",
   switchBoxLists: "switchBoxList",
   newSwitchBox: "newSwitchBox",

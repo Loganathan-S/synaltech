@@ -5,8 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../validations/validationSchema";
 import { Icon } from "@iconify/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { routeNames } from "../../../constants/routePath";
+import { apiNames, baseUrl, routeNames } from "../../../constants/routePath";
 import "./Login.css";
+import axios from "axios";
+import { Apiservice } from "../../../services/apiServices";
 
 const Login = () => {
   const navigateDashboard = useNavigate();
@@ -26,8 +28,18 @@ const Login = () => {
     navigateRegister(routeNames.auth.register);
   };
 
-  const formSubmitHandler = () => {
-    navigateDashboard(`${routeNames.dashboard}${routeNames.home}`);
+  const formSubmitHandler = (data) => {
+    Apiservice.login(apiNames.login, data.email, data.password)
+      .then((res) => {
+        //console.log(res);
+        localStorage.setItem("userId", res.id);
+        localStorage.setItem("userName", res.name);
+        localStorage.setItem("userEmail", res.email);
+        navigateDashboard(`${routeNames.dashboard}${routeNames.home}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const togglePassword = (e) => {

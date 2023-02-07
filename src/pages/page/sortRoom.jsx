@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 //import { Card } from "antd";
-import axios from "axios";
+//import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { apiNames, routeNames } from "../../constants/routePath";
@@ -41,7 +41,7 @@ function SortRoomZone() {
   const getSectionLists = () => {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
-        //console.log(res);
+        console.log(res);
         if (res.length === 0) {
           setRoomLists([]);
         } else {
@@ -57,6 +57,7 @@ function SortRoomZone() {
             name: x,
             id: index + 1,
           }));
+          console.log(options);
           setOptions(options);
           setRoomLists(unique);
         }
@@ -81,7 +82,7 @@ function SortRoomZone() {
     });
     const roomNameInString = name.toString();
     setRoomNames(roomNameInString);
-    //console.log(roomNameInString);
+    console.log(roomNameInString);
     //console.log(selectedList);
     //console.log(selectedItem.name);
   };

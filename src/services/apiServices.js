@@ -2,6 +2,14 @@ import axios from "axios";
 import { baseUrl } from "../constants/routePath";
 
 export class Apiservice {
+  static login = async (apiname, email, password) => {
+    return await axios
+      .post(baseUrl + apiname + email + "/" + password)
+      .then((response) => {
+        return response.data;
+      });
+  };
+
   static getLists = async (apiname) => {
     return await axios.get(baseUrl + apiname).then((response) => {
       return response.data;

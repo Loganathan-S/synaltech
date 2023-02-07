@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card } from "antd";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
@@ -22,7 +22,7 @@ function Home() {
   };
 
   const logout = () => {
-    navToLogout(routeNames.auth.login);
+    navToLogout(routeNames.auth.home);
   };
 
   const addDevice = (list, id) => {
