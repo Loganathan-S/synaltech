@@ -161,7 +161,7 @@ const Device = () => {
     if (details.sectionId !== null) {
       let result = section.find((f) => f.id === details.sectionId);
       console.log(result);
-      if (result !== null) {
+      if (result !== null && result !== undefined) {
         setValue(result.section);
       }
     }
@@ -394,7 +394,7 @@ const Device = () => {
                         value={lines[item].name}
                         type="text"
                         className="form-control"
-                        placeholder={value}
+                        //placeholder={value}
                         onChange={(e) => onChangeName(e, index)}
                       />
                     </div>
