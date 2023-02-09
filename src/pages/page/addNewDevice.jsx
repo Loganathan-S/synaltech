@@ -39,6 +39,7 @@ function AddNewDevice() {
     setNewSearch(e.target.value);
     //console.log(e.target.value);
   };
+ 
 
   useEffect(() => {
     newDevices();
@@ -52,7 +53,7 @@ function AddNewDevice() {
           setAvaliableDevice([]);
         } else {
           setAvaliableDevice(res);
-          const devices = avaliableDevice.filter((person) =>
+          const devices = avaliableDevice.filter((person) => 
             person.deviceName.toLowerCase().includes(search.toLowerCase())
           );
           //  setItem(devices);
@@ -217,7 +218,7 @@ function AddNewDevice() {
                   {item.map((deviceDetails, index) => (
                     <div className="text-center" key={deviceDetails.id}>
                       <div className="text-center mt-2">
-                        {index === 0 && <> {countDevice} Device Found</>}
+                        {index === 0 && <>{countDevice} Device Found</>}
                       </div>
                       <div
                         className="card mt-3"

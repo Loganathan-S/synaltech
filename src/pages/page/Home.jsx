@@ -37,6 +37,15 @@ function Home() {
     }
   };
 
+  const navToLights = () => {
+    navigate(`${routeNames.dashboard}${routeNames.lightspage}`);
+  };
+
+  const navToRooms = () => {
+    navigate(`${routeNames.dashboard}${routeNames.roomspage}`);
+  };
+  
+
   return (
     <div className="container">
       <div className=" mt-3">
@@ -53,6 +62,7 @@ function Home() {
           </div>
         </div>
       </div>
+
       <div className="row mt-3">
         <div className="col-12">
           <div className="text-end">
@@ -104,6 +114,100 @@ function Home() {
               ))}
             </div>
           ) : null}
+        </div>
+      </div>
+      <div className="row mt-3">
+        <div className="col-10"></div>
+        <div className="col-2 text-end">
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="flexSwitchCheckChecked"
+            />
+          </div>
+        </div>
+        <div>
+          <h2 className="m-0">Home</h2>
+        </div>
+        <p className="mt-2 m-0">Zones</p>
+      </div>
+      <div className="row mt-3">
+        <div className="col-12">
+          <Card
+            cover
+            hoverable
+            style={{
+              width: 350,
+            }}
+          >
+            <div className="row">
+              <div className="col-2 gx-2" onClick={navToLights}>
+                <Icon
+                  icon="material-symbols:home-outline"
+                  className=""
+                  height={45}
+                />
+              </div>
+              <div className="col-8" onClick={navToLights}>
+                <h4 className="m-0">Ground Floor</h4>
+                <p className="m-0">8 lights are on</p>
+              </div>
+              <div className="col-2">
+                <div className="form-check form-switch fs-4">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="flexSwitchCheckChecked"
+                  />
+                </div>
+              </div>
+              <div className="m-0 mt-3">
+                <input type="range" className="w-100" />
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+
+      <div className="row mt-3">
+        <p className="mt-2 m-0">Rooms</p>
+      </div>
+      <div className="row mt-3">
+        <div className="col-12">
+          <Card
+            cover
+            hoverable
+            style={{
+              width: 350,
+            }}
+          >
+            <div className="row">
+              <div className="col-2 gx-2 " onClick={navToRooms}>
+                <Icon
+                  icon="material-symbols:dining-outline-rounded"
+                  height={45}
+                />
+              </div>
+              <div className="col-8" onClick={navToRooms}>
+                <h4 className="m-0">Dining</h4>
+                <p className="m-0">All lights are on</p>
+              </div>
+              <div className="col-2">
+                <div className="form-check form-switch fs-4">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="flexSwitchCheckChecked"
+                  />
+                </div>
+              </div>
+
+              <div className="m-0 mt-3">
+                <input type="range" className=" w-100 " />
+              </div>
+            </div>
+          </Card>
         </div>
       </div>
     </div>
