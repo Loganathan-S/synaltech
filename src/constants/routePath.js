@@ -22,6 +22,8 @@ export const routeNames = {
   sortroom: base + "sortroom",
   addroomzone: base + "addroomzone",
   roomzonelist: base + "roomzonelist",
+  lightspage: base + "lightspage",
+  roomspage: base + "roomspage",
 };
 
 export const apiNames = {

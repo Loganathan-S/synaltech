@@ -16,6 +16,8 @@ function Home() {
   ];
   const navigate = useNavigate();
   const navToLogout = useNavigate();
+  const zone = ["Ground floor", "First floor"];
+  const room = ["Hall", "Bed room", "Kitchen"];
 
   const showAddList = () => {
     setListShow(!listShow);
@@ -35,6 +37,14 @@ function Home() {
       // console.log("Sort Zone/Room");
       navigate(`${routeNames.dashboard}${routeNames.sortroom}`);
     }
+  };
+
+  const navToLights = () => {
+    navigate(`${routeNames.dashboard}${routeNames.lightspage}`);
+  };
+
+  const navToRooms = () => {
+    navigate(`${routeNames.dashboard}${routeNames.roomspage}`);
   };
 
   return (
@@ -104,6 +114,107 @@ function Home() {
               ))}
             </div>
           ) : null}
+        </div>
+      </div>
+      <div className="row mt-3">
+        <div className="col-10 m-0 ModuleHeading">Home</div>
+        <div className="col-2 text-end">
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="flexSwitchCheckChecked"
+            />
+          </div>
+        </div>
+        <p className="mt-3 m-0 FormHeading">Zones</p>
+      </div>
+      <div className="row">
+        <div className="col-12">
+          {zone.map((zne, index) => (
+            <div key={index} className="mt-2">
+              <Card
+                className="bg_color"
+                cover
+                hoverable
+                style={{
+                  width: 350,
+                }}
+              >
+                <div className="row">
+                  {/* <div className="col-2 gx-2" onClick={navToLights}>
+                    <Icon
+                      icon="material-symbols:home-outline"
+                      className=""
+                      height={45}
+                    />
+                  </div> */}
+                  <div className="col-10" onClick={navToLights}>
+                    <p className="m-0 ModuleHeading">{zne}</p>
+                    <p className="m-0">8 lights are on</p>
+                  </div>
+                  <div className="col-2">
+                    <div className="form-check form-switch fs-4">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="flexSwitchCheckChecked"
+                      />
+                    </div>
+                  </div>
+                  <div className="m-0 mt-3">
+                    <input type="range" className="w-100" />
+                  </div>
+                </div>
+              </Card>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="row mt-3">
+        <p className="mt-2 m-0 FormHeading">Rooms</p>
+      </div>
+      <div className="row">
+        <div className="col-12">
+          {room.map((rooms, index) => (
+            <div key={index} className="mt-2">
+              <Card
+                className="bg_color"
+                cover
+                hoverable
+                style={{
+                  width: 350,
+                }}
+              >
+                <div className="row">
+                  {/* <div className="col-2 gx-2 " onClick={navToRooms}>
+                    <Icon
+                      icon="material-symbols:dining-outline-rounded"
+                      height={45}
+                    />
+                  </div> */}
+                  <div className="col-10" onClick={navToRooms}>
+                    <p className="m-0 ModuleHeading">{rooms}</p>
+                    <p className="m-0">All lights are on</p>
+                  </div>
+                  <div className="col-2">
+                    <div className="form-check form-switch fs-4">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="flexSwitchCheckChecked"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="m-0 mt-3">
+                    <input type="range" className=" w-100 " />
+                  </div>
+                </div>
+              </Card>
+            </div>
+          ))}
         </div>
       </div>
     </div>

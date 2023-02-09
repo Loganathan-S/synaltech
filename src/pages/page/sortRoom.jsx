@@ -80,7 +80,8 @@ function SortRoomZone() {
   };
 
   const onSelect = (selectedList, selectedItem) => {
-    //console.log(selectedList);
+    console.log(selectedList);
+    console.log(selectedItem);
     setDeviceDetails(selectedList);
     // const name = selectedList.map((names) => {
     //   return names.name;
@@ -112,10 +113,10 @@ function SortRoomZone() {
     const createZone = {
       userId: localStorage.getItem("userId"),
       zoneId: zoneID,
-      deviceDetails: deviceDetails,
+      deviceDetails: {
+        details: deviceDetails,
+      },
     };
-
-    console.log(createZone);
 
     axios
       .post("http://192.168.1.46:4000/configureZone", createZone)
