@@ -47,4 +47,5 @@ export const apiNames = {
   deletesection: "deleteSection/",
   updatezone: "updateZone/",
   deletezone: "deleteZone/",
+  zone: "zone/",
 };

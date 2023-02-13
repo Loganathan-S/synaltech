@@ -7,11 +7,10 @@ import "../../assests/css/global.scss";
 
 function Rooms() {
   const rooms = [
-    "Dining hall_1",
-    "Dining hall_2",
-    "Dining hall_3",
-    "Dining hall_4",
-    "Dining hall_5",
+    "Kids_Room_Fan",
+    "Kids_Room_Light",
+    "Kids_Room_TV",
+    "Kids_Room_AC",
   ];
   const navigateToDashboard = useNavigate();
   const navToDashboard = () => {
@@ -106,9 +105,9 @@ function Rooms() {
                 <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
                   {room}
                 </p>
-                <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
+                {/* <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
                   unreachable
-                </p>
+                </p> */}
                 <div className="form-check form-switch d-flex justify-content-center mb-2">
                   <input
                     className="form-check-input"
