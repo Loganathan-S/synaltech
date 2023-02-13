@@ -6,7 +6,13 @@ import { routeNames } from "../../constants/routePath";
 import "../../assests/css/global.scss";
 
 function Rooms() {
-  const rooms = ["Dining hall_1", "Dining hall_2", "Dining hall_3"];
+  const rooms = [
+    "Dining hall_1",
+    "Dining hall_2",
+    "Dining hall_3",
+    "Dining hall_4",
+    "Dining hall_5",
+  ];
   const navigateToDashboard = useNavigate();
   const navToDashboard = () => {
     navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
