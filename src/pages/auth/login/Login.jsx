@@ -1,14 +1,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { loginSchema } from "../../../validations/validationSchema";
-import { Icon } from "@iconify/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { apiNames, baseUrl, routeNames } from "../../../constants/routePath";
-import "./Login.css";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { apiNames, routeNames } from "../../../constants/routePath";
 import { Apiservice } from "../../../services/apiServices";
+import { loginSchema } from "../../../validations/validationSchema";
+import "./Login.css";
 
 const Login = () => {
   const navigateDashboard = useNavigate();

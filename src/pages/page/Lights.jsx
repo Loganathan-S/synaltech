@@ -6,11 +6,10 @@ import { routeNames } from "../../constants/routePath";
 import "../../assests/css/global.scss";
 function Lights() {
   const rooms = [
-    "Dining hall_1",
-    "Dining hall_2",
-    "Dining hall_3",
-    "Dining hall_4",
-    "Dining hall_5",
+    "Theater_Fan",
+    "Theater_Light",
+    "Theater_PowerSocket",
+    "Theater_AC",
   ];
   const navigateToDashboard = useNavigate();
   const navToDashboard = () => {
@@ -29,7 +28,7 @@ function Lights() {
               style={{ cursor: "pointer" }}
               onClick={navToDashboard}
             />
-            <span>&nbsp;Ground Floor</span>
+            <span>&nbsp;{sessionStorage.getItem("ZoneName")}</span>
           </label>
         </div>
         <div className="col-2">
@@ -109,9 +108,9 @@ function Lights() {
                 <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
                   {room}
                 </p>
-                <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
+                {/* <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
                   unreachable
-                </p>
+                </p> */}
                 <div className="form-check form-switch d-flex justify-content-center mb-2">
                   <input
                     className="form-check-input"
