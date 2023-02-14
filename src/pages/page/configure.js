@@ -13,30 +13,24 @@ export const Configure = [
       {
         lineId: 3,
       },
-      {
-        lineId: 4,
-      },
     ],
   },
-  {
-    userId: 1,
-    zoneId: 23,
-    deviceId: 9,
-    deviceDetails: [
-      {
-        lineId: 1,
-      },
-      {
-        lineId: 2,
-      },
-      {
-        lineId: 3,
-      },
-      {
-        lineId: 4,
-      },
-    ],
-  },
+  // {
+  //   userId: 1,
+  //   zoneId: 23,
+  //   deviceId: 9,
+  //   deviceDetails: [
+  //     {
+  //       lineId: 1,
+  //     },
+  //     {
+  //       lineId: 2,
+  //     },
+  //     {
+  //       lineId: 4,
+  //     },
+  //   ],
+  // },
 ];
 
 export const ConfigureRoom = [
