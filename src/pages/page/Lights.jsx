@@ -1,9 +1,11 @@
 import { Icon } from "@iconify/react";
 import { Card } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { routeNames } from "../../constants/routePath";
 import "../../assests/css/global.scss";
+import { Configure } from "./configure";
+import axios from "axios";
 function Lights() {
   const rooms = [
     "Theater_Fan",
@@ -11,10 +13,30 @@ function Lights() {
     "Theater_PowerSocket",
     "Theater_AC",
   ];
+
+  const [lines, setLines] = useState([]);
   const navigateToDashboard = useNavigate();
   const navToDashboard = () => {
     navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
   };
+
+  useEffect(() => {
+    //console.log(Configure.deviceId);
+    axios
+      .get(`http://192.168.1.46:4000/device/${8}`)
+      .then((res) => {
+        const lines = res.data.description;
+        const ln = Configure[0].deviceDetails.map((p) => p.lineId);
+        const lne = JSON.parse(lines)?.lines.filter((p) =>
+          ln.some((array1) => array1 === p.id)
+        );
+        setLines(lne);
+        console.log(lne);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div className="container">
@@ -95,7 +117,7 @@ function Lights() {
               </div>
             </div>
           </Card> */}
-            {rooms.map((room, indx) => (
+            {lines.map((room, indx) => (
               <div
                 className="card card-block mx-2 bg_color"
                 style={{ minWidth: "150px" }}
@@ -106,7 +128,7 @@ function Lights() {
                 </div>
 
                 <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                  {room}
+                  {room.name}
                 </p>
                 {/* <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
                   unreachable
