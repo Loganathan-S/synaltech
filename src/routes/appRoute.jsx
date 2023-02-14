@@ -12,8 +12,8 @@ import Device from "../pages/page/Device";
 import { routeNames } from "../constants/routePath";
 import AddRoomZone from "../pages/page/AddRoomZone";
 import RoomZoneList from "../pages/page/RoomZoneList";
-import Lights from "../pages/page/Lights";
-import Rooms from "../pages/page/Rooms";
+import Lights from "../pages/page/Zone";
+import Rooms from "../pages/page/Room";
 
 export default function routePaths() {
   return (
