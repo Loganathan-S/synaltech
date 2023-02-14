@@ -7,12 +7,12 @@ export const Configure = [
       {
         lineId: 1,
       },
-      {
-        lineId: 2,
-      },
-      {
-        lineId: 3,
-      },
+      // {
+      //   lineId: 2,
+      // },
+      // {
+      //   lineId: 3,
+      // },
     ],
   },
   // {
@@ -44,12 +44,12 @@ export const ConfigureRoom = [
       {
         lineId: 2,
       },
-      {
-        lineId: 3,
-      },
-      {
-        lineId: 4,
-      },
+      // {
+      //   lineId: 3,
+      // },
+      // {
+      //   lineId: 4,
+      // },
     ],
   },
   // {

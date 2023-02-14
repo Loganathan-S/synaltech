@@ -15,6 +15,7 @@ function Lights() {
   ];
 
   const [lines, setLines] = useState([]);
+  const [zoneLightStateChange, setZoneLightStateChange] = useState(false);
   const navigateToDashboard = useNavigate();
   const navToDashboard = () => {
     navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
@@ -25,6 +26,7 @@ function Lights() {
     axios
       .get(`http://192.168.1.46:4000/device/${8}`)
       .then((res) => {
+        //JSON.parse(details.description);
         const lines = res.data.description;
         const ln = Configure[0].deviceDetails.map((p) => p.lineId);
         const lne = JSON.parse(lines)?.lines.filter((p) =>
@@ -39,7 +41,7 @@ function Lights() {
   }, []);
 
   const zoneValueChange = () => {
-    console.log("Changed");
+    setZoneLightStateChange(!zoneLightStateChange);
   };
 
   return (
@@ -142,7 +144,7 @@ function Lights() {
                     className="form-check-input"
                     type="checkbox"
                     id="flexSwitchCheckChecked"
-                    checked={zone.value}
+                    checked={zoneLightStateChange}
                     onChange={zoneValueChange}
                   />
                 </div>

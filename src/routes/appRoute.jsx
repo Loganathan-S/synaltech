@@ -14,6 +14,8 @@ import AddRoomZone from "../pages/page/AddRoomZone";
 import RoomZoneList from "../pages/page/RoomZoneList";
 import Lights from "../pages/page/Zone";
 import Rooms from "../pages/page/Room";
+import DefaultZone from "../pages/page/DefaultZone";
+import DefaultRoom from "../pages/page/DefaultRoom";
 
 export default function routePaths() {
   return (
@@ -70,6 +72,16 @@ export default function routePaths() {
           exact
           path={`${routeNames.dashboard}${routeNames.roomspage}`}
           element={<Rooms />}
+        />
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.defaultzone}`}
+          element={<DefaultZone />}
+        />
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.defaultroom}`}
+          element={<DefaultRoom />}
         />
       </Route>
     </Routes>
