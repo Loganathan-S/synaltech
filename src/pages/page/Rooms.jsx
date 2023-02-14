@@ -29,7 +29,7 @@ function Rooms() {
               style={{ cursor: "pointer" }}
               onClick={navToDashboard}
             />
-            <span>&nbsp;Dinning Hall</span>
+            <span>&nbsp;{sessionStorage.getItem("RoomName")}</span>
           </label>
         </div>
         <div className="col-2">

@@ -2,7 +2,7 @@ export const Configure = [
   {
     userId: 1,
     zoneId: 16,
-    deviceId: 3,
+    deviceId: 8,
     deviceDetails: [
       {
         lineId: 1,
@@ -21,7 +21,7 @@ export const Configure = [
   {
     userId: 1,
     zoneId: 23,
-    deviceId: 8,
+    deviceId: 9,
     deviceDetails: [
       {
         lineId: 1,
@@ -42,7 +42,7 @@ export const Configure = [
 export const ConfigureRoom = [
   {
     userId: 1,
-    deviceId: 3,
+    deviceId: 8,
     deviceDetails: [
       {
         lineId: 1,
@@ -60,7 +60,7 @@ export const ConfigureRoom = [
   },
   {
     userId: 1,
-    deviceId: 8,
+    deviceId: 9,
     deviceDetails: [
       {
         lineId: 1,
