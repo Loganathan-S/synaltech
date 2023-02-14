@@ -42,7 +42,7 @@ const Device = () => {
 
           const concat = availableDevices.concat(notAvailableDevices);
           setNewDeviceLists(concat);
-          console.log(res);
+          //console.log(res);
         }
       })
       .catch((err) => {

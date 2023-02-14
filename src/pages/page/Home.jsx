@@ -7,8 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { apiNames, routeNames } from "../../constants/routePath";
 import { Configure, ConfigureRoom } from "./configure";
 import { Apiservice } from "../../services/apiServices";
+import axios from "axios";
 
 function Home() {
+  const [linesZone, setLinesZone] = useState([]);
+  const [linesRoom, setLinesRoom] = useState([]);
   const [listShow, setListShow] = useState(false);
   const addLists = [
     "Add Device",
@@ -28,11 +31,13 @@ function Home() {
   const room = ["Hall", "Bed room"];
   const [zoneLists, setZoneLists] = useState([]);
   const [roomLists, setRoomLists] = useState([]);
+  const [zoneLightCount, setZoneLightCount] = useState("");
+  const [roomLightCount, setRoomLightCount] = useState("");
 
   useEffect(() => {
     Apiservice.getLists(apiNames.zoneLists)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setZoneLists(res);
       })
       .catch((err) => {
@@ -41,8 +46,58 @@ function Home() {
 
     Apiservice.getLists(apiNames.sectionLists)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setRoomLists(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    axios
+      .get(`http://192.168.1.46:4000/device/${8}`)
+      .then((res) => {
+        const lines = res.data.description;
+        const ln = Configure[0].deviceDetails.map((p) => p.lineId);
+        const lne = JSON.parse(lines)?.lines.filter((p) =>
+          ln.some((array1) => array1 === p.id)
+        );
+        setLinesZone(lne);
+        //console.log(lne);
+
+        let count = 0;
+        lne.forEach((obj) => {
+          const key = `${obj.value}`;
+          if (key == 1) {
+            count += 1;
+          }
+        });
+        setZoneLightCount(count);
+        //console.log(count);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    axios
+      .get(`http://192.168.1.46:4000/device/${9}`)
+      .then((res) => {
+        const lines = res.data.description;
+        const ln = ConfigureRoom[0].deviceDetails.map((p) => p.lineId);
+        const lne = JSON.parse(lines)?.lines.filter((p) =>
+          ln.some((array1) => array1 === p.id)
+        );
+        setLinesRoom(lne);
+        //console.log(lne);
+
+        let count = 0;
+        lne.forEach((obj) => {
+          const key = `${obj.value}`;
+          if (key == 1) {
+            count += 1;
+          }
+        });
+        setRoomLightCount(count);
+        //console.log(count);
       })
       .catch((err) => {
         console.log(err);
@@ -190,7 +245,10 @@ function Home() {
                             onClick={() => navToLights(name.zoneName)}
                           >
                             <p className="m-0 ModuleHeading">{name.zoneName}</p>
-                            <p className="m-0">4 lines are on</p>
+                            <p className="m-0">
+                              {zoneLightCount ? zoneLightCount : "No"} lines are
+                              on
+                            </p>
                           </div>
                           <div className="col-2">
                             <div className="form-check form-switch fs-4">
@@ -247,7 +305,11 @@ function Home() {
                             onClick={() => navToRooms(name.section)}
                           >
                             <p className="m-0 ModuleHeading">{name.section}</p>
-                            <p className="m-0">4 lines are on</p>
+                            <p className="m-0">
+                              {" "}
+                              {roomLightCount ? roomLightCount : "No"} lines are
+                              on
+                            </p>
                           </div>
                           <div className="col-2">
                             <div className="form-check form-switch fs-4">

@@ -4,16 +4,16 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { routeNames } from "../../constants/routePath";
 import "../../assests/css/global.scss";
-import { Configure } from "./configure";
+import { ConfigureRoom } from "./configure";
 import axios from "axios";
-function Lights() {
-  const rooms = [
-    "Theater_Fan",
-    "Theater_Light",
-    "Theater_PowerSocket",
-    "Theater_AC",
-  ];
 
+function Rooms() {
+  const rooms = [
+    "Kids_Room_Fan",
+    "Kids_Room_Light",
+    "Kids_Room_TV",
+    "Kids_Room_AC",
+  ];
   const [lines, setLines] = useState([]);
   const navigateToDashboard = useNavigate();
   const navToDashboard = () => {
@@ -23,10 +23,10 @@ function Lights() {
   useEffect(() => {
     //console.log(Configure.deviceId);
     axios
-      .get(`http://192.168.1.46:4000/device/${8}`)
+      .get(`http://192.168.1.46:4000/device/${9}`)
       .then((res) => {
         const lines = res.data.description;
-        const ln = Configure[0].deviceDetails.map((p) => p.lineId);
+        const ln = ConfigureRoom[0].deviceDetails.map((p) => p.lineId);
         const lne = JSON.parse(lines)?.lines.filter((p) =>
           ln.some((array1) => array1 === p.id)
         );
@@ -38,9 +38,13 @@ function Lights() {
       });
   }, []);
 
+  const roomValueChange = () => {
+    console.log("Changed");
+  };
+
   return (
     <div className="container">
-      <div className="row bg_color pt-3 pb-3 rounded-bottom">
+      <div className="row bg_color pt-3 pb-3  rounded-bottom">
         <div className="col-10">
           <label className="ModuleHeading">
             <Icon
@@ -50,7 +54,7 @@ function Lights() {
               style={{ cursor: "pointer" }}
               onClick={navToDashboard}
             />
-            <span>&nbsp;{sessionStorage.getItem("ZoneName")}</span>
+            <span>&nbsp;{sessionStorage.getItem("RoomName")}</span>
           </label>
         </div>
         <div className="col-2">
@@ -87,36 +91,32 @@ function Lights() {
           ></Card>
         </div>
         <p className="m-0 mt-3 FormContent">LIGHTS</p>
-        <div className="mt-2 text-center">
+        <div className="text-center mt-2">
           <div className="d-flex flex-row flex-nowrap overflow-auto">
             {/* <Card cover hoverable className="bg_color">
-            <div className="row ">
-              <div className="col-12">
-                <Icon
-                  icon="material-symbols:database"
-                  className="fs-2"
-                  style={{ color: "white" }}
-                />
-              </div>
-              <div className="col-12">
-                <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                  Dining hall 1
-                </p>
-                <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                  unreachable
-                </p>
-              </div>
-              <div className="col-12 mx-3 mt-2">
-                <div className="form-check form-switch">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    id="flexSwitchCheckChecked"
-                  />
+              <div className="row ">
+                <div className="col-12">
+                  <Icon icon="material-symbols:database" className="fs-2" />
+                </div>
+                <div className="col-12">
+                  <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
+                    Dining hall 1
+                  </p>
+                  <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
+                    unreachable
+                  </p>
+                </div>
+                <div className="col-12 mx-3 mt-2">
+                  <div className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="flexSwitchCheckChecked"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </Card> */}
+            </Card> */}
             {lines.map((room, indx) => (
               <div
                 className="card card-block mx-2 bg_color"
@@ -138,6 +138,8 @@ function Lights() {
                     className="form-check-input"
                     type="checkbox"
                     id="flexSwitchCheckChecked"
+                    checked={room.value}
+                    onChange={roomValueChange}
                   />
                 </div>
               </div>
@@ -149,4 +151,4 @@ function Lights() {
   );
 }
 
-export default Lights;
+export default Rooms;
