@@ -74,7 +74,8 @@ function Home() {
     navigate(`${routeNames.dashboard}${routeNames.lightspage}`);
   };
 
-  const navToRooms = () => {
+  const navToRooms = (roomname) => {
+    sessionStorage.setItem("RoomName", roomname);
     navigate(`${routeNames.dashboard}${routeNames.roomspage}`);
   };
 
@@ -241,7 +242,10 @@ function Home() {
                               height={45}
                             />
                           </div> */}
-                          <div className="col-10" onClick={navToLights}>
+                          <div
+                            className="col-10"
+                            onClick={() => navToRooms(name.section)}
+                          >
                             <p className="m-0 ModuleHeading">{name.section}</p>
                             <p className="m-0">4 lines are on</p>
                           </div>
