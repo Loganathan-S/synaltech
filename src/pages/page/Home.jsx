@@ -13,16 +13,11 @@ function Home() {
   const [linesZone, setLinesZone] = useState([]);
   const [linesRoom, setLinesRoom] = useState([]);
   const [listShow, setListShow] = useState(false);
-  const addLists = [
-    "Add Device",
-    "Add Zone & Room",
-    "Configure Zone",
-    "Configure Room",
-  ];
+  const [homeShow, setHomeShow] = useState(true);
+  const addLists = ["Add Device", "Add Zone & Room", "Configure Zone"];
   const icons = [
     <Icon icon="ic:round-device-hub" inline={true} />,
     <Icon icon="ic:baseline-meeting-room" inline={true} />,
-    <Icon icon="mdi:sort-calendar-descending" inline={true} />,
     <Icon icon="mdi:sort-calendar-descending" inline={true} />,
   ];
   const navigate = useNavigate();
@@ -33,6 +28,7 @@ function Home() {
   const [roomLists, setRoomLists] = useState([]);
   const [zoneLightCount, setZoneLightCount] = useState("");
   const [roomLightCount, setRoomLightCount] = useState("");
+  const [expand, setExpand] = useState(false);
 
   useEffect(() => {
     Apiservice.getLists(apiNames.zoneLists)
@@ -105,7 +101,9 @@ function Home() {
   }, []);
 
   const showAddList = () => {
+    setExpand(!expand);
     setListShow(!listShow);
+    setHomeShow(!homeShow);
   };
 
   const logout = () => {
@@ -153,14 +151,24 @@ function Home() {
       <div className="row mt-3">
         <div className="col-12">
           <div className="text-end">
-            <Icon
-              icon="fa:plus-circle"
-              color="#2596be"
-              width="35"
-              height="35"
-              className="pointer"
-              onClick={showAddList}
-            />
+            {expand === false && (
+              <Icon
+                icon="fa:plus-circle"
+                color="#2596be"
+                height={33}
+                className="pointer"
+                onClick={showAddList}
+              />
+            )}
+            {expand === true && (
+              <Icon
+                icon="clarity:minus-circle-solid"
+                color="#f59127"
+                height={36}
+                className="pointer"
+                onClick={showAddList}
+              />
+            )}
           </div>
           {listShow ? (
             <div className="row">
@@ -203,135 +211,141 @@ function Home() {
           ) : null}
         </div>
       </div>
-      <div className="row mt-3">
-        <div className="col-10 m-0 ModuleHeading">Home</div>
-        <div className="col-2 text-end">
-          <div className="form-check form-switch">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="flexSwitchCheckChecked"
-            />
+      {homeShow === true && (
+        <>
+          <div className="row mt-3">
+            <div className="col-10 m-0 ModuleHeading">Home</div>
+            <div className="col-2 text-end">
+              <div className="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  id="flexSwitchCheckChecked"
+                />
+              </div>
+            </div>
+            <p className="mt-3 m-0 FormHeading">Zones</p>
           </div>
-        </div>
-        <p className="mt-3 m-0 FormHeading">Zones</p>
-      </div>
-      <div className="row">
-        <div className="col-12">
-          {zoneLists.map((name, index) => (
-            <div key={index}>
-              {Configure.map((selected, inx) => (
-                <div key={inx}>
-                  {name.id === selected.zoneId && (
-                    <div className="mt-2">
-                      <Card
-                        className="bg_color"
-                        cover
-                        hoverable
-                        style={{
-                          width: 350,
-                        }}
-                      >
-                        <div className="row">
-                          {/* <div className="col-2 gx-2" onClick={navToLights}>
+          <div className="row">
+            <div className="col-12">
+              {zoneLists.map((name, index) => (
+                <div key={index}>
+                  {Configure.map((selected, inx) => (
+                    <div key={inx}>
+                      {name.id === selected.zoneId && (
+                        <div className="mt-2">
+                          <Card
+                            className="bg_color"
+                            cover
+                            hoverable
+                            style={{
+                              width: 350,
+                            }}
+                          >
+                            <div className="row">
+                              {/* <div className="col-2 gx-2" onClick={navToLights}>
                             <Icon
                               icon="material-symbols:home-outline"
                               className=""
                               height={45}
                             />
                           </div> */}
-                          <div
-                            className="col-10"
-                            onClick={() => navToLights(name.zoneName)}
-                          >
-                            <p className="m-0 ModuleHeading">{name.zoneName}</p>
-                            <p className="m-0">
-                              {zoneLightCount ? zoneLightCount : "No"} lines are
-                              on
-                            </p>
-                          </div>
-                          <div className="col-2">
-                            <div className="form-check form-switch fs-4">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="flexSwitchCheckChecked"
-                              />
+                              <div
+                                className="col-10"
+                                onClick={() => navToLights(name.zoneName)}
+                              >
+                                <p className="m-0 ModuleHeading">
+                                  {name.zoneName}
+                                </p>
+                                <p className="m-0">
+                                  {zoneLightCount ? zoneLightCount : "No"} lines
+                                  are on
+                                </p>
+                              </div>
+                              <div className="col-2">
+                                <div className="form-check form-switch fs-4">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id="flexSwitchCheckChecked"
+                                  />
+                                </div>
+                              </div>
+                              <div className="m-0 mt-3">
+                                <input type="range" className="w-100" />
+                              </div>
                             </div>
-                          </div>
-                          <div className="m-0 mt-3">
-                            <input type="range" className="w-100" />
-                          </div>
+                          </Card>
                         </div>
-                      </Card>
+                      )}
                     </div>
-                  )}
+                  ))}
                 </div>
               ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
 
-      <div className="row mt-3">
-        <p className="mt-2 m-0 FormHeading">Rooms</p>
-      </div>
-      <div className="row">
-        <div className="col-12">
-          {roomLists.map((name, index) => (
-            <div key={index}>
-              {ConfigureRoom.map((selected, inx) => (
-                <div key={inx}>
-                  {name.id === selected.deviceId && (
-                    <div className="mt-2">
-                      <Card
-                        className="bg_color"
-                        cover
-                        hoverable
-                        style={{
-                          width: 350,
-                        }}
-                      >
-                        <div className="row">
-                          {/* <div className="col-2 gx-2" onClick={navToLights}>
+          <div className="row mt-3">
+            <p className="mt-2 m-0 FormHeading">Rooms</p>
+          </div>
+          <div className="row">
+            <div className="col-12">
+              {roomLists.map((name, index) => (
+                <div key={index}>
+                  {ConfigureRoom.map((selected, inx) => (
+                    <div key={inx}>
+                      {name.id === selected.deviceId && (
+                        <div className="mt-2">
+                          <Card
+                            className="bg_color"
+                            cover
+                            hoverable
+                            style={{
+                              width: 350,
+                            }}
+                          >
+                            <div className="row">
+                              {/* <div className="col-2 gx-2" onClick={navToLights}>
                             <Icon
                               icon="material-symbols:home-outline"
                               className=""
                               height={45}
                             />
                           </div> */}
-                          <div
-                            className="col-10"
-                            onClick={() => navToRooms(name.section)}
-                          >
-                            <p className="m-0 ModuleHeading">{name.section}</p>
-                            <p className="m-0">
-                              {" "}
-                              {roomLightCount ? roomLightCount : "No"} lines are
-                              on
-                            </p>
-                          </div>
-                          <div className="col-2">
-                            <div className="form-check form-switch fs-4">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="flexSwitchCheckChecked"
-                              />
+                              <div
+                                className="col-10"
+                                onClick={() => navToRooms(name.section)}
+                              >
+                                <p className="m-0 ModuleHeading">
+                                  {name.section}
+                                </p>
+                                <p className="m-0">
+                                  {" "}
+                                  {roomLightCount ? roomLightCount : "No"} lines
+                                  are on
+                                </p>
+                              </div>
+                              <div className="col-2">
+                                <div className="form-check form-switch fs-4">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id="flexSwitchCheckChecked"
+                                  />
+                                </div>
+                              </div>
+                              <div className="m-0 mt-3">
+                                <input type="range" className="w-100" />
+                              </div>
                             </div>
-                          </div>
-                          <div className="m-0 mt-3">
-                            <input type="range" className="w-100" />
-                          </div>
+                          </Card>
                         </div>
-                      </Card>
+                      )}
                     </div>
-                  )}
+                  ))}
                 </div>
               ))}
-            </div>
-          ))}
-          {/* {room.map((rooms, index) => (
+              {/* {room.map((rooms, index) => (
             <div key={index} className="mt-2">
               <Card
                 className="bg_color"
@@ -369,8 +383,10 @@ function Home() {
               </Card>
             </div>
           ))} */}
-        </div>
-      </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

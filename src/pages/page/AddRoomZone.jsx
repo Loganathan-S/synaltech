@@ -11,10 +11,10 @@ function AddRoomZone() {
   const [zone, setZone] = useState("");
   const [section, setSection] = useState("");
 
-  const navigateToDashboard = useNavigate();
+  const navigate = useNavigate();
 
   const navToDashboard = () => {
-    navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
+    navigate(`${routeNames.dashboard}${routeNames.home}`);
   };
 
   const handleZoneChange = (e) => {
@@ -50,7 +50,7 @@ function AddRoomZone() {
   };
 
   const viewRoomZoneList = () => {
-    navigateToDashboard(`${routeNames.dashboard}${routeNames.roomzonelist}`);
+    navigate(`${routeNames.dashboard}${routeNames.roomzonelist}`);
   };
 
   return (
@@ -68,7 +68,31 @@ function AddRoomZone() {
             <span>&nbsp;Add Zone/Room</span>
           </label>
         </div>
-        <div className="col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6  mt-3">
+        <div className="col-12 mt-4">
+          <div
+            className="card"
+            onClick={() =>
+              navigate(`${routeNames.dashboard}${routeNames.defaultzone}`)
+            }
+          >
+            <div className="card-body">
+              <h5>Zone</h5>
+            </div>
+          </div>
+        </div>
+        <div className="col-12 mt-4">
+          <div
+            className="card"
+            onClick={() =>
+              navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
+            }
+          >
+            <div className="card-body">
+              <h5>Room</h5>
+            </div>
+          </div>
+        </div>
+        {/* <div className="col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6  mt-3">
           <Card>
             <Card.Body>
               <Form.Group className="mb-3">
@@ -139,7 +163,7 @@ function AddRoomZone() {
               </Form>
             </Card.Body>
           </Card>
-        </div>
+        </div> */}
       </div>
     </div>
   );

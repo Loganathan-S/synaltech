@@ -14,6 +14,7 @@ function Rooms() {
     "Kids_Room_TV",
     "Kids_Room_AC",
   ];
+  const [roomLightStateChange, setRoomLightStateChange] = useState(false);
   const [lines, setLines] = useState([]);
   const navigateToDashboard = useNavigate();
   const navToDashboard = () => {
@@ -39,7 +40,7 @@ function Rooms() {
   }, []);
 
   const roomValueChange = () => {
-    console.log("Changed");
+    setRoomLightStateChange(!roomLightStateChange);
   };
 
   return (
@@ -138,7 +139,7 @@ function Rooms() {
                     className="form-check-input"
                     type="checkbox"
                     id="flexSwitchCheckChecked"
-                    checked={room.value}
+                    checked={roomLightStateChange}
                     onChange={roomValueChange}
                   />
                 </div>
