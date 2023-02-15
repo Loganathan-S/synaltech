@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { apiNames, routeNames } from "../../constants/routePath";
 import { Apiservice } from "../../services/apiServices";
-import Autosuggest from "react-autosuggest";
 import { Modal } from "antd";
+import Light from "../../assests/images/smart-bulbs.jpg";
+import "./scss/Device.scss";
 
 function AddNewDevice() {
   const navigateToDashboard = useNavigate();
   const [id, setId] = useState("");
   const [showDeviceDetails, setShowDeviceDetails] = useState(false);
-  const [modalData, setModalData] = useState(null);
   const [deviceName, setDeviceName] = useState("");
   const [value, setValue] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
   const [section, setSection] = useState([]);
   const [avaliableDevice, setAvaliableDevice] = useState([]);
   const [search, setNewSearch] = useState("");
   const [item, setItem] = useState([]);
-  const [countDevice, setCountDevice] = useState("");
   const [show, setShow] = useState(false);
+  const [roomName, setRoomName] = useState("");
 
   const searchHandleSearch = () => {
     //console.log(search);
@@ -28,9 +27,8 @@ function AddNewDevice() {
         person.deviceName.toLowerCase().includes(search.toLowerCase()) &&
         person.sectionId === null
     );
-    //console.log(deviceLists);
+    console.log(deviceLists);
     const count = avaliableDevice.filter((p) => p.sectionId === null);
-    setCountDevice(count.length);
     setItem(deviceLists);
     setShow(true);
   };
@@ -45,6 +43,17 @@ function AddNewDevice() {
     getSection();
   }, []);
 
+  // const textInput = (input) => {
+  //   if (input) {
+  //     setTimeout(() => {
+  //       input.focus();
+  //     }, 100);
+  //   }
+  // };
+  const navToDashboard = () => {
+    navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
+  };
+
   const newDevices = () => {
     Apiservice.getLists(apiNames.deviceLists)
       .then((res) => {
@@ -52,12 +61,13 @@ function AddNewDevice() {
           setAvaliableDevice([]);
         } else {
           setAvaliableDevice(res);
-          const devices = avaliableDevice.filter((person) =>
-            person.deviceName.toLowerCase().includes(search.toLowerCase())
+          const devices = avaliableDevice.filter(
+            (person) =>
+              person.deviceName.toLowerCase().includes(search.toLowerCase()) &&
+              person.sectionId === null
           );
-          //  setItem(devices);
+          setItem(devices);
           const count = avaliableDevice.filter((p) => p.sectionId === null);
-          setCountDevice(count.length);
         }
       })
       .catch((err) => {
@@ -65,50 +75,15 @@ function AddNewDevice() {
       });
   };
 
-  const navToDashboard = () => {
-    navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
-  };
-
   const getSection = () => {
     Apiservice.getLists(apiNames.sectionLists)
       .then((res) => {
+        //console.log(res);
         setSection(res);
       })
       .catch((err) => {
         console.log(err);
       });
-  };
-
-  const getSuggestions = (value) => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-
-    return inputLength === 0
-      ? []
-      : section.filter(
-          (lang) =>
-            lang.section.toLowerCase().slice(0, inputLength) === inputValue
-        );
-  };
-
-  const getSuggestionValue = (suggestion) => suggestion.section;
-  const renderSuggestion = (suggestion) => <div>{suggestion.section}</div>;
-  const onChangeVal = (event, { newValue }) => {
-    setValue(newValue);
-  };
-
-  const onSuggestionsFetchRequested = ({ value }) => {
-    setSuggestions(getSuggestions(value));
-  };
-
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
-  const inputProps = {
-    placeholder: "Enter name",
-    value,
-    onChange: onChangeVal,
   };
 
   const updateDeviceRoomName = (roomid, devicename, deviceid) => {
@@ -119,7 +94,11 @@ function AddNewDevice() {
       devicename
     )
       .then((res) => {
-        //console.log(res);
+        newDevices();
+        searchHandleSearch();
+        // getSection();
+        setShowDeviceDetails(false);
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -127,20 +106,14 @@ function AddNewDevice() {
   };
 
   const updateRoomDeviceName = () => {
-    let result = section.find((f) => f.section === value);
+    let result = section.find((f) => f.section === roomName);
     if (result !== undefined) {
       updateDeviceRoomName(result.id, deviceName, id);
-      newDevices();
-      getSection();
-      setShowDeviceDetails(false);
     }
     if (result === undefined) {
-      Apiservice.addSection(apiNames.newSection, value)
+      Apiservice.addSection(apiNames.newSection, roomName)
         .then((res) => {
           updateDeviceRoomName(res.id, deviceName, id);
-          newDevices();
-          getSection();
-          setShowDeviceDetails(false);
         })
         .catch((err) => {
           console.log(err);
@@ -164,8 +137,14 @@ function AddNewDevice() {
 
     setId(Id);
     setShowDeviceDetails(true);
-    let description = JSON.parse(details.description);
-    setModalData(description);
+  };
+
+  const onRoomNameChange = (e) => {
+    setRoomName(e.target.value);
+  };
+
+  const roomNameChange = (name, id) => {
+    setRoomName(name);
   };
 
   const changeDeviceName = (e) => {
@@ -188,144 +167,166 @@ function AddNewDevice() {
           </label>
         </div>
       </div>
-      <div className="card mt-3">
-        <div className="card-body ">
-          <div className="row mt-2 text-center">
-            <div className="col-sm-12 col-md-12">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Enter Device Name"
-                value={search}
-                onChange={searchOnchage}
-              />
-            </div>
-            <div>
-              <button
-                className="btn btn-sm btn-outline-primary mt-3"
-                onClick={searchHandleSearch}
-              >
-                Search
-              </button>
-            </div>
-          </div>
-
-          {show && (
+      <div className="text-center">
+        <img
+          src={Light}
+          alt="addlight"
+          className="img-fluid"
+          style={{ borderRadius: "50%" }}
+        />
+      </div>
+      <div className="mt-2 text-center">
+        <h4>Add device</h4>
+        <label>Make sure the lights and smart plugs you</label>
+        <br />
+        <label className="m-0">want to add are connected to power</label>
+      </div>
+      <div className="mt-3 text-center">
+        <p>
+          <small className="text-muted">
+            You can also find lights using the seriel number which
+          </small>
+          <small className="text-muted">
+            can be found on the lamp or label
+          </small>
+        </p>
+      </div>
+      <div className="row mt-3 row d-flex justify-content-center">
+        <input
+          className="form-control w-50"
+          type="text"
+          placeholder="Use serial number"
+          value={search}
+          onChange={searchOnchage}
+        />
+      </div>
+      <div className="text-center">
+        <p>
+          <button
+            className="btn btn-sm btn-outline-primary mt-3"
+            onClick={searchHandleSearch}
+          >
+            Search
+          </button>
+        </p>
+      </div>
+      {show && (
+        <div className="card mt-3 liteback">
+          <div className="card-body">
+            <h6 className="whitecolor"> Devices</h6>
             <>
               {item.length > 0 ? (
-                <>
+                <div className="row">
                   {item.map((deviceDetails, index) => (
-                    <div className="text-center" key={deviceDetails.id}>
-                      <div className="text-center mt-2">
-                        {index === 0 && <>{countDevice} Device Found</>}
-                      </div>
-                      <div
-                        className="card mt-3"
-                        onClick={() =>
-                          showDeviceData(
-                            deviceDetails,
-                            deviceDetails.description,
-                            deviceDetails.id,
-                            index
-                          )
-                        }
-                      >
-                        <div className="card-body">
-                          {deviceDetails.deviceName}
-                        </div>
-                      </div>
+                    <div
+                      className="col-4 text-center mt-3 whitecolor"
+                      key={deviceDetails.id}
+                      onClick={() =>
+                        showDeviceData(
+                          deviceDetails,
+                          deviceDetails.description,
+                          deviceDetails.id,
+                          index
+                        )
+                      }
+                    >
+                      <Icon icon="file-icons:devicetree" height={30} />
+                      <br />
+                      {deviceDetails.deviceName}
                     </div>
                   ))}
-                </>
+                </div>
               ) : (
                 <p className="text-center mt-2 text-danger">
-                  Did't find any device
+                  No devices are there
                 </p>
               )}
             </>
-          )}
-
-          <Modal
-            title={<label className="FormHeading">Device details</label>}
-            centered
-            open={showDeviceDetails}
-            onOk={() => setShowDeviceDetails(false)}
-            onCancel={() => {
-              setShowDeviceDetails(false);
-              setValue("");
-            }}
-            width={600}
-            footer={null}
-            maskClosable={false}
-            //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
-          >
-            <div className="row col-12">
-              <div className="form-group">
-                <div
-                  className="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12"
-                  style={{ cursor: "pointer" }}
-                >
-                  <div className="card">
-                    <div className="card-body FormContent">
-                      {modalData && (
-                        <>
-                          <div className="row mt-1 align-items-center">
-                            <div className="col-4 FormContent">Name</div>
-                            <div className="col-8 FormContent">
-                              <input
-                                type={"text"}
-                                value={deviceName}
-                                placeholder="Enter device name"
-                                className="form-control"
-                                onChange={changeDeviceName}
-                              />
-                            </div>
+            <Modal
+              title={
+                <label className="FormHeading">
+                  <input
+                    type={"text"}
+                    value={deviceName}
+                    placeholder="Enter device name"
+                    className="form-control formControl p-2 m-0 shadow-none"
+                    onChange={changeDeviceName}
+                    //ref={() => textInput}
+                  />
+                </label>
+              }
+              centered
+              open={showDeviceDetails}
+              onOk={() => setShowDeviceDetails(false)}
+              onCancel={() => {
+                setShowDeviceDetails(false);
+                setValue("");
+              }}
+              width={600}
+              footer={null}
+              maskClosable={false}
+              //bodyStyle={{ overflowY: "auto", maxHeight: "calc(150vh - 200px)" }}
+            >
+              <div className="row col-12">
+                <div className="form-group">
+                  <div
+                    className="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div className="card liteback">
+                      <div className="card-body FormContent">
+                        <div className="row">
+                          <div className="col-4 whitecolor mt-1">Room</div>
+                          <div className="col-8">
+                            <input
+                              type={"text"}
+                              placeholder="Choose/Enter"
+                              className="form-control"
+                              name={"roomName"}
+                              value={roomName}
+                              onChange={onRoomNameChange}
+                            />
                           </div>
-
-                          <div className="row mt-3 align-items-center">
-                            <div className="col-4 FormContent">Channel</div>
-                            <div className="col-8 FormContent">
-                              {modalData.name}
-                            </div>
-                          </div>
-
-                          <div className="row mt-3 align-items-center">
-                            <div className="col-4 FormContent">Room</div>
-                            <div className="col-8 FormContent">
-                              <Autosuggest
-                                suggestions={suggestions}
-                                onSuggestionsFetchRequested={
-                                  onSuggestionsFetchRequested
+                        </div>
+                        <div className="row mt-3 text-center">
+                          {section.map((roomname, index) => (
+                            <div
+                              className="col-6 mt-3"
+                              key={`${roomname.id}${index}`}
+                            >
+                              <div
+                                className="whitecolor"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  roomNameChange(roomname.section, roomname.id)
                                 }
-                                onSuggestionsClearRequested={
-                                  onSuggestionsClearRequested
-                                }
-                                getSuggestionValue={getSuggestionValue}
-                                renderSuggestion={renderSuggestion}
-                                inputProps={inputProps}
-                              />
+                              >
+                                <Icon icon="material-symbols:nest-multi-room" />
+                                <br />
+                                {roomname.section}
+                              </div>
                             </div>
-                          </div>
-                        </>
-                      )}
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="text-center pt-3">
-                <button
-                  type="button"
-                  onClick={updateRoomDeviceName}
-                  className="btn btn-sm btn-outline-primary"
-                >
-                  Add Device
-                </button>
+                <div className="text-center pt-3">
+                  <button
+                    type="button"
+                    onClick={updateRoomDeviceName}
+                    className="btn btn-sm btn-outline-primary"
+                  >
+                    Add Device
+                  </button>
+                </div>
               </div>
-            </div>
-          </Modal>
+            </Modal>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
