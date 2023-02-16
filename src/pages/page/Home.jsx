@@ -29,6 +29,7 @@ function Home() {
   const [zoneLightCount, setZoneLightCount] = useState("");
   const [roomLightCount, setRoomLightCount] = useState("");
   const [expand, setExpand] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(null);
 
   useEffect(() => {
     Apiservice.getLists(apiNames.zoneLists)
@@ -132,6 +133,10 @@ function Home() {
     navigate(`${routeNames.dashboard}${routeNames.roomspage}`);
   };
 
+  const handleChange = (event) => {
+    setSelectedValue(!event.target.value);
+  };
+
   return (
     <div className="container">
       <div className=" mt-3">
@@ -219,8 +224,11 @@ function Home() {
               <div className="form-check form-switch">
                 <input
                   className="form-check-input"
-                  type="checkbox"
+                  type="radio"
                   id="flexSwitchCheckChecked"
+                  value="option1"
+                  checked={selectedValue}
+                  onChange={handleChange}
                 />
               </div>
             </div>
