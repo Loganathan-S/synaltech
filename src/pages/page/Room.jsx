@@ -24,7 +24,7 @@ function Rooms() {
   useEffect(() => {
     //console.log(Configure.deviceId);
     axios
-      .get(`http://192.168.1.46:4000/device/${9}`)
+      .get(`http://192.168.1.46:4000/device/${4}`)
       .then((res) => {
         const lines = res.data.description;
         const ln = ConfigureRoom[0].deviceDetails.map((p) => p.lineId);
@@ -32,7 +32,7 @@ function Rooms() {
           ln.some((array1) => array1 === p.id)
         );
         setLines(lne);
-        console.log(lne);
+        //console.log(lne);
       })
       .catch((err) => {
         console.log(err);

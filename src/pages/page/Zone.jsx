@@ -24,8 +24,9 @@ function Lights() {
   useEffect(() => {
     //console.log(Configure.deviceId);
     axios
-      .get(`http://192.168.1.46:4000/device/${8}`)
+      .get(`http://192.168.1.46:4000/device/${3}`)
       .then((res) => {
+        //console.log(res);
         //JSON.parse(details.description);
         const lines = res.data.description;
         const ln = Configure[0].deviceDetails.map((p) => p.lineId);
@@ -33,7 +34,7 @@ function Lights() {
           ln.some((array1) => array1 === p.id)
         );
         setLines(lne);
-        console.log(lne);
+        //console.log(lne);
       })
       .catch((err) => {
         console.log(err);
