@@ -16,6 +16,8 @@ import Lights from "../pages/page/Zone";
 import Rooms from "../pages/page/Room";
 import DefaultZone from "../pages/page/DefaultZone";
 import DefaultRoom from "../pages/page/DefaultRoom";
+import RoomLists from "../pages/page/RoomLists";
+import ZoneLists from "../pages/ZoneLists";
 
 export default function routePaths() {
   return (
@@ -82,6 +84,16 @@ export default function routePaths() {
           exact
           path={`${routeNames.dashboard}${routeNames.defaultroom}`}
           element={<DefaultRoom />}
+        />
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.roomlists}`}
+          element={<RoomLists />}
+        />
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.zonelists}`}
+          element={<ZoneLists />}
         />
       </Route>
     </Routes>

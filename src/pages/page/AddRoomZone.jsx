@@ -2,14 +2,13 @@ import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { apiNames, routeNames } from "../../constants/routePath";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { Apiservice } from "../../services/apiServices";
-import { Card, Col, Row } from "react-bootstrap";
+import zoneImage from "../../assests/images/Zone.jpg";
+import roomImage from "../../assests/images/Room.jpg";
 
 function AddRoomZone() {
-  const [zone, setZone] = useState("");
-  const [section, setSection] = useState("");
+  // const [zone, setZone] = useState("");
+  // const [section, setSection] = useState("");
 
   const navigate = useNavigate();
 
@@ -17,41 +16,41 @@ function AddRoomZone() {
     navigate(`${routeNames.dashboard}${routeNames.home}`);
   };
 
-  const handleZoneChange = (e) => {
-    setZone(e.target.value);
-  };
+  // const handleZoneChange = (e) => {
+  //   setZone(e.target.value);
+  // };
 
-  const handleSectionChange = (e) => {
-    setSection(e.target.value);
-  };
+  // const handleSectionChange = (e) => {
+  //   setSection(e.target.value);
+  // };
 
-  const addZone = () => {
-    let zoneObj = zone;
-    Apiservice.addZoneList(apiNames.newZone, zoneObj)
-      // .then((res) => {
-      //   console.log(res);
-      // })
-      .catch((err) => {
-        console.log(err);
-      });
-    setZone("");
-  };
+  // const addZone = () => {
+  //   let zoneObj = zone;
+  //   Apiservice.addZoneList(apiNames.newZone, zoneObj)
+  //     // .then((res) => {
+  //     //   console.log(res);
+  //     // })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   setZone("");
+  // };
 
-  const addSection = () => {
-    let addSection = section;
-    Apiservice.addSectionList(apiNames.newSection, addSection)
-      // .then((res) => {
-      //   console.log(res);
-      // })
-      .catch((err) => {
-        console.log(err);
-      });
-    setSection("");
-  };
+  // const addSection = () => {
+  //   let addSection = section;
+  //   Apiservice.addSectionList(apiNames.newSection, addSection)
+  //     // .then((res) => {
+  //     //   console.log(res);
+  //     // })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   setSection("");
+  // };
 
-  const viewRoomZoneList = () => {
-    navigate(`${routeNames.dashboard}${routeNames.roomzonelist}`);
-  };
+  // const viewRoomZoneList = () => {
+  //   navigate(`${routeNames.dashboard}${routeNames.roomzonelist}`);
+  // };
 
   return (
     <div className="container">
@@ -68,102 +67,34 @@ function AddRoomZone() {
             <span>&nbsp;Add Zone/Room</span>
           </label>
         </div>
-        <div className="col-12 mt-4">
+
+        <div className="col-12 col-md-3 mt-4">
           <div
-            className="card"
+            className="card position-relative rounded" 
             onClick={() =>
               navigate(`${routeNames.dashboard}${routeNames.defaultzone}`)
             }
           >
-            <div className="card-body">
-              <h5>Zone</h5>
+            <div className="position-absolute top-0 start-0 p-3">
+              <h4 className="text-white">Zone</h4>
             </div>
+            <img src={zoneImage} className="card-img-top img-fluid" alt="..." />
           </div>
         </div>
-        <div className="col-12 mt-4">
+
+        <div className="col-12 col-md-3 mt-4 b" >
           <div
-            className="card"
+            className="card position-relative rounded"
             onClick={() =>
               navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
             }
           >
-            <div className="card-body">
-              <h5>Room</h5>
+            <div className="position-absolute top-0 start-0 p-3">
+              <h4 className="text-white">Room</h4>
             </div>
+            <img src={roomImage} className="card-img-top img-fluid" alt="..." />
           </div>
         </div>
-        {/* <div className="col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6  mt-3">
-          <Card>
-            <Card.Body>
-              <Form.Group className="mb-3">
-                <Form.Label>Zone :</Form.Label>
-                <Row className="align-items-center">
-                  <Col sm={10}>
-                    <Form.Control
-                      value={zone}
-                      onChange={handleZoneChange}
-                      type="text"
-                      placeholder="ex: Ground floor"
-                    />
-                  </Col>
-                  <Col
-                    sm={2}
-                    className="text-end mt-sm-2 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0 mt-3"
-                  >
-                    <Button
-                      variant="outline-secondary"
-                      type="button"
-                      size="sm"
-                      onClick={addZone}
-                    >
-                      Add
-                    </Button>
-                  </Col>
-                </Row>
-              </Form.Group>
-              <Form>
-                <Form.Group className="mb-3 mt-3">
-                  <Form.Label>Room :</Form.Label>
-
-                  <Row className="align-items-center">
-                    <Col sm={10}>
-                      <Form.Control
-                        value={section}
-                        onChange={handleSectionChange}
-                        type="text"
-                        placeholder="ex: Hall"
-                      />
-                    </Col>
-                    <Col
-                      sm={2}
-                      className="text-end mt-sm-2 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0 mt-3"
-                    >
-                      <Button
-                        variant="outline-secondary"
-                        type="button"
-                        size="sm"
-                        onClick={addSection}
-                      >
-                        Add
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form.Group>
-                <Col>
-                  <Button
-                    variant="outline-secondary"
-                    type="button"
-                    size="sm"
-                    onClick={viewRoomZoneList}
-                  >
-                    View Room/Zone List&nbsp;&nbsp;
-                    <Icon icon="mdi:comment-eye-outline" className="fs-4" />
-                  </Button>
-                </Col>
-              </Form>
-            </Card.Body>
-          </Card>
-        </div> */}
       </div>
     </div>
   );
