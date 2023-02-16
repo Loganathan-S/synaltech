@@ -254,7 +254,7 @@ function Home() {
                                 className="col-10"
                                 onClick={() => navToLights(name.zoneName)}
                               >
-                                <p className="m-0 ModuleHeading">
+                                <p className="m-0 ModuleHeading whitecolor">
                                   {name.zoneName}
                                 </p>
                                 <p className="m-0">

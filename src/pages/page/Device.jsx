@@ -103,6 +103,10 @@ const Device = () => {
       devicename
     )
       .then((res) => {
+        newDevices();
+        getSection();
+        setShowDeviceDetails(false);
+        setChangeLinesNamePopup(true);
         //console.log(res);
       })
       .catch((err) => {
@@ -114,19 +118,11 @@ const Device = () => {
     let result = section.find((f) => f.section === value);
     if (result !== undefined) {
       updateDeviceRoomName(result.id, deviceName, id);
-      newDevices();
-      getSection();
-      setShowDeviceDetails(false);
-      setChangeLinesNamePopup(true);
     }
     if (result === undefined) {
       Apiservice.addSection(apiNames.newSection, value)
         .then((res) => {
           updateDeviceRoomName(res.id, deviceName, id);
-          newDevices();
-          getSection();
-          setShowDeviceDetails(false);
-          setChangeLinesNamePopup(true);
         })
         .catch((err) => {
           console.log(err);
