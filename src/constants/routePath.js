@@ -26,6 +26,12 @@ export const routeNames = {
   roomspage: base + "roomspage",
   defaultzone: base + "addzone",
   defaultroom: base + "addroom",
+
+  addautomation:base + "addautomation",
+  automationname:base +"autoname",
+  addautolight:base +"autolight",
+editname:base + "editautoname",
+editlightcongif:base +"editlightconfig"
 };
 
 export const apiNames = {
