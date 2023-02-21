@@ -4,6 +4,7 @@ import Login from "../pages/auth/login/Login";
 import Register from "../pages/auth/register/register";
 import AddNewDevice from "../pages/page/addNewDevice";
 import Automation from "../pages/page/Automation/AutomationHome";
+import HomeList from "../pages/page/Automation/HomeList";
 import Home from "../pages/page/Home";
 import Layout from "../pages/dashboard/Layout";
 import Settings from "../pages/page/Settings";
@@ -34,6 +35,11 @@ export default function routePaths() {
           exact
           path={`${routeNames.dashboard}${routeNames.home}`}
           element={<Home />}
+        />
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.homelist}`}
+          element={<HomeList />}
         />
         <Route
           exact

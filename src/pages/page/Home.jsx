@@ -139,7 +139,7 @@ function Home() {
 
   return (
     <div className="container">
-      <div className=" mt-3">
+      <div className="mt-3">
         <div className="row">
           <div className="col-8">
             <h3 className="ModuleHeading" style={{ cursor: "pointer" }}>
