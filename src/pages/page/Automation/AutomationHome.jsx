@@ -23,110 +23,109 @@ function Automation(props) {
 
   return (
     <div className="container ">
-      <div className="row pt-3">
+      <div className="mt-3">
+        <div className="row">
+          <div className="col-12">
+            <label className="ModuleHeading">
+              <Icon
+                icon="material-symbols:arrow-right-alt-rounded"
+                fontSize={32}
+                rotate={2}
+                onClick={navToDashboard}
+                style={{ cursor: "pointer" }}
+              />
+              <span className="">&nbsp;Automation</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div className="row mt-3">
         <div className="col-12">
-          <label className="ModuleHeading">
+          <div className="text-end">
             <Icon
-              icon="material-symbols:arrow-right-alt-rounded"
-              fontSize={32}
-              rotate={2}
-              onClick={navToDashboard}
-              style={{ cursor: "pointer" }}
+              icon="fa:plus-circle"
+              color="#2596be"
+              height={33}
+              className="pointer"
+              onClick={navToAutomation}
             />
-            <span className="">&nbsp;Automation</span>
-          </label>
+          </div>
 
-          <div className="row mt-3">
-            <div className="col-12">
-              <div className="text-end">
-                <Icon
-                  icon="fa:plus-circle"
-                  color="#2596be"
-                  height={33}
-                  className="pointer"
-                  onClick={navToAutomation}
-                />
+          <div className="container">
+            <div className="row mt-3">
+              <div className="col-12 mt-4">
+                <div
+                  className="card position-relative"
+                  onClick={() =>
+                    navigate(`${routeNames.dashboard}${routeNames.editname}`)
+                  }
+                >
+                  <div className="position-absolute top-0 start-0 p-3">
+                    <h4 className="text-white">Wake up light</h4>
+                  </div>
+                  <img
+                    src={wakeup}
+                    className="card-img-top"
+                    alt="..."
+                    height={150}
+                  />
+                </div>
               </div>
 
-              <div className="container">
-                <div className="row mt-3">
-                  <div className="col-12 mt-4">
-                    <div
-                      className="card position-relative"
-                      onClick={() =>
-                        navigate(
-                          `${routeNames.dashboard}${routeNames.editname}`
-                        )
-                      }
-                    >
-                      <div className="position-absolute top-0 start-0 p-3">
-                        <h4 className="text-white">Wake up light</h4>
-                      </div>
-                      <img
-                        src={wakeup}
-                        className="card-img-top"
-                        alt="..."
-                        height={150}
-                      />
-                    </div>
+              <div className="col-12 mt-4" style={{ width: "25rem" }}>
+                <div
+                  className="card position-relative"
+                  // onClick={() =>
+                  //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
+                  // }
+                >
+                  <div className="position-absolute top-0 start-0 p-3">
+                    <h4 className="text-white">Go to Sleep</h4>
                   </div>
+                  <img
+                    src={gotosleep}
+                    className="card-img-top"
+                    alt="..."
+                    height={150}
+                  />
+                </div>
+              </div>
 
-                  <div className="col-12 mt-4" style={{ width: "25rem" }}>
-                    <div
-                      className="card position-relative"
-                      // onClick={() =>
-                      //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
-                      // }
-                    >
-                      <div className="position-absolute top-0 start-0 p-3">
-                        <h4 className="text-white">Go to Sleep</h4>
-                      </div>
-                      <img
-                        src={gotosleep}
-                        className="card-img-top"
-                        alt="..."
-                        height={150}
-                      />
-                    </div>
+              <div className="col-12 mt-4" style={{ width: "25rem" }}>
+                <div
+                  className="card position-relative"
+                  // onClick={() =>
+                  //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
+                  // }
+                >
+                  <div className="position-absolute top-0 start-0 p-3">
+                    <h4 className="text-white">Coming Home</h4>
                   </div>
+                  <img
+                    src={leavehome}
+                    className="card-img-top"
+                    alt="..."
+                    height={150}
+                  />
+                </div>
+              </div>
 
-                  <div className="col-12 mt-4" style={{ width: "25rem" }}>
-                    <div
-                      className="card position-relative"
-                      // onClick={() =>
-                      //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
-                      // }
-                    >
-                      <div className="position-absolute top-0 start-0 p-3">
-                        <h4 className="text-white">Coming Home</h4>
-                      </div>
-                      <img
-                        src={leavehome}
-                        className="card-img-top"
-                        alt="..."
-                        height={150}
-                      />
-                    </div>
+              <div className="col-12 mt-4" style={{ width: "25rem" }}>
+                <div
+                  className="card position-relative"
+                  // onClick={() =>
+                  //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
+                  // }
+                >
+                  <div className="position-absolute top-0 start-0 p-3">
+                    <h4 className="text-white">Leaving home</h4>
                   </div>
-
-                  <div className="col-12 mt-4" style={{ width: "25rem" }}>
-                    <div
-                      className="card position-relative"
-                      // onClick={() =>
-                      //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
-                      // }
-                    >
-                      <div className="position-absolute top-0 start-0 p-3">
-                        <h4 className="text-white">Leaving home</h4>
-                      </div>
-                      <img
-                        src={enterhome}
-                        className="card-img-top"
-                        alt="..."
-                        height={150}
-                      />
-                    </div>
-                  </div>
+                  <img
+                    src={enterhome}
+                    className="card-img-top"
+                    alt="..."
+                    height={150}
+                  />
                 </div>
               </div>
             </div>

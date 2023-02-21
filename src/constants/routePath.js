@@ -33,6 +33,7 @@ export const routeNames = {
   addautolight: base + "autolight",
   editname: base + "editautoname",
   editlightcongif: base + "editlightconfig",
+  homelist: base + "homelist",
 };
 
 export const apiNames = {
