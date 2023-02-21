@@ -28,6 +28,11 @@ export const routeNames = {
   defaultroom: base + "addroom",
   roomlists: base + "roomlists",
   zonelists: base + "roomlists",
+  addautomation: base + "addautomation",
+  automationname: base + "autoname",
+  addautolight: base + "autolight",
+  editname: base + "editautoname",
+  editlightcongif: base + "editlightconfig",
 };
 
 export const apiNames = {
