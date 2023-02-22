@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { routeNames } from "../../../constants/routePath";
+import {useLocation} from 'react-router-dom';
 
-function AutomationName() {
+function AutomationName(props) {
   const [value, setValue] = useState("00:00");
-
+  const location = useLocation();
   const [selectedButtonIndices, setSelectedButtonIndices] = useState([]);
-
   const [selectedlabel, setlabel] = useState([]);
+
+  const [automationname,setAutomationname]=useState('');
+
 
   const navigate = useNavigate();
 
@@ -27,6 +30,7 @@ function AutomationName() {
   ];
 
   const handleButtonClick = (index, level) => {
+
     console.log(level);
 
     setlabel((prevState) => [...prevState, level]);
@@ -40,6 +44,53 @@ function AutomationName() {
       setSelectedButtonIndices([...selectedButtonIndices, index]);
     }
   };
+//  console.log(location);
+
+const autoname =()=>{
+
+
+  setAutomationname(location.state.data)
+
+
+  console.log(automationname);
+
+ 
+
+}
+
+useEffect(() => {
+  
+  autoname()
+  console.log(automationname);
+  
+}, [])
+
+const submit=()=>{
+  console.log(value);
+  console.log(automationname);
+ 
+  console.log(selectedlabel);
+
+  fetch('http://localhost:3001/Automation/', {
+    method: 'POST',
+    body: JSON.stringify({
+      id: 3,
+      name: automationname,
+      Time:value,
+      Repeat: selectedlabel,
+     
+    
+    }),
+    headers: {
+      'Content-type': 'application/json',
+    },
+  }).then((response) => response.json()).then((result) => {
+    alert("Record inserted")
+
+    
+  })
+
+}
 
   return (
     <div className="container ">
@@ -57,7 +108,7 @@ function AutomationName() {
           </label>
 
           <h4 className="mt-2 ">
-            When do you want to start dimming your lights?
+            When do you want to start dimming your lights? sdfs
           </h4>
 
           <div className="card  mt-3" style={{ backgroundColor: "#3f3d3d" }}>
@@ -115,6 +166,9 @@ function AutomationName() {
           <div className="text-center  p-3 ">
             <button
               className="btn btn-primary"
+              // onClick={()=>submit()}
+
+
               onClick={() =>
                 navigate(`${routeNames.dashboard}${routeNames.addautolight}`)
               }

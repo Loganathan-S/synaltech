@@ -10,8 +10,13 @@ import gotosleep from "../../../assests/images/gotosleep.jpg";
 import leavehome from "../../../assests/images/leavinghome.jpg";
 import enterhome from "../../../assests/images/enterhome.jpg";
 
-function AddAutomation() {
+function AddAutomation(props) {
   const navigate = useNavigate();
+
+  const data = "WakeUpLight";
+  const data1 = "GoToSleep";
+  const data2 = "ComingHome";
+  const data3 = "LeavingHome"
 
   // conat navigateToautomation = useNavigate();
 
@@ -19,6 +24,11 @@ function AddAutomation() {
     navigate(`${routeNames.dashboard}${routeNames.automation}`);
   };
 
+  const toComponentA=(data)=>{
+    navigate(`${routeNames.dashboard}${routeNames.automationname}`,{state
+      :{data}});
+      }
+    
   return (
     <div className="container ">
       <div className="row pt-3 min-vh-100">
@@ -32,7 +42,7 @@ function AddAutomation() {
               style={{ cursor: "pointer" }}
             />
           </label>
-          <h4 className="mt-2">
+          <h4 className="mt-2"> 
             What Kind of automation do you want to create?
           </h4>
 
@@ -41,14 +51,18 @@ function AddAutomation() {
               <div className="col-12 mt-4">
                 <div
                   className="card position-relative"
-                  onClick={() =>
-                    navigate(
-                      `${routeNames.dashboard}${routeNames.automationname}`
-                    )
-                  }
+                  onClick={()=>{toComponentA(data)}}
+                  // onClick={() =>
+                  //   navigate(
+                  //     `${routeNames.dashboard}${routeNames.automationname}`,
+                  //     {state:{id:1,name:'sabaoon'}}
+                  //   )
+                  // }
                 >
                   <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Wake up light</h4>
+
+                    <h4 className="text-white">{data}</h4>
+
                   </div>
                   <img
                     src={wakeup}
@@ -62,12 +76,13 @@ function AddAutomation() {
               <div className="col-12 mt-4" style={{ width: "25rem" }}>
                 <div
                   className="card position-relative"
+                  onClick={()=>{toComponentA(data1)}}
                   // onClick={() =>
                   //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
                   // }
                 >
                   <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Go to Sleep</h4>
+                    <h4 className="text-white">{data1}</h4>
                   </div>
                   <img
                     src={gotosleep}
@@ -81,12 +96,13 @@ function AddAutomation() {
               <div className="col-12 mt-4" style={{ width: "25rem" }}>
                 <div
                   className="card position-relative"
+                  onClick={()=>{toComponentA(data2)}}
                   // onClick={() =>
                   //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
                   // }
                 >
                   <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Coming Home</h4>
+                    <h4 className="text-white">{data2}</h4>
                   </div>
                   <img
                     src={leavehome}
@@ -100,12 +116,13 @@ function AddAutomation() {
               <div className="col-12 mt-4" style={{ width: "25rem" }}>
                 <div
                   className="card position-relative"
+                  onClick={()=>{toComponentA(data3)}}
                   // onClick={() =>
                   //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
                   // }
                 >
                   <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Leaving home</h4>
+                    <h4 className="text-white">{data3}</h4>
                   </div>
                   <img
                     src={enterhome}
