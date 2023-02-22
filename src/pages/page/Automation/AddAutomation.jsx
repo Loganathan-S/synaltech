@@ -32,7 +32,7 @@ function AddAutomation() {
               style={{ cursor: "pointer" }}
             />
           </label>
-          <h4 className="mt-2">
+          <h4 className="mt-2 mx-2">
             What Kind of automation do you want to create?
           </h4>
 

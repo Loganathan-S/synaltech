@@ -24,7 +24,7 @@ function AddLightConfig() {
               style={{ cursor: "pointer" }}
             />
           </label>
-          <h4 className="mt-2">Choose your Light</h4>
+          <h4 className="mt-2 mx-2">Choose your Light</h4>
 
           <div className="col-12 mt-3 " style={{ backgroundColor: "#3f3d3d" }}>
             <div className="card " style={{ backgroundColor: "#3f3d3d" }}>
@@ -69,7 +69,7 @@ function AddLightConfig() {
                   <div className="d-flex flex-row flex-nowrap overflow-auto">
                     <div
                       className="card card-block mx-2 bg_color"
-                      style={{ minWidth: "150px" }}
+                      style={{ minWidth: "130px" }}
                     >
                       <div className="mt-2" style={{ color: "white" }}>
                         <Icon
@@ -142,7 +142,7 @@ function AddLightConfig() {
                   <div className="d-flex flex-row flex-nowrap overflow-auto">
                     <div
                       className="card card-block mx-2 bg_color"
-                      style={{ minWidth: "150px" }}
+                      style={{ minWidth: "130px" }}
                     >
                       <div className="mt-2 " style={{ color: "white" }}>
                         <Icon
