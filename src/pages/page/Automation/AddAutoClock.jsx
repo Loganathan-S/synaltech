@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { routeNames } from "../../../constants/routePath";
+import { useLocation } from "react-router-dom";
 
-function AutomationName() {
+function AutomationName(props) {
   const [value, setValue] = useState("00:00");
-
+  const location = useLocation();
   const [selectedButtonIndices, setSelectedButtonIndices] = useState([]);
-
   const [selectedlabel, setlabel] = useState([]);
-
+  const [automationname, setAutomationname] = useState("");
   const navigate = useNavigate();
 
   const navToDashboard = () => {
@@ -39,6 +39,40 @@ function AutomationName() {
     } else {
       setSelectedButtonIndices([...selectedButtonIndices, index]);
     }
+  };
+
+  const autoname = () => {
+    //setAutomationname(location.state.data);
+    //console.log(automationname);
+  };
+
+  useEffect(() => {
+    autoname();
+    console.log(automationname);
+  }, []);
+
+  const submit = () => {
+    console.log(value);
+    console.log(automationname);
+
+    console.log(selectedlabel);
+
+    fetch("http://localhost:3001/Automation/", {
+      method: "POST",
+      body: JSON.stringify({
+        id: 3,
+        name: automationname,
+        Time: value,
+        Repeat: selectedlabel,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        alert("Record inserted");
+      });
   };
 
   return (

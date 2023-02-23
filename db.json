@@ -1,128 +1,65 @@
 {  
-  "mapping":[
+  "Automation":[
     {
       "id": 1,
-      "name": "Mapping-1",
-      "Mapping1":"content-1",
-      "Mapping2":"content-2",
-      "Mapping3":"content-3"     
+      "name": "GotoSleep",
+      "Time": "02:30 PM",
+      "Repeat": [
+        {
+          "id": 5,
+          "label": "T",
+          "value": "Thu"
+        }
+      ]   
     },
     {
       "id": 2,
-      "name": "Mapping-2",
-      "Mapping1":"content-1",
-      "Mapping2":"content-2",
-      "Mapping3":"content-3"    
+      "name": "ComingHome",
+      "Time": "02:30 AM",
+      "Repeat": [
+        {
+          "id": 5,
+          "label": "T",
+          "value": "Thu"
+        }
+      ]  
       
     },
     {
       "id": 3,
-      "name": "Mapping-3",
-      "Mapping1":"content-1",
-      "Mapping2":"content-2",
-      "Mapping3":"content-3"      
-    },
-    {
-      "id": 4,
-      "name": "Mapping-4",
-      "Mapping1":"content-1",
-      "Mapping2":"content-2",
-      "Mapping3":"content-3"    
-    },
-    {
-      "id": 5,
-      "name": "Mapping-5",
-      "Mapping1":"content-1",
-      "Mapping2":"content-2",
-      "Mapping3":"content-3"    
-    },
-    {
-      "id": 6,
-      "name": "Mapping-6",
-      "Mapping1":"content-1",
-      "Mapping2":"content-2",
-      "Mapping3":"content-3"    
-    }
+      "name": "LeavingHome",
+      "Time": "02:00",
+      "Repeat": [
+        {
+          "id": 2,
+          "label": "M",
+          "value": "Mon"
+        },
+        {
+          "id": 5,
+          "label": "T",
+          "value": "Thu"
+
+
+        },
+        {
+          "id": 6,
+          "label": "F",
+          "value": "Fri"
+        }
+      ]
+    } 
   ],
-  "switchbox":[
+  "Zones": [
     {
-      "id": 1,
-      "name": "switchbox-1",
-      "switchbox1":"content-1",
-      "switchbox2":"content-2",
-      "switchbox3":"content-3"
+      "userId":1,
+      "zoneId":1,
+      "sectionId":[1,2]
     },
     {
-      "id": 2,
-      "name": "switchbox-2",
-      "switchbox1":"content-1",
-      "switchbox2":"content-2",
-      "switchbox3":"content-3"
-    },
-    {
-      "id": 3,
-      "name": "switchbox-3",
-      "switchbox1":"content-1",
-      "switchbox2":"content-2",
-      "switchbox3":"content-3"
-    },
-    {
-      "id": 4,
-      "name": "switchbox-4",
-      "switchbox1":"content-1",
-      "switchbox2":"content-2",
-      "switchbox3":"content-3"
-    },
-    {
-      "id": 5,
-      "name": "switchbox-5",
-      "switchbox1":"content-1",
-      "switchbox2":"content-2",
-      "switchbox3":"content-3"
-    },
-    {
-      "id": 6,
-      "name": "switchbox-6",
-      "switchbox1":"content-1",
-      "switchbox2":"content-2",
-      "switchbox3":"content-3"
+      "userId":1,
+      "zoneId":2,
+      "sectionId":[3,4]
     }
-  ],
-  "devices": [
-    {
-      "device_ID": 1,
-      "devicename": "Resistors",
-      "devicetype":"Linear Resistors",      
-      "zone":"bedroom",
-      "location":"leftside"
-    },
-    {
-      "device_ID": 2,
-      "devicename": "capacitors",
-      "devicetype":"Electrolytic capacitors",      
-      "zone":"Hall",
-      "location":"rightside"
-    },
-    {
-      "device_ID": 3,
-      "devicename": "transformers",
-      "devicetype":"electromagnetic",      
-      "zone":"kitchen",
-      "location":"rightside"
-    },
-    {
-      "device_ID": 4,
-      "devicename": "diodes",
-      "devicetype":"Forward-biased diode",     
-      "zone":"frontoffice",
-      "location":"rightside"
-    },
-    {
-      "device_ID": 5,
-      "devicename": "Resistors",
-      "devicetype":"Linear Resistors",      
-      "zone":"mainhall",
-      "location":"rightside"
-    }    
   ]
 }

@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../../assests/css/global.scss";
 import { routeNames } from "../../../constants/routePath";
@@ -11,6 +11,7 @@ import leavehome from "../../../assests/images/leavinghome.jpg";
 import enterhome from "../../../assests/images/enterhome.jpg";
 
 function Automation(props) {
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   const navToDashboard = () => {
@@ -19,6 +20,19 @@ function Automation(props) {
 
   const navToAutomation = () => {
     navigate(`${routeNames.dashboard}${routeNames.addautomation}`);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    fetch("http://localhost:3001/Automation")
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setData(result);
+      });
   };
 
   return (
@@ -52,80 +66,95 @@ function Automation(props) {
           </div>
 
           <div className="container">
-            <div className="row mt-3">
-              <div className="col-12 mt-4">
-                <div
-                  className="card position-relative"
-                  onClick={() =>
-                    navigate(`${routeNames.dashboard}${routeNames.editname}`)
-                  }
-                >
-                  <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Wake up light</h4>
+            <div className="row mt-1">
+              <div className="col-12 mt-2">
+                <div className=" position-relative">
+                  <div className=" p-0">
+                    {/* <h4 className="mx-2 ">GoTo Sleep </h4> */}
+                    {data.map((item) => {
+                      return (
+                        <div>
+                          <h4 className="mx-2 ">{item.name} </h4>
+                          <div
+                            className="card "
+                            style={{ backgroundColor: "#3f3d3d" }}
+                          >
+                            <div className="card-body">
+                              <div
+                                className="row col-12"
+                                style={{ backgroundColor: "#3f3d3d" }}
+                              >
+                                <div
+                                  className="col-8"
+                                  onClick={() =>
+                                    navigate(
+                                      `${routeNames.dashboard}${routeNames.editname}`
+                                    )
+                                  }
+                                >
+                                  <p className="fontRepeat text-white">
+                                    {item.Time} . {item.name}
+                                  </p>
+                                  <p className="fontRepeat text-white space-between">
+                                    {item.Repeat.map((i) => {
+                                      return <>{i.value}</>;
+                                    })}
+                                  </p>
+                                </div>
+                                <div className="col-4 form-check form-switch d-flex justify-content-end mb-2 text-end">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id="flexSwitchCheckChecked"
+                                    // checked={roomLightStateChange}
+                                    // onChange={roomValueChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                  <img
-                    src={wakeup}
-                    className="card-img-top"
-                    alt="..."
-                    height={150}
-                  />
-                </div>
-              </div>
 
-              <div className="col-12 mt-4" style={{ width: "25rem" }}>
-                <div
-                  className="card position-relative"
-                  // onClick={() =>
-                  //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
-                  // }
-                >
-                  <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Go to Sleep</h4>
-                  </div>
-                  <img
-                    src={gotosleep}
-                    className="card-img-top"
-                    alt="..."
-                    height={150}
-                  />
-                </div>
-              </div>
-
-              <div className="col-12 mt-4" style={{ width: "25rem" }}>
-                <div
-                  className="card position-relative"
-                  // onClick={() =>
-                  //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
-                  // }
-                >
-                  <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Coming Home</h4>
-                  </div>
-                  <img
-                    src={leavehome}
-                    className="card-img-top"
-                    alt="..."
-                    height={150}
-                  />
-                </div>
-              </div>
-
-              <div className="col-12 mt-4" style={{ width: "25rem" }}>
-                <div
-                  className="card position-relative"
-                  // onClick={() =>
-                  //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
-                  // }
-                >
-                  <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Leaving home</h4>
-                  </div>
-                  <img
+                  {/* <div className="card " style={{ backgroundColor: "#3f3d3d" }}>
+                    <div className="card-body">
+                      <div
+                        className="row col-12"
+                        style={{ backgroundColor: "#3f3d3d" }}
+                      >
+                        <div
+                          className="col-8"
+                          onClick={() =>
+                            navigate(
+                              `${routeNames.dashboard}${routeNames.editname}`
+                            )
+                          }
+                        >
+                          <p className="fontRepeat text-white">
+                            7:30 AM . GoToSleep
+                          </p>
+                          <p className="fontRepeat text-white">Wenesday</p>
+                        </div>
+                        <div className="col-4 form-check form-switch d-flex justify-content-end mb-2 text-end">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="flexSwitchCheckChecked"
+                            // checked={roomLightStateChange}
+                            // onChange={roomValueChange}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div> */}
+                  {/* <img
                     src={enterhome}
                     className="card-img-top"
                     alt="..."
                     height={150}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
