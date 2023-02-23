@@ -80,7 +80,7 @@ function RoomLists() {
       //console.log("checked");
       setSelectedOption((prevState) => [...prevState, id]);
       let check = checkBox.map((x) => true);
-      //console.log(check);
+      console.log(selectedOption);
       setCheckBox(check);
     } else {
       setSelectedOption("");
