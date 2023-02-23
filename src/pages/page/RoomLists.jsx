@@ -22,7 +22,7 @@ function RoomLists() {
     }
   };
 
-  const [checkBox, setCheckBox] = useState([false, false, false, false])
+  const [checkBox, setCheckBox] = useState([false, false, false, false]);
 
   useEffect(() => {
     setValue(sessionStorage.getItem("redirectname"));
@@ -77,18 +77,17 @@ function RoomLists() {
 
   const selectZonesLights = (id) => {
     if (document.getElementById("defaultCheck1").checked) {
-      console.log("checked");
+      //console.log("checked");
       setSelectedOption((prevState) => [...prevState, id]);
-      
-      let check = checkBox.map(x => true);
-      console.log(check)
-      setCheckBox(check)
+      let check = checkBox.map((x) => true);
+      //console.log(check);
+      setCheckBox(check);
     } else {
       setSelectedOption("");
-      console.log("un-checked");
-      let check = checkBox.map(x => false);
-      console.log(check)
-      setCheckBox(check)
+      //console.log("un-checked");
+      let check = checkBox.map((x) => false);
+      //console.log(check);
+      setCheckBox(check);
     }
   };
 
@@ -98,8 +97,15 @@ function RoomLists() {
   };
 
   const roomValueChange = (index) => {
-    setCheckBox((prevState)=> !prevState[index])
-  }
+    //let check = checkBox;
+    //check[index] = !check[index];
+    const newState = [...checkBox];
+    newState[index] = !newState[index];
+    setCheckBox(newState);
+    //setCheckBox((checkBox) => ({ ...checkBox, [index]: ![index] }));
+    //setCheckBox((prevState) => [!prevState[index]]);
+    //console.log(newState);
+  };
 
   return (
     <div className="container">
@@ -257,8 +263,12 @@ function RoomLists() {
                                                           type="checkbox"
                                                           id="flexSwitchCheckChecked"
                                                           // checked={roomLightStateChange}
-                                                           onChange={()=>roomValueChange(inx)}
-                                                          checked={checkBox[inx]}
+                                                          onChange={() =>
+                                                            roomValueChange(inx)
+                                                          }
+                                                          checked={
+                                                            checkBox[inx]
+                                                          }
                                                         />
                                                       </div>
                                                     </div>
