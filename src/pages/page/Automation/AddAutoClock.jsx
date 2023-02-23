@@ -49,10 +49,10 @@ function AutomationName(props) {
 const autoname =()=>{
 
 
-  setAutomationname(location.state.data)
+  // setAutomationname(location.state.data)
 
 
-  console.log(automationname);
+  // console.log(automationname);
 
  
 

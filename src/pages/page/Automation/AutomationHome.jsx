@@ -11,6 +11,8 @@ import leavehome from "../../../assests/images/leavinghome.jpg";
 import enterhome from "../../../assests/images/enterhome.jpg";
 
 function Automation(props) {
+const [data,setData] = useState([])
+
   const navigate = useNavigate();
 
   const navToDashboard = () => {
@@ -30,7 +32,7 @@ function Automation(props) {
       .then((result) => {
         console.log(result
           );
-          
+          setData(result)
       })
   }
 
@@ -70,10 +72,60 @@ function Automation(props) {
               <div className="col-12 mt-2" >
                 <div className=" position-relative">
                   <div className=" p-0">
-                    <h4 className="mx-2 ">GoTo Sleep </h4>
+
+                    {data.map((item)=>{
+                      return(
+                      <div>
+                          <h4 className="mx-2 ">{item.name} </h4>
+                          <div
+                    className="card "style={{ backgroundColor: "#3f3d3d" }}
+                   
+                  >
+                    <div className="card-body">
+
+                    <div className="row col-12" style={{ backgroundColor: "#3f3d3d" }}>
+                    <div className="col-8"  onClick={() =>
+                      navigate(`${routeNames.dashboard}${routeNames.editname}`)
+                    }>
+                    <p className="fontRepeat text-white">{item.Time
+} . {item.name}</p>
+                        <p className="fontRepeat text-white space-between">
+                          
+                          {item.Repeat.map((i)=>{
+                            return(<>
+                              {i.value}
+                              </>
+                            )
+                          })}
+                        </p>
+                    </div>
+                    <div className="col-4 form-check form-switch d-flex justify-content-end mb-2 text-end">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="flexSwitchCheckChecked"
+                        // checked={roomLightStateChange}
+                        // onChange={roomValueChange}
+                      />
+                    </div>
+                  </div>
+                
+
+
+                    
+                     
+                    </div>
                   </div>
 
-                  <div
+                      </div>)
+                    })}
+
+
+
+                  
+                  </div>
+
+                  {/* <div
                     className="card "style={{ backgroundColor: "#3f3d3d" }}
                    
                   >
@@ -102,7 +154,7 @@ function Automation(props) {
                     
                      
                     </div>
-                  </div>
+                  </div> */}
                   {/* <img
                     src={wakeup}
                     className="card-img-top"
