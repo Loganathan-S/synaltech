@@ -1,14 +1,18 @@
 import { Icon } from "@iconify/react";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { routeNames } from "../../constants/routePath";
+import { apiNames, routeNames } from "../../constants/routePath";
+import { Apiservice } from "../../services/apiServices";
 
 function RoomLists() {
   const [value, setValue] = useState();
+  const [newDeviceLists, setNewDeviceLists] = useState([]);
+  const [lineLists, setLineLists] = useState([]);
+  const [checked, setChecked] = useState(false);
   const navigate = useNavigate();
   let roomName = useLocation();
   const [roomValue, setRoomValue] = useState(roomName.state);
-  console.log(roomName.state);
+  // console.log(roomName.state);
   const navToDashboard = () => {
     // console.log(sessionStorage.getItem("redirectname"));
     if (sessionStorage.getItem("redirectname") === "room") {
@@ -17,13 +21,85 @@ function RoomLists() {
       navigate(`${routeNames.dashboard}${routeNames.defaultzone}`);
     }
   };
+
+  const [checkBox, setCheckBox] = useState([false, false, false, false])
+
   useEffect(() => {
     setValue(sessionStorage.getItem("redirectname"));
+    Apiservice.getLists(apiNames.deviceLists) //newDeviceLists
+      .then((res) => {
+        if (res.length !== 0) {
+          const notAvailableDevices = res.filter((room) => {
+            return room.sectionId !== null;
+          });
+
+          getSection(notAvailableDevices);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
+  const getSection = (notAvailableDevices) => {
+    Apiservice.getLists(apiNames.sectionLists)
+      .then((res) => {
+        //console.log(res.length);
+
+        setTimeout(() => {
+          const filtered1 = res.filter((number) => {
+            return notAvailableDevices.some((zoneId) => {
+              return zoneId.sectionId === number.id;
+            });
+          });
+
+          const filtered2 = notAvailableDevices.filter((number) => {
+            return res.some((zoneId) => {
+              return zoneId.id === number.sectionId;
+            });
+          });
+          //console.log(filtered1);
+          //console.log(filtered2);
+          setNewDeviceLists(filtered1);
+          setLineLists(filtered2);
+        }, 500);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleChange = (e) => {
     setRoomValue(e.target.value);
   };
+
+  const [selectedOption, setSelectedOption] = useState([]);
+
+  const selectZonesLights = (id) => {
+    if (document.getElementById("defaultCheck1").checked) {
+      console.log("checked");
+      setSelectedOption((prevState) => [...prevState, id]);
+      
+      let check = checkBox.map(x => true);
+      console.log(check)
+      setCheckBox(check)
+    } else {
+      setSelectedOption("");
+      console.log("un-checked");
+      let check = checkBox.map(x => false);
+      console.log(check)
+      setCheckBox(check)
+    }
+  };
+
+  const addZone = (x, line) => {
+    console.log(x);
+    console.log(line);
+  };
+
+  const roomValueChange = (index) => {
+    setCheckBox((prevState)=> !prevState[index])
+  }
 
   return (
     <div className="container">
@@ -77,85 +153,143 @@ function RoomLists() {
                   />
                 </div>
                 <div className="col-12 mt-3">
-                  <div className="card">
-                    <div className="card-header accordion">
-                      <div className="row">
-                        <div className="col-2">
-                          <input type="radio" name="" id="" />
-                        </div>
-                        <div
-                          className="col-8 gx-0"
-                          id="accordionExample"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseOne"
-                          aria-expanded="true"
-                          aria-controls="collapseOne"
-                        >
-                          <h5>Hall</h5>
-                        </div>
-                        <div className="col-2 text-end">
-                          <span className="">
-                            <Icon
-                              id="accordionExample"
-                              icon="ant-design:caret-down-filled"
-                              className="fs-4"
-                              data-bs-toggle="collapse"
-                              data-bs-target="#collapseOne"
-                              aria-expanded="true"
-                              aria-controls="collapseOne"
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      id="collapseOne"
-                      className="accordion-body accordion-collapse collapse hide"
-                      aria-labelledby="headingOne"
-                      data-bs-parent="#accordionExample"
-                    >
-                      <p className="m-0 mt-3 mx-2 FormContent">LIGHT 1</p>
-                      <div className="text-center mt-2 mb-2">
-                        <div className="d-flex flex-row flex-nowrap overflow-auto">
-                          <div
-                            className="card card-block mx-2 bg_color"
-                            style={{ minWidth: "150px" }}
-                          >
-                            <div className="mt-2" style={{ color: "white" }}>
-                              <Icon
-                                icon="material-symbols:database"
-                                className="fs-2"
-                              />
+                  {newDeviceLists.map((roomName, index) => (
+                    <div key={index}>
+                      {roomName.section && (
+                        <>
+                          <div className="card mt-3">
+                            <div className="card-header accordion">
+                              <div className="row">
+                                <div className="col-2">
+                                  <div className="form-check">
+                                    <input
+                                      id="defaultCheck1"
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      value={selectedOption === roomName.id}
+                                      //checked={selectedOption === roomName.id}
+                                      onChange={() =>
+                                        selectZonesLights(roomName.id)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                                <div
+                                  className="col-8 gx-0"
+                                  id={index}
+                                  data-bs-toggle="collapse"
+                                  data-bs-target="#collapseOne"
+                                  aria-expanded="true"
+                                  aria-controls="collapseOne"
+                                >
+                                  <h5>{roomName.section}</h5>
+                                </div>
+                                <div className="col-2 text-end">
+                                  <span className="">
+                                    <Icon
+                                      id="accordionExample"
+                                      icon="ant-design:caret-down-filled"
+                                      className="fs-4"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target={`#${roomName.section.replace(
+                                        /\s+/g,
+                                        ""
+                                      )}`}
+                                      aria-expanded="true"
+                                      aria-controls="collapseOne"
+                                    />
+                                  </span>
+                                </div>
+                              </div>
                             </div>
 
-                            <p
-                              className="m-0 FormPlaceholder"
-                              style={{ color: "white" }}
-                            ></p>
+                            <div
+                              id={`${roomName.section.replace(/\s+/g, "")}`}
+                              className="accordion-body accordion-collapse collapse hide"
+                              aria-labelledby="headingOne"
+                              data-bs-parent="#accordionExample"
+                            >
+                              {lineLists.map((line, ind) => (
+                                <div key={ind}>
+                                  {index === ind && (
+                                    <>
+                                      <div className="d-flex flex-row flex-nowrap overflow-auto">
+                                        {Object.values(
+                                          JSON.parse(
+                                            line.description
+                                          )?.lines.map((x, inx) => (
+                                            <div key={inx}>
+                                              {x.name && (
+                                                <>
+                                                  <div className="text-center mt-2 mb-2">
+                                                    <div
+                                                      className="card card-block mx-2 bg_color"
+                                                      style={{
+                                                        minWidth: "150px",
+                                                      }}
+                                                    >
+                                                      <div
+                                                        className="mt-2"
+                                                        style={{
+                                                          color: "white",
+                                                        }}
+                                                      >
+                                                        <Icon
+                                                          icon="material-symbols:database"
+                                                          className="fs-2"
+                                                        />
+                                                      </div>
 
-                            <div className="form-check form-switch d-flex justify-content-center mb-2">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="flexSwitchCheckChecked"
-                                // checked={roomLightStateChange}
-                                // onChange={roomValueChange}
-                              />
+                                                      <p className="m-0 mt-3 mx-2 FormContent">
+                                                        {x.name}
+                                                      </p>
+
+                                                      <p
+                                                        className="m-0 FormPlaceholder"
+                                                        style={{
+                                                          color: "white",
+                                                        }}
+                                                      ></p>
+
+                                                      <div className="form-check form-switch d-flex justify-content-center mb-2">
+                                                        <input
+                                                          className="form-check-input"
+                                                          type="checkbox"
+                                                          id="flexSwitchCheckChecked"
+                                                          // checked={roomLightStateChange}
+                                                           onChange={()=>roomValueChange(inx)}
+                                                          checked={checkBox[inx]}
+                                                        />
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </>
+                                              )}
+                                            </div>
+                                          ))
+                                        )}
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                              ))}
                             </div>
                           </div>
-                        </div>
-                      </div>
+                        </>
+                      )}
                     </div>
-                  </div>
+                  ))}
                 </div>
               </>
             )}
             <div className="text-center mt-3">
               <button
+                type="button"
                 className="btn btn-outline-primary btn-sm"
                 style={{ paddingLeft: "20px", paddingRight: "20px" }}
+                onClick={() => addZone(selectedOption, lineLists)}
               >
-                Done
+                add
               </button>
             </div>
           </>
@@ -249,7 +383,7 @@ function RoomLists() {
                 className="btn btn-outline-primary btn-sm"
                 style={{ paddingLeft: "20px", paddingRight: "20px" }}
               >
-                Done
+                add
               </button>
             </div>
           </>

@@ -1,9 +1,13 @@
 import { Icon } from "@iconify/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { routeNames } from "../../constants/routePath";
+import { apiNames, routeNames } from "../../constants/routePath";
+import { Apiservice } from "../../services/apiServices";
 
 function DefaultZone() {
+
+   const [zoneLists, setZoneLists] = useState([]);
+
   const navigate = useNavigate();
 
   const navToDashboard = () => {
@@ -11,6 +15,17 @@ function DefaultZone() {
     navigate(`${routeNames.dashboard}${routeNames.addroomzone}`);
   };
 
+  useEffect(() => {
+    Apiservice.getLists(apiNames.zoneLists)
+    .then((res) => {
+      console.log(res);
+      setZoneLists(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, [])
+  
   const levelsIcon = [
     <Icon icon="tabler:stairs-down" className=" text-white" />,
     <Icon icon="tabler:stairs-up" className=" text-white" />,
@@ -19,12 +34,14 @@ function DefaultZone() {
     <Icon icon="material-symbols:garage-home" className=" text-white" />,
   ];
 
-  const levels = ["Downstairs", "Upstairs", "Ground floor", "Dancing floor", "Other"];
+  // const levels = ["Downstairs", "Upstairs", "Ground floor", "Dancing floor", "Other"];
 
   const addZones = (idx,name) => {
     sessionStorage.setItem("redirectname","zone")
     navigate(`${routeNames.dashboard}${routeNames.zonelists}`,{state: name})
   }
+
+
 
   return (
     <div className="container">
@@ -47,16 +64,16 @@ function DefaultZone() {
           <div className="card bg_Levels_Card">
             <div className="card-body">
               <div className="row">
-                {levels.map((level, inx) => (
+                {zoneLists.map((level, inx) => (
                   <div key={inx} className="col-4 text-center mt-2">
                     {levelsIcon.map((icon, index) => (
                       <div key={index}>
                         {inx === index && (
                           <>
-                            <div className="iconBackground   mx-auto" onClick={()=> addZones(index,level)}>
+                            <div className="iconBackground   mx-auto" onClick={()=> addZones(index,level.zoneName)}>
                               <p className="pt-1 fs-4">{icon}</p>
                             </div>
-                            <p className="text-white">{level}</p>
+                            <p className="text-white">{level.zoneName}</p>
                           </>
                         )}
                       </div>
