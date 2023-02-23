@@ -18,7 +18,7 @@ function Bottommenu() {
             Home
           </NavLink>
           <NavLink
-            to={`${routeNames.dashboard}${routeNames.automation}`}
+            to={`${routeNames.dashboard}${routeNames.homelist}`}
             activeclassname="active"
             className={`mx-3 fs-6`}
           >

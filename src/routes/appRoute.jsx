@@ -3,7 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import Login from "../pages/auth/login/Login";
 import Register from "../pages/auth/register/register";
 import AddNewDevice from "../pages/page/addNewDevice";
-import Automation from "../pages/page/Automation";
+import Automation from "../pages/page/Automation/AutomationHome";
+import HomeList from "../pages/page/Automation/HomeList";
 import Home from "../pages/page/Home";
 import Layout from "../pages/dashboard/Layout";
 import Settings from "../pages/page/Settings";
@@ -16,6 +17,11 @@ import Lights from "../pages/page/Zone";
 import Rooms from "../pages/page/Room";
 import DefaultZone from "../pages/page/DefaultZone";
 import DefaultRoom from "../pages/page/DefaultRoom";
+import AutomationName from "../pages/page/Automation/AddAutoClock";
+import AddAutomation from "../pages/page/Automation/AddAutomation";
+import AddLightConfig from "../pages/page/Automation/AddLightConfig";
+import EditNameAutomation from "../pages/page/Automation/EditNameAutomation";
+import EditAutoLightConfig from "../pages/page/Automation/EditAutoLightConfig";
 import RoomLists from "../pages/page/RoomLists";
 import ZoneLists from "../pages/ZoneLists";
 
@@ -29,6 +35,11 @@ export default function routePaths() {
           exact
           path={`${routeNames.dashboard}${routeNames.home}`}
           element={<Home />}
+        />
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.homelist}`}
+          element={<HomeList />}
         />
         <Route
           exact
@@ -94,6 +105,34 @@ export default function routePaths() {
           exact
           path={`${routeNames.dashboard}${routeNames.zonelists}`}
           element={<ZoneLists />}
+        />
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.addautomation}`}
+          element={<AddAutomation />}
+        />
+
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.automationname}`}
+          element={<AutomationName />}
+        />
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.addautolight}`}
+          element={<AddLightConfig />}
+        />
+
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.editname}`}
+          element={<EditNameAutomation />}
+        />
+
+        <Route
+          exact
+          path={`${routeNames.dashboard}${routeNames.editlightcongif}`}
+          element={<EditAutoLightConfig />}
         />
       </Route>
     </Routes>
