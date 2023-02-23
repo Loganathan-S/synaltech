@@ -29,8 +29,10 @@ function Home() {
   const [zoneLightCount, setZoneLightCount] = useState("");
   const [roomLightCount, setRoomLightCount] = useState("");
   const [expand, setExpand] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(null);
-
+  const [isChecked, setIsChecked] = useState(false);
+  const [isCheckedZone, setIsCheckedZone] = useState(false);
+  const [isCheckedRoom, setIsCheckedRoom] = useState(false);
+  
   useEffect(() => {
     Apiservice.getLists(apiNames.zoneLists)
       .then((res) => {
@@ -133,9 +135,20 @@ function Home() {
     navigate(`${routeNames.dashboard}${routeNames.roomspage}`);
   };
 
-  const handleChange = (event) => {
-    setSelectedValue(!event.target.value);
-  };
+  const handleChange = (e) => {
+    // console.log(e.target.checked)
+    setIsChecked (!isChecked);
+    setIsCheckedZone(!isCheckedZone);
+    setIsCheckedRoom(!isCheckedRoom)
+  }
+
+  const handleChangeZones = () => {
+    setIsCheckedZone(!isCheckedZone);
+  }
+
+  const handleChangeRoom = () => {
+    setIsCheckedRoom(!isCheckedRoom)
+  }
 
   return (
     <div className="container">
@@ -224,10 +237,9 @@ function Home() {
               <div className="form-check form-switch">
                 <input
                   className="form-check-input"
-                  type="radio"
+                  type="checkbox"
                   id="flexSwitchCheckChecked"
-                  value="option1"
-                  checked={selectedValue}
+                  checked = {isChecked}
                   onChange={handleChange}
                 />
               </div>
@@ -262,7 +274,7 @@ function Home() {
                                 className="col-10"
                                 onClick={() => navToLights(name.zoneName)}
                               >
-                                <p className="m-0 ModuleHeading whitecolor">
+                                <p className="m-0 ModuleHeading">
                                   {name.zoneName}
                                 </p>
                                 <p className="m-0">
@@ -276,6 +288,8 @@ function Home() {
                                     className="form-check-input"
                                     type="checkbox"
                                     id="flexSwitchCheckChecked"
+                                    checked= {isCheckedZone}
+                                    onChange={handleChangeZones }
                                   />
                                 </div>
                               </div>
@@ -339,6 +353,8 @@ function Home() {
                                     className="form-check-input"
                                     type="checkbox"
                                     id="flexSwitchCheckChecked"
+                                    checked= {isCheckedRoom}
+                                    onChange={handleChangeRoom}
                                   />
                                 </div>
                               </div>

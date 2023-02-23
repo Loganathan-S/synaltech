@@ -53,7 +53,7 @@ const Device = () => {
   const getSection = () => {
     Apiservice.getLists(apiNames.sectionLists)
       .then((res) => {
-        //console.log(res);
+        console.log(res);
         setSection(res);
       })
       .catch((err) => {
