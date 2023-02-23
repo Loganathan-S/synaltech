@@ -37,7 +37,7 @@ function EditNameAutomation() {
                   value="Go To Sleep"
                   style={{ backgroundColor: "#3f3d3d" }}
                 />
-                <i class="fa fa-times"></i>
+                <i className="fa fa-times"></i>
               </form>
             </div>
 

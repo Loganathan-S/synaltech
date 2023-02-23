@@ -86,11 +86,11 @@ function EditAutoLightConfig() {
 
           <div className="card  mt-3" style={{ backgroundColor: "#3f3d3d" }}>
             <div className="card-body">
-              <div class="row ">
-                <div class="col-4 text-center fontRepeat mt-2 text-white">
+              <div className="row ">
+                <div className="col-4 text-center fontRepeat mt-2 text-white">
                   Time:
                 </div>
-                <div class="col-8 p-2 ">
+                <div className="col-8 p-2 ">
                   <input
                     type="time"
                     onChange={(ev) => setValue(ev.target.value)}
@@ -138,7 +138,7 @@ function EditAutoLightConfig() {
                       );
                     })}
 
-                    <div class="d-flex flex-row ">
+                    <div className="d-flex flex-row ">
                       {selectedlabel.map((item) => (
                         <span className=" mx-2 text-white">{item.value}</span>
                       ))}

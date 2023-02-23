@@ -41,7 +41,6 @@ function HomeList() {
           alt="addlight"
           className="img-fluid"
           style={{ borderRadius: "50%" }}
-          height={300}
         />
       </div>
       <div className="mt-3 text-center ">
@@ -52,8 +51,8 @@ function HomeList() {
       <div className="mt-3 text-center">
         <p>
           <small className="text-muted ">
-            Trigger your lights to turn on of off at a specified time :turn ont
-            he bedroomat full brigtness in the morning or shut off the entire
+            Trigger your lights to turn on or off at a specified time: turn on
+            the bedroom at full brigtness in the morning or shut off the entire
             house at bedtime,for example.
           </small>
         </p>
@@ -61,7 +60,7 @@ function HomeList() {
 
       <div className="text-center">
         <button
-          className="btn btn-primary"
+          className="btn btn-sm btn-outline-primary"
           onClick={() =>
             navigate(`${routeNames.dashboard}${routeNames.addautomation}`)
           }

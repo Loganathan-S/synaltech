@@ -56,15 +56,15 @@ function AutomationName() {
             {/* <span >&nbsp;Automation</span> */}
           </label>
 
-          <h4 className="mt-2 ">
+          <h4 className="mt-2 mx-2">
             When do you want to start dimming your lights?
           </h4>
 
           <div className="card  mt-3" style={{ backgroundColor: "#3f3d3d" }}>
             <div className="card-body">
-              <div class="row ">
-                <div class="col-4 text-center mt-2 text-white">Time:</div>
-                <div class="col-8 p-2 fontRepeat">
+              <div className="row ">
+                <div className="col-4 text-center mt-2 text-white">Time:</div>
+                <div className="col-8 p-2 fontRepeat">
                   <input
                     type="time"
                     onChange={(ev) => setValue(ev.target.value)}
@@ -102,11 +102,11 @@ function AutomationName() {
                       );
                     })}
 
-                    <div class="d-flex flex-row ">
+                    {/* <div className="d-flex flex-row ">
                       {selectedlabel.map((item) => (
                         <span className=" mx-2 text-white">{item.value}</span>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -114,7 +114,7 @@ function AutomationName() {
           </div>
           <div className="text-center  p-3 ">
             <button
-              className="btn btn-primary"
+              className="btn btn-sm btn-outline-primary"
               onClick={() =>
                 navigate(`${routeNames.dashboard}${routeNames.addautolight}`)
               }
