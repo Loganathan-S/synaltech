@@ -8,7 +8,7 @@ function RoomLists() {
   const [value, setValue] = useState();
   const [newDeviceLists, setNewDeviceLists] = useState([]);
   const [lineLists, setLineLists] = useState([]);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState([]);
   const navigate = useNavigate();
   let roomName = useLocation();
   const [roomValue, setRoomValue] = useState(roomName.state);
@@ -21,7 +21,6 @@ function RoomLists() {
       navigate(`${routeNames.dashboard}${routeNames.defaultzone}`);
     }
   };
-
   const [checkBox, setCheckBox] = useState([false, false, false, false]);
 
   useEffect(() => {
@@ -59,6 +58,12 @@ function RoomLists() {
             });
           });
           //console.log(filtered1);
+          let arr = checked;
+          for (let i = 0; i < filtered1.length; i++) {
+            arr[i] = { sectionId: 0, value: 0, line: [0, 0, 0, 0] };
+          }
+          console.log(arr);
+          setChecked(arr);
           //console.log(filtered2);
           setNewDeviceLists(filtered1);
           setLineLists(filtered2);
@@ -75,19 +80,25 @@ function RoomLists() {
 
   const [selectedOption, setSelectedOption] = useState([]);
 
-  const selectZonesLights = (id) => {
-    if (document.getElementById("defaultCheck1").checked) {
-      //console.log("checked");
-      setSelectedOption((prevState) => [...prevState, id]);
+  const selectZonesLights = (id, index, e) => {
+    if (e.target.checked === true) {
       let check = checkBox.map((x) => true);
-      console.log(selectedOption);
       setCheckBox(check);
-    } else {
-      setSelectedOption("");
-      //console.log("un-checked");
+      let arr = checked;
+      arr[index].sectionId = id;
+      arr[index].value = 1;
+      setChecked([]);
+      setChecked(arr);
+      //setChecked((checked[index] = e.target.checked));
+    } else if (e.target.checked === false) {
       let check = checkBox.map((x) => false);
-      //console.log(check);
       setCheckBox(check);
+      let arr = checked;
+      arr[index].sectionId = id;
+      arr[index].value = 0;
+      setChecked([]);
+      setChecked(arr);
+      //setChecked((checked[index] = e.target.checked));
     }
   };
 
@@ -97,14 +108,9 @@ function RoomLists() {
   };
 
   const roomValueChange = (index) => {
-    //let check = checkBox;
-    //check[index] = !check[index];
     const newState = [...checkBox];
     newState[index] = !newState[index];
     setCheckBox(newState);
-    //setCheckBox((checkBox) => ({ ...checkBox, [index]: ![index] }));
-    //setCheckBox((prevState) => [!prevState[index]]);
-    //console.log(newState);
   };
 
   return (
@@ -172,10 +178,14 @@ function RoomLists() {
                                       id="defaultCheck1"
                                       className="form-check-input"
                                       type="checkbox"
-                                      value={selectedOption === roomName.id}
-                                      //checked={selectedOption === roomName.id}
-                                      onChange={() =>
-                                        selectZonesLights(roomName.id)
+                                      //value={selectedOption === roomName.id}
+                                      checked={
+                                        checked[index].value === 1
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={(e) =>
+                                        selectZonesLights(roomName.id, index, e)
                                       }
                                     />
                                   </div>
