@@ -8,7 +8,7 @@ function RoomLists() {
   const [value, setValue] = useState();
   const [newDeviceLists, setNewDeviceLists] = useState([]);
   const [lineLists, setLineLists] = useState([]);
-  const [checked, setChecked] = useState(false);
+  const [zoneChecked, setZoneChecked] = useState([]);
   const navigate = useNavigate();
   let roomName = useLocation();
   const [roomValue, setRoomValue] = useState(roomName.state);
@@ -22,8 +22,6 @@ function RoomLists() {
     }
   };
 
-  const [checkBox, setCheckBox] = useState([false, false, false, false])
-
   useEffect(() => {
     setValue(sessionStorage.getItem("redirectname"));
     Apiservice.getLists(apiNames.deviceLists) //newDeviceLists
@@ -32,7 +30,6 @@ function RoomLists() {
           const notAvailableDevices = res.filter((room) => {
             return room.sectionId !== null;
           });
-
           getSection(notAvailableDevices);
         }
       })
@@ -45,7 +42,6 @@ function RoomLists() {
     Apiservice.getLists(apiNames.sectionLists)
       .then((res) => {
         //console.log(res.length);
-
         setTimeout(() => {
           const filtered1 = res.filter((number) => {
             return notAvailableDevices.some((zoneId) => {
@@ -59,6 +55,16 @@ function RoomLists() {
             });
           });
           //console.log(filtered1);
+          let arr = zoneChecked;
+          for (let i = 0; i < filtered1.length; i++) {
+            arr[i] = {
+              sectionId: 0,
+              valueId: 0,
+              lines: [0, 0, 0, 0],
+            };
+          }
+          console.log(arr);
+          setZoneChecked(arr);
           //console.log(filtered2);
           setNewDeviceLists(filtered1);
           setLineLists(filtered2);
@@ -75,31 +81,54 @@ function RoomLists() {
 
   const [selectedOption, setSelectedOption] = useState([]);
 
-  const selectZonesLights = (id) => {
-    if (document.getElementById("defaultCheck1").checked) {
-      console.log("checked");
-      setSelectedOption((prevState) => [...prevState, id]);
-      
-      let check = checkBox.map(x => true);
-      console.log(check)
-      setCheckBox(check)
-    } else {
-      setSelectedOption("");
-      console.log("un-checked");
-      let check = checkBox.map(x => false);
-      console.log(check)
-      setCheckBox(check)
+  const roomCheckboxChange = (index, e) => {
+    //console.log(e);
+    let val;
+    if (e.target.checked === true) {
+      val = 1;
+    } else if (e.target.checked === false) {
+      val = 0;
     }
+
+    const room = [...zoneChecked];
+    const rm = room.find((r, i) => i === index);
+    rm.valueId = val;
+    rm.lines[0] = val;
+    rm.lines[1] = val;
+    rm.lines[2] = val;
+    rm.lines[3] = val;
+    console.log(room);
+    setZoneChecked(room);
+  };
+
+  const lineCheckboxChange = (index, inx, e) => {
+    let val;
+    if (e.target.checked === true) {
+      val = 1;
+    } else if (e.target.checked === false) {
+      val = 0;
+    }
+
+    const room = [...zoneChecked];
+    const rm = room.find((r, i) => i === index);
+    if (
+      (rm.lines[0] === 0 &&
+        rm.lines[1] === 0 &&
+        rm.lines[2] === 0 &&
+        rm.lines[3] === 0) ||
+      rm.lines[0] + rm.lines[1] + rm.lines[2] + rm.lines[3] === 1
+    ) {
+      rm.valueId = val;
+    }
+    rm.lines[inx] = val;
+    console.log(room);
+    setZoneChecked(room);
   };
 
   const addZone = (x, line) => {
     console.log(x);
     console.log(line);
   };
-
-  const roomValueChange = (index) => {
-    setCheckBox((prevState)=> !prevState[index])
-  }
 
   return (
     <div className="container">
@@ -163,13 +192,16 @@ function RoomLists() {
                                 <div className="col-2">
                                   <div className="form-check">
                                     <input
-                                      id="defaultCheck1"
+                                      //id="defaultCheck1"
                                       className="form-check-input"
                                       type="checkbox"
-                                      value={selectedOption === roomName.id}
-                                      //checked={selectedOption === roomName.id}
-                                      onChange={() =>
-                                        selectZonesLights(roomName.id)
+                                      checked={
+                                        zoneChecked[index].valueId === 0
+                                          ? false
+                                          : true
+                                      }
+                                      onChange={(e) =>
+                                        roomCheckboxChange(index, e)
                                       }
                                     />
                                   </div>
@@ -255,10 +287,20 @@ function RoomLists() {
                                                         <input
                                                           className="form-check-input"
                                                           type="checkbox"
-                                                          id="flexSwitchCheckChecked"
-                                                          // checked={roomLightStateChange}
-                                                           onChange={()=>roomValueChange(inx)}
-                                                          checked={checkBox[inx]}
+                                                          //id="flexSwitchCheckChecked"
+                                                          checked={
+                                                            zoneChecked[index]
+                                                              .lines[inx] === 0
+                                                              ? false
+                                                              : true
+                                                          }
+                                                          onChange={(e) =>
+                                                            lineCheckboxChange(
+                                                              index,
+                                                              inx,
+                                                              e
+                                                            )
+                                                          }
                                                         />
                                                       </div>
                                                     </div>
