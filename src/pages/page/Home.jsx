@@ -22,26 +22,38 @@ function Home() {
   ];
   const navigate = useNavigate();
   const navToLogout = useNavigate();
-  const zone = ["Ground floor", "First floor"];
-  const room = ["Hall", "Bed room"];
-  const [zoneLists, setZoneLists] = useState([]);
   const [roomLists, setRoomLists] = useState([]);
   const [zoneLightCount, setZoneLightCount] = useState("");
   const [roomLightCount, setRoomLightCount] = useState("");
   const [expand, setExpand] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const [isCheckedZone, setIsCheckedZone] = useState(false);
-  const [isCheckedRoom, setIsCheckedRoom] = useState(false);
-  
+  const [children, setChildren] = useState([]);
+  const [roomChildren, setRoomChildren] = useState([]);
+
   useEffect(() => {
-    Apiservice.getLists(apiNames.zoneLists)
-      .then((res) => {
-        //console.log(res);
-        setZoneLists(res);
+    axios
+      .get("http://localhost:3004/addzone")
+      .then((response) => {
+        //console.log(response.data);
+        setChildren(response.data);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((error) => console.log(error));
+
+    axios
+      .get("http://localhost:3004/addroom")
+      .then((response) => {
+        console.log(response.data);
+        setRoomChildren(response.data);
+      })
+      .catch((error) => console.log(error));
+
+    // Apiservice.getLists(apiNames.zoneLists) // need
+    //   .then((res) => {
+    //     //console.log(res);
+    //     setZoneLists(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
 
     Apiservice.getLists(apiNames.sectionLists)
       .then((res) => {
@@ -125,33 +137,94 @@ function Home() {
     }
   };
 
-  const navToLights = (zoneName) => {
+  const navToZoneLights = (zoneName, items, idx) => {
+    // console.log(idx)
+    console.log(items);
+    let linesData = items;
     sessionStorage.setItem("ZoneName", zoneName);
-    navigate(`${routeNames.dashboard}${routeNames.lightspage}`);
+    navigate(`${routeNames.dashboard}${routeNames.lightspage}`, {
+      state: linesData,
+      zonesLight: children,
+      roomsLight: roomChildren,
+    });
   };
 
-  const navToRooms = (roomname) => {
-    sessionStorage.setItem("RoomName", roomname);
-    navigate(`${routeNames.dashboard}${routeNames.roomspage}`);
+  const navToRoomLights = (roomName, items, idx) => {
+    console.log(items);
+    let linesData = items;
+    sessionStorage.setItem("RoomName", roomName);
+    navigate(`${routeNames.dashboard}${routeNames.roomspage}`, {
+      state: linesData,
+    });
   };
 
-  const handleChange = (e) => {
-    // console.log(e.target.checked)
-    setIsChecked (!isChecked);
-    setIsCheckedZone(!isCheckedZone);
-    setIsCheckedRoom(!isCheckedRoom)
+  // const navToRoomsLights = (roomname) => {
+  //   sessionStorage.setItem("RoomName", roomname);
+  //   navigate(`${routeNames.dashboard}${routeNames.roomspage}`);
+  // };
+
+  // const handleParentCheckboxChange = (e) => {
+  //   // console.log(e.target.checked)
+  //   setIsChecked(!isChecked);
+  //   setIsCheckedZone(!isCheckedZone);
+  //   setIsCheckedRoom(!isCheckedRoom);
+  // };
+
+  const handleParentCheckboxChange = (event) => {
+    const checked = event.target.checked;
+    const updatedChildren = children.map((child) => {
+      return { ...child, isChecked: checked };
+    });
+    const updatedRoomChildren = roomChildren.map((child) => {
+      return { ...child, isChecked: checked };
+    });
+    setChildren(updatedChildren);
+    setRoomChildren(updatedRoomChildren);
+    //console.log(children);
+  };
+
+  const handleChildCheckboxChange = (event, childId) => {
+    console.log(childId);
+    const checked = event.target.checked;
+    // console.log(children);
+    const updatedChildren = children.map((child) => {
+      // console.log(child.zoneName);
+      if (child.id === childId) {
+        return { ...child, isChecked: checked };
+      }
+      return child;
+    });
+    setChildren(updatedChildren);
+  };
+
+  const handleChildRoomCheckboxChange = (event, childId) => {
+    const checked = event.target.checked;
+    const updatedChildren = roomChildren.map((child) => {
+      //console.log(child.roomName);
+      if (child.id === childId) {
+        return { ...child, isChecked: checked };
+      }
+      return child;
+    });
+    setRoomChildren(updatedChildren);
+  };
+
+  const [brightnessValue, setBrightnessValue] = useState(80);
+  const [brightenedColor, setbrightenedColor] = useState([
+    "rgba(234, 189, 55, 0.87)",
+  ]);
+
+  function handleBrightnessChange(event, index) {
+    console.log(index);
+    setBrightnessValue(event.target.value);
+    setbrightenedColor(`rgba(234, 189, 55, ${brightnessValue / 100})`);
   }
 
-  const handleChangeZones = () => {
-    setIsCheckedZone(!isCheckedZone);
-  }
-
-  const handleChangeRoom = () => {
-    setIsCheckedRoom(!isCheckedRoom)
-  }
+  // const baseColor = "rgba(100, 150, 200, 1)";
+  // const brightenedColor = `rgba(234, 189, 55, ${brightnessValue / 100})`;
 
   return (
-    <div className="container">
+    <div className="container"> 
       <div className="mt-3">
         <div className="row">
           <div className="col-8">
@@ -235,12 +308,17 @@ function Home() {
             <div className="col-10 m-0 ModuleHeading">Home</div>
             <div className="col-2 text-end">
               <div className="form-check form-switch">
-                <input
+                {/* <input
                   className="form-check-input"
                   type="checkbox"
+                  checked={isChecked}
+                  onChange={handleParentChange}
+                /> */}
+                <input
                   id="flexSwitchCheckChecked"
-                  checked = {isChecked}
-                  onChange={handleChange}
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={handleParentCheckboxChange}
                 />
               </div>
             </div>
@@ -248,60 +326,54 @@ function Home() {
           </div>
           <div className="row">
             <div className="col-12">
-              {zoneLists.map((name, index) => (
-                <div key={index}>
-                  {Configure.map((selected, inx) => (
-                    <div key={inx}>
-                      {name.id === selected.zoneId && (
-                        <div className="mt-2">
-                          <Card
-                            className="bg_color"
-                            cover
-                            hoverable
-                            style={{
-                              width: 350,
-                            }}
-                          >
-                            <div className="row">
-                              {/* <div className="col-2 gx-2" onClick={navToLights}>
-                            <Icon
-                              icon="material-symbols:home-outline"
-                              className=""
-                              height={45}
-                            />
-                          </div> */}
-                              <div
-                                className="col-10"
-                                onClick={() => navToLights(name.zoneName)}
-                              >
-                                <p className="m-0 ModuleHeading">
-                                  {name.zoneName}
-                                </p>
-                                <p className="m-0">
-                                  {zoneLightCount ? zoneLightCount : "No"} lines
-                                  are on
-                                </p>
-                              </div>
-                              <div className="col-2">
-                                <div className="form-check form-switch fs-4">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="flexSwitchCheckChecked"
-                                    checked= {isCheckedZone}
-                                    onChange={handleChangeZones }
-                                  />
-                                </div>
-                              </div>
-                              <div className="m-0 mt-3">
-                                <input type="range" className="w-100" />
-                              </div>
-                            </div>
-                          </Card>
+              {children.map((item, idx) => (
+                <div key={idx}>
+                  <Card
+                    className="mt-3"
+                    cover
+                    hoverable
+                    style={{
+                      width: 350,
+                      backgroundColor: brightenedColor,
+                    }}
+                  >
+                    <div className="row ">
+                      <div
+                        className="col-10"
+                        onClick={() =>
+                          navToZoneLights(item.zoneName, item, idx)
+                        }
+                      >
+                        <p className="m-0 ModuleHeading">{item.zoneName}</p>
+                        <p className="m-0">all lines are on</p>
+                      </div>
+                      <div className="col-2">
+                        <div className="form-check form-switch fs-4">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="flexSwitchCheckChecked"
+                            checked={item.isChecked}
+                            onChange={(event) =>
+                              handleChildCheckboxChange(event, item.id)
+                            }
+                          />
                         </div>
-                      )}
+                      </div>
+                      <div className="m-0 mt-3">
+                        <input
+                          className="w-100"
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={brightnessValue}
+                          onChange={(event) =>
+                            handleBrightnessChange(event, idx)
+                          }
+                        />
+                      </div>
                     </div>
-                  ))}
+                  </Card>
                 </div>
               ))}
             </div>
@@ -312,7 +384,58 @@ function Home() {
           </div>
           <div className="row">
             <div className="col-12">
-              {roomLists.map((name, index) => (
+              {roomChildren.map((roomList, roomIndex) => (
+                <div key={roomIndex}>
+                  <Card
+                    style={{
+                      width: 350,
+                      backgroundColor: brightenedColor,
+                    }}
+                    className="mt-3"
+                    cover
+                    hoverable
+                  >
+                    <div className="row ">
+                      <div
+                        className="col-10"
+                        onClick={() =>
+                          navToRoomLights(
+                            roomList.roomName,
+                            roomList,
+                            roomIndex
+                          )
+                        }
+                      >
+                        <p className="m-0 ModuleHeading">{roomList.roomName}</p>
+                        <p className="m-0">all lines are on</p>
+                      </div>
+                      <div className="col-2">
+                        <div className="form-check form-switch fs-4">
+                          {/* <input
+                         type="checkbox"
+                         checked={isCheckedZone}
+                         onChange={handleChangeZones}
+                       /> */}
+
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="flexSwitchCheckChecked"
+                            checked={roomList.isChecked}
+                            onChange={(event) =>
+                              handleChildRoomCheckboxChange(event, roomList.id)
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className="m-0 mt-3">
+                        <input type="range" className="w-100" />
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              ))}
+              {/* {roomLists.map((name, index) => (
                 <div key={index}>
                   {ConfigureRoom.map((selected, inx) => (
                     <div key={inx}>
@@ -327,16 +450,16 @@ function Home() {
                             }}
                           >
                             <div className="row">
-                              {/* <div className="col-2 gx-2" onClick={navToLights}>
+                              <div className="col-2 gx-2" onClick={navToLights}>
                             <Icon
                               icon="material-symbols:home-outline"
                               className=""
                               height={45}
                             />
-                          </div> */}
+                          </div> 
                               <div
                                 className="col-10"
-                                onClick={() => navToRooms(name.section)}
+                                onClick={() => navToRoomsLights(name.section)}
                               >
                                 <p className="m-0 ModuleHeading">
                                   {name.section}
@@ -353,7 +476,7 @@ function Home() {
                                     className="form-check-input"
                                     type="checkbox"
                                     id="flexSwitchCheckChecked"
-                                    checked= {isCheckedRoom}
+                                    checked={isCheckedRoom}
                                     onChange={handleChangeRoom}
                                   />
                                 </div>
@@ -368,45 +491,7 @@ function Home() {
                     </div>
                   ))}
                 </div>
-              ))}
-              {/* {room.map((rooms, index) => (
-            <div key={index} className="mt-2">
-              <Card
-                className="bg_color"
-                cover
-                hoverable
-                style={{
-                  width: 350,
-                }}
-              >
-                <div className="row">
-                  <div className="col-2 gx-2 " onClick={navToRooms}>
-                    <Icon
-                      icon="material-symbols:dining-outline-rounded"
-                      height={45}
-                    />
-                  </div>
-                  <div className="col-10" onClick={navToRooms}>
-                    <p className="m-0 ModuleHeading">{rooms}</p>
-                    <p className="m-0">4 lines are off</p>
-                  </div>
-                  <div className="col-2">
-                    <div className="form-check form-switch fs-4">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexSwitchCheckChecked"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="m-0 mt-3">
-                    <input type="range" className=" w-100 " />
-                  </div>
-                </div>
-              </Card>
-            </div>
-          ))} */}
+              ))} */}
             </div>
           </div>
         </>
