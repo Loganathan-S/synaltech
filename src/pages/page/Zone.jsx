@@ -31,7 +31,7 @@ function Lights() {
   useEffect(() => {
     setChildren(lightArray)
     // axios
-    //   .get("http://localhost:3004/addzone")
+    //   .get("http://localhost:3001/addzone")
     //   .then((response) => {
     //     console.log(response.data);
     //     // setZoneLists(state);

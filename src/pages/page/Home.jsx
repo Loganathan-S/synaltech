@@ -31,7 +31,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3004/addzone")
+      .get("http://localhost:3001/addzone")
       .then((response) => {
         //console.log(response.data);
         setChildren(response.data);
@@ -39,7 +39,7 @@ function Home() {
       .catch((error) => console.log(error));
 
     axios
-      .get("http://localhost:3004/addroom")
+      .get("http://localhost:3001/addroom")
       .then((response) => {
         console.log(response.data);
         setRoomChildren(response.data);

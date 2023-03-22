@@ -166,7 +166,7 @@ function RoomLists() {
     zoneObj.push({ zoneName: zoneName, checkedItems });
     console.log(zoneObj);
     axios
-      .post("http://localhost:3004/addzone", { zoneObj })
+      .post("http://localhost:3001/addzone", { zoneObj })
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
@@ -222,7 +222,7 @@ function RoomLists() {
     console.log(roomName);
     console.log(valueSelect);
     axios
-      .post("http://localhost:3004/addroom", { roomName, valueSelect })
+      .post("http://localhost:3001/addroom", { roomName, valueSelect })
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
