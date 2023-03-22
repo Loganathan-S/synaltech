@@ -1,65 +1,182 @@
-{  
-  "Automation":[
-    {
-      "id": 1,
-      "name": "GotoSleep",
-      "Time": "02:30 PM",
-      "Repeat": [
-        {
-          "id": 5,
-          "label": "T",
-          "value": "Thu"
-        }
-      ]   
-    },
-    {
-      "id": 2,
-      "name": "ComingHome",
-      "Time": "02:30 AM",
-      "Repeat": [
-        {
-          "id": 5,
-          "label": "T",
-          "value": "Thu"
-        }
-      ]  
-      
-    },
-    {
-      "id": 3,
-      "name": "LeavingHome",
-      "Time": "02:00",
-      "Repeat": [
-        {
-          "id": 2,
-          "label": "M",
-          "value": "Mon"
-        },
-        {
-          "id": 5,
-          "label": "T",
-          "value": "Thu"
+{
+  "Automation": [
+    [
+      {
+        "id": 2,
+        "section": "Hall",
+        "checked": true,
+        "createdAt": "2023-01-11T10:38:02.758Z",
+        "updatedAt": "2023-01-11T10:38:02.758Z",
+        "lines": [
+          {
+            "id": 1,
+            "name": "Hall Fan",
+            "type": "Fan",
+            "value": 0,
+            "status": 1,
+            "enable": 1,
+            "forceValue": 0,
+            "ts": 1438011254924,
+            "dim": 0,
+            "dimValue": 100,
+            "checked": true
+          },
+          {
+            "id": 2,
+            "name": "Hall AC",
+            "type": "AC",
+            "value": 0,
+            "status": 1,
+            "enable": 1,
+            "forceValue": 0,
+            "ts": 1438011254924,
+            "dim": 0,
+            "dimValue": 100,
+            "checked": true
+          },
+          {
+            "id": 3,
+            "name": "Hall USB",
+            "type": "USB",
+            "value": 0,
+            "status": 1,
+            "enable": 1,
+            "forceValue": 0,
+            "ts": 1438011254924,
+            "dim": 0,
+            "dimValue": 100,
+            "checked": 0
+          },
+          {
+            "id": 4,
+            "name": "Hall TV",
+            "type": "TV",
+            "value": 0,
+            "status": 1,
+            "enable": 1,
+            "forceValue": 0,
+            "ts": 1438011254924,
+            "dim": 0,
+            "dimValue": 100,
+            "checked": 0
+          }
+        ],
+        "automationname": "ComingHome",
+        "time": "04:00",
+        "mode": [
+          {
+            "id": 5,
+            "label": "T",
+            "value": "Thu"
+          },
+          {
+            "id": 4,
+            "label": "W",
+            "value": "Wen"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "id": 2,
+        "section": "Hall",
+        "checked": true,
+        "createdAt": "2023-01-11T10:38:02.758Z",
+        "updatedAt": "2023-01-11T10:38:02.758Z",
+        "lines": [
+          {
+            "id": 1,
+            "name": "Hall Fan",
+            "type": "Fan",
+            "value": 0,
+            "status": 1,
+            "enable": 1,
+            "forceValue": 0,
+            "ts": 1438011254924,
+            "dim": 0,
+            "dimValue": 100,
+            "checked": true
+          },
+          {
+            "id": 2,
+            "name": "Hall AC",
+            "type": "AC",
+            "value": 0,
+            "status": 1,
+            "enable": 1,
+            "forceValue": 0,
+            "ts": 1438011254924,
+            "dim": 0,
+            "dimValue": 100,
+            "checked": true
+          },
+          {
+            "id": 3,
+            "name": "Hall USB",
+            "type": "USB",
+            "value": 0,
+            "status": 1,
+            "enable": 1,
+            "forceValue": 0,
+            "ts": 1438011254924,
+            "dim": 0,
+            "dimValue": 100,
+            "checked": true
+          },
+          {
+            "id": 4,
+            "name": "Hall TV",
+            "type": "TV",
+            "value": 0,
+            "status": 1,
+            "enable": 1,
+            "forceValue": 0,
+            "ts": 1438011254924,
+            "dim": 0,
+            "dimValue": 100,
+            "checked": true
+          }
+        ],
+        "automationname": "WakeUpLight",
+        "time": "15:00",
+        "mode": [
+          {
+            "id": 3,
+            "label": "T",
+            "value": "Tue"
+          },
+          {
+            "id": 4,
+            "label": "W",
+            "value": "Wen"
+          },
+          {
+            "id": 5,
+            "label": "T",
+            "value": "Thu"
+          }
+        ]
+      }
+    ]
 
-
-        },
-        {
-          "id": 6,
-          "label": "F",
-          "value": "Fri"
-        }
-      ]
-    } 
   ],
   "Zones": [
     {
-      "userId":1,
-      "zoneId":1,
-      "sectionId":[1,2]
+      "userId": 1,
+      "zoneId": 1,
+      "sectionId": [
+        1,
+        2
+      ]
     },
     {
-      "userId":1,
-      "zoneId":2,
-      "sectionId":[3,4]
+      "userId": 1,
+      "zoneId": 2,
+      "sectionId": [
+        3,
+        4
+      ]
     }
   ]
 }

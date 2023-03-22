@@ -18,10 +18,12 @@ function AddAutomation(props) {
   const data3 = "LeavingHome";
   // conat navigateToautomation = useNavigate();
   const navToDashboard = () => {
+   
     navigate(`${routeNames.dashboard}${routeNames.automation}`);
   };
 
   const toComponentA = (data) => {
+    sessionStorage.setItem("data",data)
     navigate(`${routeNames.dashboard}${routeNames.automationname}`, {
       state: { data },
     });

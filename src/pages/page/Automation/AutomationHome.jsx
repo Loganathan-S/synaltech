@@ -27,6 +27,7 @@ function Automation(props) {
   }, []);
 
   const getData = () => {
+    
     fetch("http://localhost:3001/Automation")
       .then((response) => response.json())
       .then((result) => {
@@ -34,6 +35,12 @@ function Automation(props) {
         setData(result);
       });
   };
+
+  function formatTime(timeString) {
+    const [hourString, minute] = timeString.split(":");
+    const hour = +hourString % 24;
+    return (hour % 12 || 12) + ":" + minute +  (hour < 12 ? "AM" : "PM");
+}
 
   return (
     <div className="container ">
@@ -71,7 +78,71 @@ function Automation(props) {
                 <div className=" position-relative">
                   <div className=" p-0">
                     {/* <h4 className="mx-2 ">GoTo Sleep </h4> */}
-                    {data.map((item) => {
+
+
+                    {
+  data.map((posFields) => {
+    return (
+     <>
+       
+            {posFields.map((item) => {
+              return (
+                <div className="mt-2">
+                <h4 className="mx-2 mt-2">{item.automationname} </h4>
+                <div
+                  className="card "
+                  style={{ backgroundColor: "#3f3d3d" }}
+                >
+                  <div className="card-body">
+                    <div
+                      className="row col-12"
+                      style={{ backgroundColor: "#3f3d3d" }}
+                    >
+                      <div
+                        className="col-8"
+                        onClick={() =>
+                          navigate(
+                            `${routeNames.dashboard}${routeNames.editname}`
+                          )
+                        }
+                      >
+                        <p className="fontRepeat text-white">
+                          
+                       <span className="">    {formatTime(item.time)}</span>
+                        </p>
+                        <p className="fontRepeat text-white space-between mx-1">
+                     
+                          {item.mode.map((i) => {
+                            return <>
+                            
+                           <span className="mx-1"> {i.value}</span></>;
+                          })}
+                        
+                        </p>
+                      </div>
+                      <div className="col-4 form-check form-switch d-flex justify-content-end mb-2 text-end">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheckChecked"
+                           checked={item.checked}
+                          // onChange={roomValueChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              );
+            })}
+         
+       
+      </>
+    )
+  })
+}
+                    {/* {data.map((item) => {
+
                       return (
                         <div>
                           <h4 className="mx-2 ">{item.name} </h4>
@@ -115,7 +186,7 @@ function Automation(props) {
                           </div>
                         </div>
                       );
-                    })}
+                    })} */}
                   </div>
 
                   {/* <div className="card " style={{ backgroundColor: "#3f3d3d" }}>

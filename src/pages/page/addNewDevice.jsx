@@ -178,6 +178,8 @@ function AddNewDevice() {
 
   return (
     <div className="container">
+
+
       <div className="row mt-2">
         <div className="col-sm-12 col-md-12">
           <label className="ModuleHeading">
