@@ -18,7 +18,7 @@ function DefaultZone() {
   useEffect(() => {
     Apiservice.getLists(apiNames.zoneLists)
     .then((res) => {
-      console.log(res);
+       console.log(res);
       setZoneLists(res);
     })
     .catch((err) => {

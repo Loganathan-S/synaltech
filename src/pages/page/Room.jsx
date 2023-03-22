@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import { Card } from "antd";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { routeNames } from "../../constants/routePath";
 import "../../assests/css/global.scss";
 import { ConfigureRoom } from "./configure";
@@ -20,6 +20,12 @@ function Rooms() {
   const navToDashboard = () => {
     navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
   };
+
+  const { state } = useLocation();
+
+  let lightArray = [];
+  lightArray.push(state);
+  console.log(lightArray);
 
   useEffect(() => {
     //console.log(Configure.deviceId);
@@ -91,34 +97,55 @@ function Rooms() {
             }}
           ></Card>
         </div>
-        <p className="m-0 mt-3 FormContent">LIGHTS</p>
-        <div className="text-center mt-2">
-          <div className="d-flex flex-row flex-nowrap overflow-auto">
-            {/* <Card cover hoverable className="bg_color">
-              <div className="row ">
-                <div className="col-12">
-                  <Icon icon="material-symbols:database" className="fs-2" />
-                </div>
-                <div className="col-12">
-                  <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                    Dining hall 1
-                  </p>
-                  <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                    unreachable
-                  </p>
-                </div>
-                <div className="col-12 mx-3 mt-2">
-                  <div className="form-check form-switch">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="flexSwitchCheckChecked"
-                    />
+        <div className="mt-2">
+          {lightArray.map((lights, lightIndex) => (
+            <div key={lightIndex}>
+              <p>{lights.roomName}</p>
+              <div className="d-flex flex-row flex-nowrap overflow-auto text-center">
+                {lights.valueSelect.map((jsonstring, inx) => (
+                  <div key={inx}>
+                    <Card cover hoverable className="bg_color">
+                      <div className="row ">
+                        <div className="col-12">
+                          <Icon
+                            icon="material-symbols:database"
+                            className="fs-2"
+                          />
+                        </div>
+                        <div className="col-12 ">
+                          <p
+                            className="m-0 FormPlaceholder"
+                            style={{ color: "white" }}
+                          >
+                            {JSON.parse(jsonstring).lightName}
+                          </p>
+                          <p
+                            className="m-0 FormPlaceholder"
+                            style={{ color: "white" }}
+                          >
+                            unreachable
+                          </p>
+                        </div>
+                        <div className="col-12  mt-2 text-center">
+                              <div className="form-check form-switch d-flex justify-content-center ">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id="flexSwitchCheckChecked"
+                                  // checked={zoneLightStateChange}
+                                  // onChange={zoneValueChange}
+                                />
+                              </div>
+                            </div>
+                      </div>
+                    </Card>
                   </div>
-                </div>
+                ))}
               </div>
-            </Card> */}
-            {lines.map((room, indx) => (
+            </div>
+          ))}
+
+          {/* {lines.map((room, indx) => (
               <div
                 className="card card-block mx-2 bg_color"
                 style={{ minWidth: "150px" }}
@@ -133,7 +160,7 @@ function Rooms() {
                 </p>
                 {/* <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
                   unreachable
-                </p> */}
+                </p> 
                 <div className="form-check form-switch d-flex justify-content-center mb-2">
                   <input
                     className="form-check-input"
@@ -144,8 +171,7 @@ function Rooms() {
                   />
                 </div>
               </div>
-            ))}
-          </div>
+            ))} */}
         </div>
       </div>
     </div>
