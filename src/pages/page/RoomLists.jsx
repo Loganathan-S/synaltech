@@ -9,6 +9,7 @@ function RoomLists() {
   const [value, setValue] = useState();
   const [newDeviceLists, setNewDeviceLists] = useState([]);
   const [lineLists, setLineLists] = useState([]);
+  const [zoneChecked, setZoneChecked] = useState([]);
   const navigate = useNavigate();
   let roomName = useLocation();
   const [roomValue, setRoomValue] = useState(roomName.state);
@@ -181,6 +182,40 @@ function RoomLists() {
     } else {
       setSelectedValues(selectedValues.filter((val) => val !== value));
     }
+
+    // const room = [...zoneChecked];
+    // const rm = room.find((r, i) => i === index);
+    // rm.valueId = val;
+    // rm.lines[0] = val;
+    // rm.lines[1] = val;
+    // rm.lines[2] = val;
+    // rm.lines[3] = val;
+    // console.log(room);
+    // setZoneChecked(room);
+  };
+
+  const lineCheckboxChange = (index, inx, e) => {
+    let val;
+    if (e.target.checked === true) {
+      val = 1;
+    } else if (e.target.checked === false) {
+      val = 0;
+    }
+
+    const room = [...zoneChecked];
+    const rm = room.find((r, i) => i === index);
+    if (
+      (rm.lines[0] === 0 &&
+        rm.lines[1] === 0 &&
+        rm.lines[2] === 0 &&
+        rm.lines[3] === 0) ||
+      rm.lines[0] + rm.lines[1] + rm.lines[2] + rm.lines[3] === 1
+    ) {
+      rm.valueId = val;
+    }
+    rm.lines[inx] = val;
+    console.log(room);
+    setZoneChecked(room);
   };
 
   const addRoom = (roomName, valueSelect) => {

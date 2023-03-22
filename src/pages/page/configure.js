@@ -1,7 +1,7 @@
 export const Configure = [
   {
     userId: 1,
-    zoneId: 16,
+    zoneId: 1,
     deviceId: 8,
     deviceDetails: [
       {
@@ -36,7 +36,7 @@ export const Configure = [
 export const ConfigureRoom = [
   {
     userId: 1,
-    deviceId: 9,
+    deviceId: 1,
     deviceDetails: [
       // {
       //   lineId: 1,

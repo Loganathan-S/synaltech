@@ -10,13 +10,23 @@ import gotosleep from "../../../assests/images/gotosleep.jpg";
 import leavehome from "../../../assests/images/leavinghome.jpg";
 import enterhome from "../../../assests/images/enterhome.jpg";
 
-function AddAutomation() {
+function AddAutomation(props) {
   const navigate = useNavigate();
-
+  const data = "WakeUpLight";
+  const data1 = "GoToSleep";
+  const data2 = "ComingHome";
+  const data3 = "LeavingHome";
   // conat navigateToautomation = useNavigate();
-
   const navToDashboard = () => {
+   
     navigate(`${routeNames.dashboard}${routeNames.automation}`);
+  };
+
+  const toComponentA = (data) => {
+    sessionStorage.setItem("data",data)
+    navigate(`${routeNames.dashboard}${routeNames.automationname}`, {
+      state: { data },
+    });
   };
 
   return (
@@ -41,14 +51,17 @@ function AddAutomation() {
               <div className="col-12 mt-4">
                 <div
                   className="card position-relative"
-                  onClick={() =>
-                    navigate(
-                      `${routeNames.dashboard}${routeNames.automationname}`
-                    )
-                  }
+                  onClick={() => {
+                    toComponentA(data);
+                  }}
+                  // onClick={() =>
+                  //   navigate(
+                  //     `${routeNames.dashboard}${routeNames.automationname}`
+                  //   )
+                  // }
                 >
                   <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Wake up light</h4>
+                    <h4 className="text-white">{data}</h4>
                   </div>
                   <img
                     src={wakeup}
@@ -65,9 +78,12 @@ function AddAutomation() {
                   // onClick={() =>
                   //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
                   // }
+                  onClick={() => {
+                    toComponentA(data1);
+                  }}
                 >
                   <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Go to Sleep</h4>
+                    <h4 className="text-white">{data1}</h4>
                   </div>
                   <img
                     src={gotosleep}
@@ -84,9 +100,12 @@ function AddAutomation() {
                   // onClick={() =>
                   //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
                   // }
+                  onClick={() => {
+                    toComponentA(data2);
+                  }}
                 >
                   <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Coming Home</h4>
+                    <h4 className="text-white">{data2}</h4>
                   </div>
                   <img
                     src={leavehome}
@@ -103,9 +122,12 @@ function AddAutomation() {
                   // onClick={() =>
                   //   navigate(`${routeNames.dashboard}${routeNames.defaultroom}`)
                   // }
+                  onClick={() => {
+                    toComponentA(data3);
+                  }}
                 >
                   <div className="position-absolute top-0 start-0 p-3">
-                    <h4 className="text-white">Leaving home</h4>
+                    <h4 className="text-white">{data3}</h4>
                   </div>
                   <img
                     src={enterhome}

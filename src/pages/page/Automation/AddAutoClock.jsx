@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { routeNames } from "../../../constants/routePath";
+import { useLocation } from "react-router-dom";
 
-function AutomationName() {
+function AutomationName(props) {
   const [value, setValue] = useState("00:00");
-
+  const location = useLocation();
   const [selectedButtonIndices, setSelectedButtonIndices] = useState([]);
-
   const [selectedlabel, setlabel] = useState([]);
-
+  const [automationname, setAutomationname] = useState("");
   const navigate = useNavigate();
 
   const navToDashboard = () => {
@@ -40,6 +40,55 @@ function AutomationName() {
       setSelectedButtonIndices([...selectedButtonIndices, index]);
     }
   };
+
+  const autoname = () => {
+    sessionStorage.getItem("data")
+    console.log(sessionStorage.getItem("data"));
+    // setAutomationname(location.state);
+    // console.log(automationname);
+  };
+
+  useEffect(() => {
+    autoname();
+    console.log(automationname);
+  }, []);
+
+  const submit = () => {
+    console.log(value);
+    console.log(automationname);
+
+    console.log(selectedlabel);
+
+    fetch("http://localhost:3001/Automation/", {
+      method: "POST",
+      body: JSON.stringify({
+        id: 3,
+        name: automationname,
+        Time: value,
+        Repeat: selectedlabel,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        alert("Record inserted");
+      });
+  };
+
+
+  const lightnav=(value,selectedlabel)=>{
+    console.log(value);
+  
+
+    console.log(selectedlabel);
+
+
+    sessionStorage.setItem("value",value)
+    sessionStorage.setItem("label",JSON.stringify(selectedlabel))
+    navigate(`${routeNames.dashboard}${routeNames.addautolight}`)
+  }
 
   return (
     <div className="container ">
@@ -115,9 +164,11 @@ function AutomationName() {
           <div className="text-center  p-3 ">
             <button
               className="btn btn-sm btn-outline-primary"
-              onClick={() =>
-                navigate(`${routeNames.dashboard}${routeNames.addautolight}`)
-              }
+              // onClick={() =>
+              //   navigate(`${routeNames.dashboard}${routeNames.addautolight}`)
+              // }
+
+              onClick={()=>lightnav(value,selectedlabel)}
             >
               Next
             </button>

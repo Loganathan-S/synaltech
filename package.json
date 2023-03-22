@@ -19,6 +19,7 @@
     "react-autosuggest": "^10.1.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.0.0",
+    "react-dynamic-checkbox-tree": "^1.0.2-beta",
     "react-hook-form": "^7.41.5",
     "react-icons": "^4.7.1",
     "react-loader-spinner": "^5.3.4",
