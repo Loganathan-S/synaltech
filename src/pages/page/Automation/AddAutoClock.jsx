@@ -42,8 +42,10 @@ function AutomationName(props) {
   };
 
   const autoname = () => {
-    //setAutomationname(location.state.data);
-    //console.log(automationname);
+    sessionStorage.getItem("data")
+    console.log(sessionStorage.getItem("data"));
+    // setAutomationname(location.state);
+    // console.log(automationname);
   };
 
   useEffect(() => {
@@ -74,6 +76,19 @@ function AutomationName(props) {
         alert("Record inserted");
       });
   };
+
+
+  const lightnav=(value,selectedlabel)=>{
+    console.log(value);
+  
+
+    console.log(selectedlabel);
+
+
+    sessionStorage.setItem("value",value)
+    sessionStorage.setItem("label",JSON.stringify(selectedlabel))
+    navigate(`${routeNames.dashboard}${routeNames.addautolight}`)
+  }
 
   return (
     <div className="container ">
@@ -149,9 +164,11 @@ function AutomationName(props) {
           <div className="text-center  p-3 ">
             <button
               className="btn btn-sm btn-outline-primary"
-              onClick={() =>
-                navigate(`${routeNames.dashboard}${routeNames.addautolight}`)
-              }
+              // onClick={() =>
+              //   navigate(`${routeNames.dashboard}${routeNames.addautolight}`)
+              // }
+
+              onClick={()=>lightnav(value,selectedlabel)}
             >
               Next
             </button>
