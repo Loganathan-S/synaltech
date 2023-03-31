@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate , useLocation} from "react-router-dom";
 import "../../../assests/css/global.scss";
@@ -20,7 +21,18 @@ function AddLightConfig() {
   const [valuetime,settime]=useState('');
   const [repeat,setrepeat]=useState([]);
 
-  const [auto,setauto]=useState()
+  const [auto,setauto]=useState();
+
+  const [sectionname,setSectionname ]= useState('');
+
+  const [checked,setChecked ]= useState('');
+  const [lines,setlines ]= useState('');
+  const [automationname,setAutomationname ]= useState('');
+  const [autotime,setAutotime ]= useState('');
+  const [repeatmode,setRepeatmode ]= useState('');
+
+
+
 
 
 
@@ -54,8 +66,8 @@ function AddLightConfig() {
     console.log(checkboxes);
 
     const checkedItems = checkboxes.filter((item) => item.checked);
-    const arr = JSON.stringify(checkedItems);
-    console.log(arr);
+//     const arr = JSON.stringify(checkedItems);
+//     console.log(arr);
 
     const newArray = [];
 
@@ -70,36 +82,90 @@ function AddLightConfig() {
   newArray.push(updatedItem);
 });
 
-
-console.log(JSON.stringify(newArray));
+console.log(newArray);
+// console.log(JSON.stringify(newArray));
 const arre = newArray.map((item) => {
   return item.autoname
 
 })
-setauto(arre)
+
+const linesobj = newArray.map((item)=>{
+  return item.lines
+})
+
+const checkedobj = newArray.map((item)=>{
+  return item.checked
+})
+const autotimeobj = newArray.map((item)=>{
+  return item.valuetime
+})
+const repeatmodeobj = newArray.map((item)=>{
+  return item.repeat
+})
+
+const sectionobj = newArray.map((item)=>{
+  return item.section
+})
+
+console.log(sectionobj);
+console.log(arre);
+console.log(linesobj);
+console.log(checkedobj);
+console.log(autotimeobj);
+console.log(repeatmodeobj);
+
+setAutomationname(arre[0])
+setSectionname(sectionobj[0])
+setChecked(checkedobj[0])
+setlines(linesobj[0])
+setAutotime(autotimeobj[0])
+setRepeatmode(repeatmodeobj[0])
+
+console.log(sectionname);
+console.log(checked);
+console.log(lines);
+console.log(automationname);
+console.log(repeatmode);
+
+console.log(autotime);
+
+
+// const [checked,setChecked ]= useState();
+// const [lines,setlines ]= useState();
+// const [automationname,setAutomationname ]= useState();
+// const [autotime,setAutotime ]= useState();
+// const [repeatmode,setRepeatmode ]= useState();
+
+
 
 setTimeout(() => {
-  console.log(auto);
-},1);
+  fetch("http://192.168.1.46:4000/automation", {
+    method: "POST",
+    body: JSON.stringify({
+      sectionname:sectionname,
+      checked:checked,
+      lines:lines,
+      repeatmode: repeatmode,
+      automationname:automationname,
 
-    // fetch("http://192.168.1.46:4000/automation", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     automationname:auto
-    //   }),
-    //   headers: {
-    //     "Content-type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     console.log(result);
-    //     alert("Record inserted");
-    //   });
+      autotime:autotime
+    }),
+    headers: {
+      "Content-type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+      alert("Record inserted");
+    });
+}, 2);
+
+   
 
    
     // axios
-    //   .post("http://localhost:3001/Automation", checkedItems)
+    //   .post("http://localhost:3001/Automation",checkedItems[0])
     //   .then((response) => console.log(response))
     //   .catch((error) => console.log(error));
   };

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { routeNames } from "../../../constants/routePath";
+import axios from "axios";
 
 function EditAutoLightConfig() {
   const [value, setValue] = useState("00:00");
@@ -10,10 +11,55 @@ function EditAutoLightConfig() {
 
   const [selectedlabel, setlabel] = useState([]);
 
+  const [data, setData] = useState([]);
+
+  const [repeat, setrepeat] = useState([]);
+
+  const [lines, setlines] = useState([]);
+
+  const[automationname,setAutoname]=useState('')
+
   const navigate = useNavigate();
 
   const navToDashboard = () => {
     navigate(`${routeNames.dashboard}${routeNames.editname}`);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    axios
+      .get(
+        `http://192.168.1.46:4000/automationid/${sessionStorage.getItem(
+          "automationid"
+        )}`
+      )
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+        setrepeat(JSON.parse(res.data.repeatmode));
+        setSelectedButtonIndices(res.data.repeatmode);
+        setlines(JSON.parse(res.data.lines));
+        // setPosts(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // setData(result);
+    //         setlabel(JSON.parse(result[0].repeatmode)
+    //           )
+    // console.log(JSON.parse(result[0].repeatmode));
+    // setTimeout(() => {
+
+    //   let linesObj = [];
+    //   for (let item of label) {
+    //     linesObj.push(JSON.parse(item.lines));
+    //   }
+    //   console.log(linesObj);
+    // }, 2);
   };
 
   const weeklist = [
@@ -23,11 +69,12 @@ function EditAutoLightConfig() {
     { id: 4, label: "W", value: "Wen" },
     { id: 5, label: "T", value: "Thu" },
     { id: 6, label: "F", value: "Fri" },
-    { id: 7, label: "S", value: "Sat" },
+    { id: 7, label: "S", value: "Sat" }
   ];
 
   const handleButtonClick = (index, level) => {
     console.log(level);
+    //console.table(weeklist)
 
     setlabel((prevState) => [...prevState, level]);
     console.log(selectedlabel);
@@ -40,6 +87,20 @@ function EditAutoLightConfig() {
       setSelectedButtonIndices([...selectedButtonIndices, index]);
     }
   };
+
+  const onchangeName=(event,index)=>{
+    console.log(event.target);
+    
+    const { name, value } = event.target;
+    setData(prevObject => ({
+      ...prevObject,
+      [name]: value
+    }));
+    
+
+  }
+
+
 
   return (
     <div className="container ">
@@ -75,8 +136,9 @@ function EditAutoLightConfig() {
                   type="text"
                   name="name"
                   className="form-control fontRepeat text-white"
-                  value="Go To Sleep"
+                  value={data.automationname}
                   style={{ backgroundColor: "#3f3d3d" }}
+                  onChange={onchangeName}
                 />
               </form>
             </div>
@@ -97,7 +159,7 @@ function EditAutoLightConfig() {
                     min="00:00"
                     max="23:59"
                     step="60"
-                    value={value}
+                    value={data.autotime}
                   />
                 </div>
 
@@ -111,7 +173,7 @@ function EditAutoLightConfig() {
                         className="form-check-input"
                         type="checkbox"
                         id="flexSwitchCheckChecked"
-                        // checked={roomLightStateChange}
+                        checked={data.checked}
                         // onChange={roomValueChange}
                       />
                     </div>
@@ -128,7 +190,7 @@ function EditAutoLightConfig() {
                                 index
                               )
                                 ? "blue"
-                                : "white",
+                                : "white"
                             }}
                             className="btn-circle mx-1 "
                           >
@@ -158,20 +220,39 @@ function EditAutoLightConfig() {
               <div className="col-6 text-end">
                 <button className="btn btn-sm btn-primary">Edit</button>
               </div>
-              <div className="col-6">
+             
                 {" "}
-                <div className="card " style={{ backgroundColor: "#3f3d3d" }}>
-                  <div className="card-body">
-                    <Icon
-                      icon="mdi:silverware-fork-knife"
-                      color="white"
-                      height={40}
-                    />
-                    <p className="fontRepeat mt-2 text-white">Dinner</p>
-                    <p className="text-white">Light</p>
-                  </div>
-                </div>
-              </div>
+                {lines.map((i) => (
+                  <>
+                   <div className="col-6 p-1">
+                    <div
+                      className="card "
+                      style={{ backgroundColor: "#3f3d3d" }}
+                    >
+                      <div className="card-body">
+                      <div className=" form-check form-switch d-flex justify-content-end mb-2 text-end">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="flexSwitchCheckChecked"
+                            checked={i.checked}
+                            // onChange={roomValueChange}
+                          />
+                        </div>
+                        <Icon
+                          icon="mdi:silverware-fork-knife"
+                          color="white"
+                          height={40}
+                        />
+                        <p className="fontRepeat mt-2 text-white">{i.name}</p>
+                        <p className="text-white">{i.type}</p>
+                       
+                      </div>
+                    </div>
+                    </div>
+                  </>
+                ))}
+           
             </div>
           </div>
         </div>

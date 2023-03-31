@@ -16,6 +16,7 @@ function HomeList() {
 
   const navToDashboard = () => {
     navigate(`${routeNames.dashboard}${routeNames.home}`);
+    
   };
 
   const navToAutomation = () => {
@@ -27,7 +28,7 @@ function HomeList() {
   }, []);
 
   const getData = () => {
-    fetch("http://localhost:3001/Automation")
+    fetch("http://192.168.1.46:4000/automationlist")
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
