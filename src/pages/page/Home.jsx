@@ -31,15 +31,15 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/addzone")
+      .get("http://192.168.1.46:4000/zoneconfiglist")
       .then((response) => {
-        //console.log(response.data);
+        console.log(response.data);
         setChildren(response.data);
       })
       .catch((error) => console.log(error));
 
     axios
-      .get("http://localhost:3001/addroom")
+      .get("http://192.168.1.46:4000/roomconfiglist")
       .then((response) => {
         console.log(response.data);
         setRoomChildren(response.data);
@@ -173,10 +173,10 @@ function Home() {
   const handleParentCheckboxChange = (event) => {
     const checked = event.target.checked;
     const updatedChildren = children.map((child) => {
-      return { ...child, isChecked: checked };
+      return { ...child, checked : checked };
     });
     const updatedRoomChildren = roomChildren.map((child) => {
-      return { ...child, isChecked: checked };
+      return { ...child, checked: checked };
     });
     setChildren(updatedChildren);
     setRoomChildren(updatedRoomChildren);
@@ -341,10 +341,10 @@ function Home() {
                       <div
                         className="col-10"
                         onClick={() =>
-                          navToZoneLights(item.zoneName, item, idx)
+                          navToZoneLights(item.zonename, item, idx)
                         }
                       >
-                        <p className="m-0 ModuleHeading">{item.zoneName}</p>
+                        <p className="m-0 ModuleHeading">{item.zonename}</p>
                         <p className="m-0">all lines are on</p>
                       </div>
                       <div className="col-2">
@@ -400,13 +400,13 @@ function Home() {
                         className="col-10"
                         onClick={() =>
                           navToRoomLights(
-                            roomList.roomName,
+                            roomList.roomname,
                             roomList,
                             roomIndex
                           )
                         }
                       >
-                        <p className="m-0 ModuleHeading">{roomList.roomName}</p>
+                        <p className="m-0 ModuleHeading">{roomList.roomname}</p>
                         <p className="m-0">all lines are on</p>
                       </div>
                       <div className="col-2">

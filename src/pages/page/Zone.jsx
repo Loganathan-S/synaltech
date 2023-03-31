@@ -7,12 +7,6 @@ import "../../assests/css/global.scss";
 import { Configure } from "./configure";
 import axios from "axios";
 function Lights() {
-  const rooms = [
-    "Theater_Fan",
-    "Theater_Light",
-    "Theater_PowerSocket",
-    "Theater_AC",
-  ];
   const [lines, setLines] = useState([]);
   const [zoneLightStateChange, setZoneLightStateChange] = useState(false);
   const navigateToDashboard = useNavigate();

@@ -32,7 +32,6 @@ function RoomLists() {
     }
   };
 
-
   // const [myState, setMyState] = useState("");
 
   // useEffect(() => {
@@ -45,9 +44,8 @@ function RoomLists() {
   const [isFuncCalled, setIsFuncCalled] = useState(false);
 
   useEffect(() => {
-    
     setValue(sessionStorage.getItem("redirectname"));
-  
+
     Apiservice.getLists(apiNames.deviceLists) //newDeviceLists
       .then((res) => {
         // console.log(res);
@@ -58,20 +56,22 @@ function RoomLists() {
           });
           getSection(notAvailableDevices);
 
-          if (isFuncCalled) {
-            myFunction(); // Call your function here
-            setIsFuncCalled(true);
-          }
-          const storedState = JSON.parse(localStorage.getItem("mystate"));
-          if (storedState) {
-            setMergedArray(storedState);
-          }
+          setTimeout(() => {
+            if (isFuncCalled) {
+              myFunction(); // Call your function here
+              setIsFuncCalled(true);
+            }
+            const storedState = JSON.parse(localStorage.getItem("mystate"));
+            if (storedState) {
+              setMergedArray(storedState);
+            }
+          }, 100);
+      
         }
       })
       .catch((err) => {
         console.log(err);
       });
-
   }, [isFuncCalled]);
 
   let myFunction = async () => {
@@ -88,7 +88,6 @@ function RoomLists() {
     setMergedArray(mergedArray);
     localStorage.setItem("mystate", JSON.stringify(mergedArray));
   };
-
 
   // const handleStateChange = (event) => {
   //   const newState = event.target.value;
@@ -116,18 +115,11 @@ function RoomLists() {
           // console.log(filtered2);
           setNewDeviceLists(filtered1);
           setLineLists(filtered2);
-          
         }, 500);
       })
       .catch((err) => {
         console.log(err);
       });
-
-
-     
-
-
-    
   };
 
   const handleChange = (e) => {
@@ -159,14 +151,28 @@ function RoomLists() {
     setCheckboxes(updatedCheckboxes);
   };
 
-  const addZone = (checkboxes, zoneName) => {
+ 
+  const [checkeditem, setcheckeditem] = useState([])
+  
+  const addZone = (checkboxes, zonename) => {
     // console.log(zoneName)
-    const checkedItems = checkboxes.filter((item) => item.checked);
+
+    const checkeditems = checkboxes.filter((item) => item.checked);
     let zoneObj = [];
-    zoneObj.push({ zoneName: zoneName, checkedItems });
+    zoneObj.push({ zonename: zonename, checkeditems});
     console.log(zoneObj);
+
+    zoneObj.map((data) => {
+      setcheckeditem(data.checkeditems)
+    })
+    const data= {
+      zonename:zonename,
+      checked:false,
+      checkeditem:checkeditem
+    }
+  console.log(data);
     axios
-      .post("http://localhost:3001/addzone", { zoneObj })
+      .post("http://192.168.1.46:4000/zoneconfig", data)
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
@@ -194,35 +200,39 @@ function RoomLists() {
     // setZoneChecked(room);
   };
 
-  const lineCheckboxChange = (index, inx, e) => {
-    let val;
-    if (e.target.checked === true) {
-      val = 1;
-    } else if (e.target.checked === false) {
-      val = 0;
-    }
+  // const lineCheckboxChange = (index, inx, e) => {
+  //   let val;
+  //   if (e.target.checked === true) {
+  //     val = 1;
+  //   } else if (e.target.checked === false) {
+  //     val = 0;
+  //   }
 
-    const room = [...zoneChecked];
-    const rm = room.find((r, i) => i === index);
-    if (
-      (rm.lines[0] === 0 &&
-        rm.lines[1] === 0 &&
-        rm.lines[2] === 0 &&
-        rm.lines[3] === 0) ||
-      rm.lines[0] + rm.lines[1] + rm.lines[2] + rm.lines[3] === 1
-    ) {
-      rm.valueId = val;
-    }
-    rm.lines[inx] = val;
-    console.log(room);
-    setZoneChecked(room);
-  };
+  //   const room = [...zoneChecked];
+  //   const rm = room.find((r, i) => i === index);
+  //   if (
+  //     (rm.lines[0] === 0 &&
+  //       rm.lines[1] === 0 &&
+  //       rm.lines[2] === 0 &&
+  //       rm.lines[3] === 0) ||
+  //     rm.lines[0] + rm.lines[1] + rm.lines[2] + rm.lines[3] === 1
+  //   ) {
+  //     rm.valueId = val;
+  //   }
+  //   rm.lines[inx] = val;
+  //   console.log(room);
+  //   setZoneChecked(room);
+  // };
 
   const addRoom = (roomName, valueSelect) => {
     console.log(roomName);
     console.log(valueSelect);
+    const data = {
+      roomname:roomName,
+      valueselect:valueSelect
+    }
     axios
-      .post("http://localhost:3001/addroom", { roomName, valueSelect })
+      .post("http://192.168.1.46:4000/roomconfig", data)
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
