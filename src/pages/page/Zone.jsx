@@ -1,28 +1,38 @@
 import { Icon } from "@iconify/react";
 import { Card } from "antd";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { routeNames } from "../../constants/routePath";
 import "../../assests/css/global.scss";
 import { Configure } from "./configure";
 import axios from "axios";
 function Lights() {
-  const rooms = [
-    "Theater_Fan",
-    "Theater_Light",
-    "Theater_PowerSocket",
-    "Theater_AC",
-  ];
-
   const [lines, setLines] = useState([]);
   const [zoneLightStateChange, setZoneLightStateChange] = useState(false);
   const navigateToDashboard = useNavigate();
+
   const navToDashboard = () => {
     navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
   };
 
+  const { state } = useLocation();
+  console.log(state);
+
+  let lightArray = [];
+  lightArray.push(state);
+  console.log(lightArray);
+
   useEffect(() => {
-    //console.log(Configure.deviceId);
+    setChildren(lightArray)
+    // axios
+    //   .get("http://localhost:3001/addzone")
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     // setZoneLists(state);
+    //   })
+    //   .catch((error) => console.log(error));
+
+    console.log(Configure.deviceId);
     axios
       .get(`http://192.168.1.46:4000/device/${3}`)
       .then((res) => {
@@ -45,8 +55,72 @@ function Lights() {
     setZoneLightStateChange(!zoneLightStateChange);
   };
 
+  const [children, setChildren] = useState([]);
+
+  // const handleParentCheckboxChange = (event) => {
+  //   const checked = event.target.checked;
+  //   const updatedChildren = children.map((child) => {
+  //     return { ...child, isChecked: checked };
+  //   });
+  //   const updatedRoomChildren = roomChildren.map((child) => {
+  //     return { ...child, isChecked: checked };
+  //   });
+  //   setChildren(updatedChildren);
+  //   setRoomChildren(updatedRoomChildren);
+  //   //console.log(children);
+  // };
+
+  const handleChildCheckboxChange = (event, childId,linesval) => {
+    console.log(linesval)
+    const checked = event.target.checked;
+    console.log(checked)
+
+    const updateChild = linesval.map((line) => {
+      if (line.id === childId) {
+        return {...linesval, checked: checked}
+      } else {
+        return lightArray
+      }  
+    })
+
+    console.log(updateChild);
+
+    //  setChildren(updateChild)
+    //  console.log(children)
+    // console.log(lineVal.id);
+    // const checked = event.target.checked;
+    // // console.log(children);
+    // const updatedChildren = children.map((child) => {
+    //    console.log(child.checked);
+    //   if (child.id === childId) {
+    //     return { ...child, checked: checked };
+        
+    //   }
+    //   console.log(child)
+    //   return child;
+    // });
+    
+    // setChildren(updatedChildren);
+  };
+
   return (
     <div className="container">
+      {/* <input
+        id="flexSwitchCheckChecked"
+        className="form-check-input"
+        type="checkbox"
+         onChange={handleParentCheckboxChange}
+      /> */}
+
+      {/* <input
+        className="form-check-input"
+        type="checkbox"
+        id="flexSwitchCheckChecked"
+        checked={item.isChecked}
+        onChange={(event) => handleChildCheckboxChange(event, item.id)}
+      /> */}
+
+
       <div className="row bg_color pt-3 pb-3 rounded-bottom">
         <div className="col-10">
           <label className="ModuleHeading">
@@ -66,6 +140,7 @@ function Lights() {
               className="form-check-input"
               type="checkbox"
               id="flexSwitchCheckChecked"
+              // onChange={handleParentCheckboxChange}
             />
           </div>
         </div>
@@ -93,71 +168,56 @@ function Lights() {
             }}
           ></Card>
         </div>
-        <p className="m-0 mt-3 FormContent">LIGHTS</p>
-        <div className="mt-2 text-center">
-          <div className="d-flex flex-row flex-nowrap overflow-auto">
-            {/* <Card cover hoverable className="bg_color">
-            <div className="row ">
-              <div className="col-12">
-                <Icon
-                  icon="material-symbols:database"
-                  className="fs-2"
-                  style={{ color: "white" }}
-                />
-              </div>
-              <div className="col-12">
-                <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                  Dining hall 1
-                </p>
-                <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                  unreachable
-                </p>
-              </div>
-              <div className="col-12 mx-3 mt-2">
-                <div className="form-check form-switch">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    id="flexSwitchCheckChecked"
-                  />
-                </div>
-              </div>
-            </div>
-          </Card> */}
-            {lines.map((zone, indx) => (
-              <div
-                className="card card-block mx-2 bg_color"
-                style={{ minWidth: "150px" }}
-                key={indx}
-              >
-                <div className="mt-2" style={{ color: "white" }}>
-                  <Icon icon="material-symbols:database" className="fs-2" />
-                </div>
 
-                <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                  {zone.name}
-                </p>
-                {/* <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                  unreachable
-                </p> */}
-                <div className="form-check form-switch d-flex justify-content-center mb-2">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    id="flexSwitchCheckChecked"
-                    checked={zoneLightStateChange}
-                    onChange={zoneValueChange}
-                  />
+        {lightArray.map((item, index) => (
+          <div key={index}>
+            {item.checkedItems.map((checkItem, checkIndex) => (
+              <div key={checkIndex}>
+                <p className="m-0 my-2">{checkItem.section}</p>
+                <div className="d-flex flex-row flex-nowrap overflow-auto text-center">
+                  {checkItem.lines.map((lineVal, linIndex) => (
+                    <div key={linIndex}>
+                      {lineVal.checked && (
+                        <Card
+                          cover
+                          hoverable
+                          className="bg_color"
+                          style={{ minWidth: "150px" }}
+                        >
+                          <div className="row">
+                            <div className="col-12">
+                              <Icon
+                                icon="material-symbols:database"
+                                className="fs-2"
+                                style={{ color: "white" }}
+                              />
+                            </div>
+                            <div className="col-12">{lineVal.name}</div>
+                            <div className="col-12  mt-2 text-center">
+                              <div className="form-check form-switch d-flex justify-content-center mb-2">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id="flexSwitchCheckChecked"
+                                  checked={lineVal.checked}
+                                  onChange={(event) => handleChildCheckboxChange(event,lineVal.id,checkItem.lines )}
+                                />
+                                {/* {JSON.stringify(lineVal.checked)} */}
+                              </div>
+                            </div>
+                          </div>
+                        </Card>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 }
 
 export default Lights;
-
-
