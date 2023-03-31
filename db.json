@@ -1,4 +1,280 @@
 {
+  "mapping": [
+    {
+      "id": 1,
+      "name": "Mapping-1",
+      "Mapping1": "content-1",
+      "Mapping2": "content-2",
+      "Mapping3": "content-3"
+    },
+    {
+      "id": 2,
+      "name": "Mapping-2",
+      "Mapping1": "content-1",
+      "Mapping2": "content-2",
+      "Mapping3": "content-3"
+    },
+    {
+      "id": 3,
+      "name": "Mapping-3",
+      "Mapping1": "content-1",
+      "Mapping2": "content-2",
+      "Mapping3": "content-3"
+    },
+    {
+      "id": 4,
+      "name": "Mapping-4",
+      "Mapping1": "content-1",
+      "Mapping2": "content-2",
+      "Mapping3": "content-3"
+    },
+    {
+      "id": 5,
+      "name": "Mapping-5",
+      "Mapping1": "content-1",
+      "Mapping2": "content-2",
+      "Mapping3": "content-3"
+    },
+    {
+      "id": 6,
+      "name": "Mapping-6",
+      "Mapping1": "content-1",
+      "Mapping2": "content-2",
+      "Mapping3": "content-3"
+    }
+  ],
+  "switchbox": [
+    {
+      "id": 1,
+      "name": "switchbox-1",
+      "switchbox1": "content-1",
+      "switchbox2": "content-2",
+      "switchbox3": "content-3"
+    },
+    {
+      "id": 2,
+      "name": "switchbox-2",
+      "switchbox1": "content-1",
+      "switchbox2": "content-2",
+      "switchbox3": "content-3"
+    },
+    {
+      "id": 3,
+      "name": "switchbox-3",
+      "switchbox1": "content-1",
+      "switchbox2": "content-2",
+      "switchbox3": "content-3"
+    },
+    {
+      "id": 4,
+      "name": "switchbox-4",
+      "switchbox1": "content-1",
+      "switchbox2": "content-2",
+      "switchbox3": "content-3"
+    },
+    {
+      "id": 5,
+      "name": "switchbox-5",
+      "switchbox1": "content-1",
+      "switchbox2": "content-2",
+      "switchbox3": "content-3"
+    },
+    {
+      "id": 6,
+      "name": "switchbox-6",
+      "switchbox1": "content-1",
+      "switchbox2": "content-2",
+      "switchbox3": "content-3"
+    }
+  ],
+  "devices": [
+    {
+      "device_ID": 1,
+      "devicename": "Resistors",
+      "devicetype": "Linear Resistors",
+      "zone": "bedroom",
+      "location": "leftside"
+    },
+    {
+      "device_ID": 2,
+      "devicename": "capacitors",
+      "devicetype": "Electrolytic capacitors",
+      "zone": "Hall",
+      "location": "rightside"
+    },
+    {
+      "device_ID": 3,
+      "devicename": "transformers",
+      "devicetype": "electromagnetic",
+      "zone": "kitchen",
+      "location": "rightside"
+    },
+    {
+      "device_ID": 4,
+      "devicename": "diodes",
+      "devicetype": "Forward-biased diode",
+      "zone": "frontoffice",
+      "location": "rightside"
+    },
+    {
+      "device_ID": 5,
+      "devicename": "Resistors",
+      "devicetype": "Linear Resistors",
+      "zone": "mainhall",
+      "location": "rightside"
+    }
+  ],
+  "addzone": [
+    {
+      "id": 1,
+      "zoneName": "Downstairs Zone",
+      "isChecked": false,
+      "checkedItems": [
+        {
+          "id": 1,
+          "section": "Bed Room",
+          "checkedd": true,
+          "createdAt": "2023-01-11T10:37:55.083Z",
+          "updatedAt": "2023-02-03T06:42:48.188Z",
+          "lines": [
+            {
+              "id": 1,
+              "name": "Bed room Fan",
+              "value": 0,
+              "type": "Fan",
+              "status": 1,
+              "enable": 1,
+              "forceValue": 0,
+              "ts": 1438011254924,
+              "dim": 0,
+              "dimValue": 100,
+              "checked": false
+            },
+            {
+              "id": 2,
+              "name": "Bed room Light",
+              "type": "Light",
+              "value": 1,
+              "status": 1,
+              "enable": 1,
+              "forceValue": 0,
+              "ts": 1438011254924,
+              "dim": 0,
+              "dimValue": 100,
+              "checked": true
+            },
+            {
+              "id": 3,
+              "name": "Bed room USB",
+              "value": 0,
+              "type": "Power socket",
+              "status": 1,
+              "enable": 1,
+              "forceValue": 0,
+              "ts": 1438011254924,
+              "dim": 0,
+              "dimValue": 100,
+              "checked": true
+            },
+            {
+              "id": 4,
+              "name": "Bed room AC",
+              "value": 1,
+              "type": "AC",
+              "status": 1,
+              "enable": 1,
+              "forceValue": 0,
+              "ts": 1438011254924,
+              "dim": 0,
+              "dimValue": 100,
+              "checked": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "zoneName": "Ground Floor",
+      "isChecked": false,
+      "checkedItems": [
+        {
+          "id": 1,
+          "section": "Bed Room",
+          "checked": true,
+          "createdAt": "2023-01-11T10:37:55.083Z",
+          "updatedAt": "2023-02-03T06:42:48.188Z",
+          "lines": [
+            {
+              "id": 1,
+              "name": "Bed room Fan",
+              "value": 0,
+              "type": "Fan",
+              "status": 1,
+              "enable": 1,
+              "forceValue": 0,
+              "ts": 1438011254924,
+              "dim": 0,
+              "dimValue": 100,
+              "checked": true
+            },
+            {
+              "id": 2,
+              "name": "Bed room Light",
+              "type": "Light",
+              "value": 1,
+              "status": 1,
+              "enable": 1,
+              "forceValue": 0,
+              "ts": 1438011254924,
+              "dim": 0,
+              "dimValue": 100,
+              "checked": true
+            },
+            {
+              "id": 3,
+              "name": "Bed room USB",
+              "value": 0,
+              "type": "Power socket",
+              "status": 1,
+              "enable": 1,
+              "forceValue": 0,
+              "ts": 1438011254924,
+              "dim": 0,
+              "dimValue": 100,
+              "checked": true
+            },
+            {
+              "id": 4,
+              "name": "Bed room AC",
+              "value": 1,
+              "type": "AC",
+              "status": 1,
+              "enable": 1,
+              "forceValue": 0,
+              "ts": 1438011254924,
+              "dim": 0,
+              "dimValue": 100,
+              "checked": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "addroom": [
+    {
+      "id": 1,
+      "roomName": "Dining",
+      "isChecked": false,
+      "valueSelect": [
+        "{\"lightName\":\"Light1\"}",
+        "{\"lightName\":\"Light2\"}",
+        "{\"lightName\":\"Light3\"}",
+        "{\"lightName\":\"Light4\"}"
+      ]
+    }
+  ],
   "Automation": [
     [
       {
