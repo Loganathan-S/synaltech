@@ -273,7 +273,15 @@
         "{\"lightName\":\"Light3\"}",
         "{\"lightName\":\"Light4\"}"
       ]
-    }
+    },
+    {
+      "roomName": "Living room",
+      "valueSelect": [
+        "{\"lightName\":\"Light2\"}",
+        "{\"lightName\":\"Light1\"}"
+      ],
+      "id": 2
+    } 
   ],
   "Automation": [
     [
@@ -437,8 +445,6 @@
         ]
       }
 
-    ]
-   
   ],
   "Zones": [
     {
