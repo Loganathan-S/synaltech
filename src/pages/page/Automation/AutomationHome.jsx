@@ -13,6 +13,7 @@ import enterhome from "../../../assests/images/enterhome.jpg";
 function Automation(props) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const [label,setlabel]=useState([])
 
   const navToDashboard = () => {
     navigate(`${routeNames.dashboard}${routeNames.home}`);
@@ -28,11 +29,25 @@ function Automation(props) {
 
   const getData = () => {
     
-    fetch("http://localhost:3001/Automation")
+    fetch("http://192.168.1.46:4000/automationlist")
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
         setData(result);
+        setlabel(JSON.parse(result[0].repeatmode)
+          )
+console.log(JSON.parse(result[0].repeatmode));
+          // setTimeout(() => {
+            
+
+          //   let linesObj = [];
+          //   for (let item of label) {
+          //     linesObj.push(JSON.parse(item.lines));
+          //   }
+          //   console.log(linesObj);
+          // }, 2);
+         
+
       });
   };
 
@@ -41,6 +56,19 @@ function Automation(props) {
     const hour = +hourString % 24;
     return (hour % 12 || 12) + ":" + minute +  (hour < 12 ? "AM" : "PM");
 }
+
+const automationnavigate=(name,i)=>{
+  console.log(name);
+  console.log(i);
+
+  sessionStorage.setItem("autoname",name)
+  sessionStorage.setItem("automationid",i)
+
+  navigate(
+    `${routeNames.dashboard}${routeNames.editname}`, {state: { name }}
+  )
+}
+
 
   return (
     <div className="container ">
@@ -80,12 +108,10 @@ function Automation(props) {
                     {/* <h4 className="mx-2 ">GoTo Sleep </h4> */}
 
 
-                    {
-  data.map((posFields) => {
-    return (
-     <>
+                    
+ 
        
-            {posFields.map((item) => {
+            {data.map((item,i) => {
               return (
                 <div className="mt-2">
                 <h4 className="mx-2 mt-2">{item.automationname} </h4>
@@ -100,24 +126,23 @@ function Automation(props) {
                     >
                       <div
                         className="col-8"
-                        onClick={() =>
-                          navigate(
-                            `${routeNames.dashboard}${routeNames.editname}`
-                          )
+                        onClick={() =>automationnavigate(item.automationname,item.id)
+                         
                         }
                       >
                         <p className="fontRepeat text-white">
                           
-                       <span className="">    {formatTime(item.time)}</span>
+                       <span className="">    {formatTime(item.autotime)}</span>
                         </p>
                         <p className="fontRepeat text-white space-between mx-1">
                      
-                          {item.mode.map((i) => {
+                          {label.map((i) => {
                             return <>
                             
-                           <span className="mx-1"> {i.value}</span></>;
+                           <span className="mx-1"> {i.value
+}</span></>;
                           })}
-                        
+                        {/* {JSON.parse(item.repeatmode)} */}
                         </p>
                       </div>
                       <div className="col-4 form-check form-switch d-flex justify-content-end mb-2 text-end">
@@ -136,11 +161,8 @@ function Automation(props) {
               );
             })}
          
-       
-      </>
-    )
-  })
-}
+     
+
                     {/* {data.map((item) => {
 
                       return (

@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { routeNames } from "../../../constants/routePath";
 
 function EditNameAutomation() {
+
+  const[automationname,setAutoname]=useState('')
+
   const navigate = useNavigate();
 
   const navToDashboard = () => {
     navigate(`${routeNames.dashboard}${routeNames.automation}`);
   };
+
+  useEffect(() => {
+    
+    setAutoname(sessionStorage.getItem('autoname'))
+  
+  }, [])
+
+  const onchangeName=(e)=>{
+setAutoname(e.target.value)
+  }
+  
   return (
     <div className="container ">
       <div className="row  min-vh-100">
@@ -34,8 +48,9 @@ function EditNameAutomation() {
                   type="text"
                   name="name"
                   className="form-control fontRepeat text-white"
-                  value="Go To Sleep"
+                  value={automationname}
                   style={{ backgroundColor: "#3f3d3d" }}
+                  onChange={(e)=>onchangeName(e)}
                 />
                 <i className="fa fa-times"></i>
               </form>
