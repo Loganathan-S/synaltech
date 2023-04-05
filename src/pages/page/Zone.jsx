@@ -16,9 +16,8 @@ function Lights() {
     navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
   };
   const { state } = useLocation();
-  console.log(state);
+  // console.log(state);
   const [demoarr, setdemoarr] = useState([]);
-  console.log(demoarr);
   // let lightArray = [];
   // lightArray.push(state);
   // console.log(lightArray);
@@ -61,7 +60,7 @@ function Lights() {
         })),
       }))
     );
-    console.log(demoarr);
+    // console.log(demoarr);
   };
 
   const handleChildCheckboxChange = (index, event) => {
