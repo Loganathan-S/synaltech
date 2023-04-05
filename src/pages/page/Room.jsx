@@ -98,7 +98,56 @@ function Rooms() {
           ></Card>
         </div>
         <div className="mt-2">
-          {lightArray.map((lights, lightIndex) => (
+
+        {JSON.parse(state.valueselect).map((jsonstring, inx) => (
+          <div key={inx}>
+            <div className="d-flex flex-row flex-nowrap overflow-auto text-center">
+              {jsonstring.lines.map((lineVal, linIndex) => (
+                <div key={linIndex}>
+                  {lineVal.checked && (
+                      <Card cover hoverable className="bg_color">
+                      <div className="row ">
+                        <div className="col-12">
+                          <Icon
+                            icon="material-symbols:database"
+                            className="fs-2"
+                          />
+                        </div>
+                        <div className="col-12 ">
+                          <p
+                            className="m-0 FormPlaceholder"
+                            style={{ color: "white" }}
+                          >
+                            {JSON.parse(jsonstring).lightName}
+                          </p>
+                          <p
+                            className="m-0 FormPlaceholder"
+                            style={{ color: "white" }}
+                          >
+                            unreachable
+                          </p>
+                        </div>
+                        <div className="col-12  mt-2 text-center">
+                              <div className="form-check form-switch d-flex justify-content-center ">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id="flexSwitchCheckChecked"
+                                  // checked={zoneLightStateChange}
+                                  // onChange={zoneValueChange}
+                                />
+                              </div>
+                            </div>
+                      </div>
+                    </Card>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+
+          {/* {lightArray.map((lights, lightIndex) => (
             <div key={lightIndex}>
               <p>{lights.roomName}</p>
               <div className="d-flex flex-row flex-nowrap overflow-auto text-center">
@@ -143,35 +192,8 @@ function Rooms() {
                 ))}
               </div>
             </div>
-          ))}
+          ))} */}
 
-          {/* {lines.map((room, indx) => (
-              <div
-                className="card card-block mx-2 bg_color"
-                style={{ minWidth: "150px" }}
-                key={indx}
-              >
-                <div className="mt-2" style={{ color: "white" }}>
-                  <Icon icon="material-symbols:database" className="fs-2" />
-                </div>
-
-                <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                  {room.name}
-                </p>
-                {/* <p className="m-0 FormPlaceholder" style={{ color: "white" }}>
-                  unreachable
-                </p> 
-                <div className="form-check form-switch d-flex justify-content-center mb-2">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    id="flexSwitchCheckChecked"
-                    checked={roomLightStateChange}
-                    onChange={roomValueChange}
-                  />
-                </div>
-              </div>
-            ))} */}
         </div>
       </div>
     </div>
