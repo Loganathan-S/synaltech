@@ -58,12 +58,30 @@ function Lights() {
   // const [childCheckboxes, setChildCheckboxes] = useState(demoarr);
 
 
-  const handleParentCheckboxChange = (event) => {
+  const handleParentCheckboxChange = (event,itemId) => {
+    
+
+    const isChecked = event.target.checked;
     setParentChecked(event.target.checked);
-    setdemoarr(demoarr.map((checkbox) => ({
-      ...checkbox,
-       checked: event.target.checked,
-    })));
+  //  setdemoarr()
+    setdemoarr(demoarr =>
+      demoarr.map((item) =>
+     
+         ({ ...item, lines: item.lines.map((subItem) => ({ ...subItem, checked: event.target.checked })) })
+       
+    )
+        
+          
+    
+   
+    );
+
+    console.log(demoarr);
+
+    // setdemoarr(demoarr.map((checkbox) => ({
+    //   ...checkbox,
+    //    checked: event.target.checked,
+    // })));
   };
   
   const handleChildCheckboxChange = (index) => {
@@ -76,6 +94,20 @@ function Lights() {
       }
       return checkbox;
     }));
+
+    // setdemoarr((demoarr) =>
+    // demoarr.map((item,i) =>
+    // i === index
+    //       ? {
+    //           ...item,
+    //           subItems: item.subItems.map((subItem) =>
+    //             subItem.id === subItemId ? { ...subItem, isChecked } : subItem
+    //           )
+    //         }
+    //       : item
+    //   )
+    // );
+
     setParentChecked(demoarr.every((checkbox) => checkbox.isChecked));
   };
 
@@ -96,7 +128,7 @@ function Lights() {
 
       <div className="row bg_color pt-3 pb-3 rounded-bottom">
         <div className="col-10">
-          <label className="ModuleHeading">
+          <label className="ModuleHeading">safsaf
             <Icon
               icon="material-symbols:arrow-right-alt-rounded"
               fontSize={32}
@@ -147,7 +179,7 @@ function Lights() {
             <div className="d-flex flex-row flex-nowrap overflow-auto text-center">
               {checkeditems.lines.map((lineVal, linIndex) => (
                 <div key={linIndex}>
-                  {lineVal.checked && (
+                 
                     <Card
                       cover
                       hoverable
@@ -186,12 +218,14 @@ function Lights() {
                         </div>
                       </div>
                     </Card>
-                  )}
+                
                 </div>
               ))}
             </div>
           </div>
         ))}
+
+
       </div>
     </div>
   );
