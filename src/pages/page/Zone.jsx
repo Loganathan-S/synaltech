@@ -17,14 +17,14 @@ function Lights() {
   };
   const { state } = useLocation();
   console.log(state);
-  const [demoarr, setdemoarr] = useState([])
+  const [demoarr, setdemoarr] = useState([]);
   console.log(demoarr);
   // let lightArray = [];
   // lightArray.push(state);
   // console.log(lightArray);
 
   useEffect(() => {
-    setdemoarr(JSON.parse(state.checkeditem))
+    setdemoarr(JSON.parse(state.checkeditem));
     // console.log(Configure.deviceId);
     axios
       .get(`http://192.168.1.46:4000/device/${3}`)
@@ -48,87 +48,54 @@ function Lights() {
     setZoneLightStateChange(!zoneLightStateChange);
   };
 
-
-// let lightArray = [];
-  // lightArray.push(state);
-  // console.log(lightArray);
-
   const [parentChecked, setParentChecked] = useState(false);
 
-  // const [childCheckboxes, setChildCheckboxes] = useState(demoarr);
-
-
-  const handleParentCheckboxChange = (event,itemId) => {
-    
-
-    const isChecked = event.target.checked;
+  const handleParentCheckboxChange = (event) => {
     setParentChecked(event.target.checked);
-  //  setdemoarr()
-    setdemoarr(demoarr =>
-      demoarr.map((item) =>
-     
-         ({ ...item, lines: item.lines.map((subItem) => ({ ...subItem, checked: event.target.checked })) })
-       
-    )
-        
-          
-    
-   
+    setdemoarr((demoarr) =>
+      demoarr.map((item) => ({
+        ...item,
+        lines: item.lines.map((subItem) => ({
+          ...subItem,
+          checked: event.target.checked,
+        })),
+      }))
     );
-
     console.log(demoarr);
-
-    // setdemoarr(demoarr.map((checkbox) => ({
-    //   ...checkbox,
-    //    checked: event.target.checked,
-    // })));
-  };
-  
-  const handleChildCheckboxChange = (index) => {
-    setdemoarr(demoarr.map((checkbox, i) => {
-      if (i === index) {
-        return {
-          ...checkbox,
-          checked: !checkbox.isChecked,
-        };
-      }
-      return checkbox;
-    }));
-
-    // setdemoarr((demoarr) =>
-    // demoarr.map((item,i) =>
-    // i === index
-    //       ? {
-    //           ...item,
-    //           subItems: item.subItems.map((subItem) =>
-    //             subItem.id === subItemId ? { ...subItem, isChecked } : subItem
-    //           )
-    //         }
-    //       : item
-    //   )
-    // );
-
-    setParentChecked(demoarr.every((checkbox) => checkbox.isChecked));
   };
 
-  
-  
+  const handleChildCheckboxChange = (index, event) => {
+    setdemoarr((demoarr) =>
+      demoarr.map((item) => ({
+        ...item,
+        lines: item.lines.map((subItem, inx) => {
+          if (index === inx) {
+            return {
+              ...subItem,
+              checked: !subItem.checked,
+            };
+          }
+          return subItem;
+        }),
+      }))
+    );
+    setParentChecked(
+      demoarr.map((item) => ({
+        ...item,
+        lines: item.lines.map((subItem) => {
+          if (Array.isArray(subItem)) {
+            return subItem.every((checkbox) => checkbox.checked);
+          }
+        }),
+      }))
+    );
+  };
+
   return (
     <div className="container">
-
-{/* <div>
-    <input type="checkbox" checked={parentChecked} onChange={handleParentCheckboxChange} />
-    {childCheckboxes.map((checkbox, index) => (
-      <div key={index}>
-        <input type="checkbox" checked={checkbox.isChecked} onChange={() => handleChildCheckboxChange(index)} />
-        <span>{checkbox.label}</span>
-      </div>
-    ))}
-  </div> */}
-
       <div className="row bg_color pt-3 pb-3 rounded-bottom">
         <div className="col-10">
-          <label className="ModuleHeading">safsaf
+          <label className="ModuleHeading">
             <Icon
               icon="material-symbols:arrow-right-alt-rounded"
               fontSize={32}
@@ -179,25 +146,24 @@ function Lights() {
             <div className="d-flex flex-row flex-nowrap overflow-auto text-center">
               {checkeditems.lines.map((lineVal, linIndex) => (
                 <div key={linIndex}>
-                 
-                    <Card
-                      cover
-                      hoverable
-                      className="bg_color"
-                      style={{ minWidth: "150px" }}
-                    >
-                      <div className="row">
-                        <div className="col-12">
-                          <Icon
-                            icon="material-symbols:database"
-                            className="fs-2"
-                            style={{ color: "white" }}
-                          />
-                        </div>
-                        <div className="col-12">{lineVal.name}</div>
-                        <div className="col-12  mt-2 text-center">
-                          <div className="form-check form-switch d-flex justify-content-center mb-2">
-                            {/* <input
+                  <Card
+                    cover
+                    hoverable
+                    className="bg_color"
+                    style={{ minWidth: "150px" }}
+                  >
+                    <div className="row">
+                      <div className="col-12">
+                        <Icon
+                          icon="material-symbols:database"
+                          className="fs-2"
+                          style={{ color: "white" }}
+                        />
+                      </div>
+                      <div className="col-12">{lineVal.name}</div>
+                      <div className="col-12  mt-2 text-center">
+                        <div className="form-check form-switch d-flex justify-content-center mb-2">
+                          {/* <input
                               className="form-check-input"
                               type="checkbox"
                               id="flexSwitchCheckChecked"
@@ -206,26 +172,23 @@ function Lights() {
                                 handleChildCheckboxChange(linIndex)
                               }
                             /> */}
-                            <input
+                          <input
                             className="form-check-input"
-                              type="checkbox"
-                              id={lineVal.id}
-                              // value={lineVal.value}
-                              checked={lineVal.checked}
-                              onChange={() => handleChildCheckboxChange(linIndex)}
-                            />
-                          </div>
+                            type="checkbox"
+                            id={lineVal.id}
+                            // value={lineVal.value}
+                            checked={lineVal.checked}
+                            onChange={() => handleChildCheckboxChange(linIndex)}
+                          />
                         </div>
                       </div>
-                    </Card>
-                
+                    </div>
+                  </Card>
                 </div>
               ))}
             </div>
           </div>
         ))}
-
-
       </div>
     </div>
   );
