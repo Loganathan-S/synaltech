@@ -9,12 +9,11 @@ function RoomLists() {
   const [value, setValue] = useState();
   const [newDeviceLists, setNewDeviceLists] = useState([]);
   const [lineLists, setLineLists] = useState([]);
-  const [zoneChecked, setZoneChecked] = useState([]);
-  const navigate = useNavigate();
-  let roomName = useLocation();
-  const [roomValue, setRoomValue] = useState(roomName.state);
   const [checkboxes, setCheckboxes] = useState([]);
   const [mergeArray, setMergedArray] = useState([]);
+  let roomName = useLocation();
+  const [roomValue, setRoomValue] = useState(roomName.state);
+  const navigate = useNavigate();
 
   const Lights = [
     { lightName: "Light1" },
@@ -31,15 +30,6 @@ function RoomLists() {
       navigate(`${routeNames.dashboard}${routeNames.defaultzone}`);
     }
   };
-
-  // const [myState, setMyState] = useState("");
-
-  // useEffect(() => {
-  //   const storedState = localStorage.getItem("myState");
-  //   if (storedState) {
-  //     setMyState(storedState);
-  //   }
-  // }, []);
 
   const [isFuncCalled, setIsFuncCalled] = useState(false);
 

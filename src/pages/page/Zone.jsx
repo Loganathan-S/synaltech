@@ -9,30 +9,23 @@ import axios from "axios";
 function Lights() {
   const [lines, setLines] = useState([]);
   const [zoneLightStateChange, setZoneLightStateChange] = useState(false);
+  // const [lightArray, setLightArray] = useState();
   const navigateToDashboard = useNavigate();
 
   const navToDashboard = () => {
     navigateToDashboard(`${routeNames.dashboard}${routeNames.home}`);
   };
-
   const { state } = useLocation();
   console.log(state);
-
-  let lightArray = [];
-  lightArray.push(state);
-  console.log(lightArray);
+  const [demoarr, setdemoarr] = useState([])
+  console.log(demoarr);
+  // let lightArray = [];
+  // lightArray.push(state);
+  // console.log(lightArray);
 
   useEffect(() => {
-    setChildren(lightArray)
-    // axios
-    //   .get("http://localhost:3001/addzone")
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     // setZoneLists(state);
-    //   })
-    //   .catch((error) => console.log(error));
-
-    console.log(Configure.deviceId);
+    setdemoarr(JSON.parse(state.checkeditem))
+    // console.log(Configure.deviceId);
     axios
       .get(`http://192.168.1.46:4000/device/${3}`)
       .then((res) => {
@@ -55,71 +48,51 @@ function Lights() {
     setZoneLightStateChange(!zoneLightStateChange);
   };
 
-  const [children, setChildren] = useState([]);
 
-  // const handleParentCheckboxChange = (event) => {
-  //   const checked = event.target.checked;
-  //   const updatedChildren = children.map((child) => {
-  //     return { ...child, isChecked: checked };
-  //   });
-  //   const updatedRoomChildren = roomChildren.map((child) => {
-  //     return { ...child, isChecked: checked };
-  //   });
-  //   setChildren(updatedChildren);
-  //   setRoomChildren(updatedRoomChildren);
-  //   //console.log(children);
-  // };
+// let lightArray = [];
+  // lightArray.push(state);
+  // console.log(lightArray);
 
-  const handleChildCheckboxChange = (event, childId,linesval) => {
-    console.log(linesval)
-    const checked = event.target.checked;
-    console.log(checked)
+  const [parentChecked, setParentChecked] = useState(false);
 
-    const updateChild = linesval.map((line) => {
-      if (line.id === childId) {
-        return {...linesval, checked: checked}
-      } else {
-        return lightArray
-      }  
-    })
+  // const [childCheckboxes, setChildCheckboxes] = useState(demoarr);
 
-    console.log(updateChild);
 
-    //  setChildren(updateChild)
-    //  console.log(children)
-    // console.log(lineVal.id);
-    // const checked = event.target.checked;
-    // // console.log(children);
-    // const updatedChildren = children.map((child) => {
-    //    console.log(child.checked);
-    //   if (child.id === childId) {
-    //     return { ...child, checked: checked };
-        
-    //   }
-    //   console.log(child)
-    //   return child;
-    // });
-    
-    // setChildren(updatedChildren);
+  const handleParentCheckboxChange = (event) => {
+    setParentChecked(event.target.checked);
+    setdemoarr(demoarr.map((checkbox) => ({
+      ...checkbox,
+       checked: event.target.checked,
+    })));
+  };
+  
+  const handleChildCheckboxChange = (index) => {
+    setdemoarr(demoarr.map((checkbox, i) => {
+      if (i === index) {
+        return {
+          ...checkbox,
+          checked: !checkbox.isChecked,
+        };
+      }
+      return checkbox;
+    }));
+    setParentChecked(demoarr.every((checkbox) => checkbox.isChecked));
   };
 
+  
+  
   return (
     <div className="container">
-      {/* <input
-        id="flexSwitchCheckChecked"
-        className="form-check-input"
-        type="checkbox"
-         onChange={handleParentCheckboxChange}
-      /> */}
 
-      {/* <input
-        className="form-check-input"
-        type="checkbox"
-        id="flexSwitchCheckChecked"
-        checked={item.isChecked}
-        onChange={(event) => handleChildCheckboxChange(event, item.id)}
-      /> */}
-
+{/* <div>
+    <input type="checkbox" checked={parentChecked} onChange={handleParentCheckboxChange} />
+    {childCheckboxes.map((checkbox, index) => (
+      <div key={index}>
+        <input type="checkbox" checked={checkbox.isChecked} onChange={() => handleChildCheckboxChange(index)} />
+        <span>{checkbox.label}</span>
+      </div>
+    ))}
+  </div> */}
 
       <div className="row bg_color pt-3 pb-3 rounded-bottom">
         <div className="col-10">
@@ -140,7 +113,8 @@ function Lights() {
               className="form-check-input"
               type="checkbox"
               id="flexSwitchCheckChecked"
-              // onChange={handleParentCheckboxChange}
+              checked={parentChecked}
+              onChange={handleParentCheckboxChange}
             />
           </div>
         </div>
@@ -168,51 +142,54 @@ function Lights() {
             }}
           ></Card>
         </div>
-
-        {lightArray.map((item, index) => (
-          <div key={index}>
-            {item.checkedItems.map((checkItem, checkIndex) => (
-              <div key={checkIndex}>
-                <p className="m-0 my-2">{checkItem.section}</p>
-                <div className="d-flex flex-row flex-nowrap overflow-auto text-center">
-                  {checkItem.lines.map((lineVal, linIndex) => (
-                    <div key={linIndex}>
-                      {lineVal.checked && (
-                        <Card
-                          cover
-                          hoverable
-                          className="bg_color"
-                          style={{ minWidth: "150px" }}
-                        >
-                          <div className="row">
-                            <div className="col-12">
-                              <Icon
-                                icon="material-symbols:database"
-                                className="fs-2"
-                                style={{ color: "white" }}
-                              />
-                            </div>
-                            <div className="col-12">{lineVal.name}</div>
-                            <div className="col-12  mt-2 text-center">
-                              <div className="form-check form-switch d-flex justify-content-center mb-2">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  id="flexSwitchCheckChecked"
-                                  checked={lineVal.checked}
-                                  onChange={(event) => handleChildCheckboxChange(event,lineVal.id,checkItem.lines )}
-                                />
-                                {/* {JSON.stringify(lineVal.checked)} */}
-                              </div>
-                            </div>
+        {demoarr.map((checkeditems, inx) => (
+          <div key={inx}>
+            <div className="d-flex flex-row flex-nowrap overflow-auto text-center">
+              {checkeditems.lines.map((lineVal, linIndex) => (
+                <div key={linIndex}>
+                  {lineVal.checked && (
+                    <Card
+                      cover
+                      hoverable
+                      className="bg_color"
+                      style={{ minWidth: "150px" }}
+                    >
+                      <div className="row">
+                        <div className="col-12">
+                          <Icon
+                            icon="material-symbols:database"
+                            className="fs-2"
+                            style={{ color: "white" }}
+                          />
+                        </div>
+                        <div className="col-12">{lineVal.name}</div>
+                        <div className="col-12  mt-2 text-center">
+                          <div className="form-check form-switch d-flex justify-content-center mb-2">
+                            {/* <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id="flexSwitchCheckChecked"
+                              checked={lineVal.checked}
+                              onChange={(event) =>
+                                handleChildCheckboxChange(linIndex)
+                              }
+                            /> */}
+                            <input
+                            className="form-check-input"
+                              type="checkbox"
+                              id={lineVal.id}
+                              // value={lineVal.value}
+                              checked={lineVal.checked}
+                              onChange={() => handleChildCheckboxChange(linIndex)}
+                            />
                           </div>
-                        </Card>
-                      )}
-                    </div>
-                  ))}
+                        </div>
+                      </div>
+                    </Card>
+                  )}
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         ))}
       </div>
